@@ -1,0 +1,10 @@
+/packages
+/.vs
+/MessageBrokerBuild
+/MessageSharedBuild
+/MessageBroker/obj
+/MessageShared/bin
+/MessageShared/obj
+/MessageWebApi/obj
+/MessageWebApi/bin
+/WebApiShared/obj

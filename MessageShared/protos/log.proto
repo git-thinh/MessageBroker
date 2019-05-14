@@ -1,0 +1,14 @@
+package MessageShared.Log;
+
+option optimize_for = SPEED;
+
+message mLogRequest {
+  required string text = 1;
+}
+
+message mLogResponse {
+}
+
+service mLogService {
+  rpc Send (mLogRequest) returns (mLogResponse);
+}
