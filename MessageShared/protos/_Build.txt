@@ -11,3 +11,5 @@ ProtoGen.exe -cls_compliance=false -service_generator_type=IRPCDISPATCH books.pr
 
 
 ProtoGen.exe -cls_compliance=false -service_generator_type=IRPCDISPATCH log.proto
+ProtoGen.exe -cls_compliance=false -service_generator_type=IRPCDISPATCH message.proto
+ProtoGen.exe -cls_compliance=false -service_generator_type=IRPCDISPATCH update.proto

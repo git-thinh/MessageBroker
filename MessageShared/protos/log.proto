@@ -1,4 +1,4 @@
-package MessageShared.Log;
+package MessageShared;
 
 option optimize_for = SPEED;
 

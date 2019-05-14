@@ -1,6 +1,6 @@
 ﻿using CSharpTest.Net.RpcLibrary;
 using Google.ProtocolBuffers.Rpc;
-using MessageShared.Log;
+using MessageShared;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;

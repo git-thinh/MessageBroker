@@ -6,7 +6,7 @@ using pb = global::Google.ProtocolBuffers;
 using pbc = global::Google.ProtocolBuffers.Collections;
 using pbd = global::Google.ProtocolBuffers.Descriptors;
 using scg = global::System.Collections.Generic;
-namespace MessageShared.Log {
+namespace MessageShared {
   
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
   public static partial class Log {
@@ -16,10 +16,10 @@ namespace MessageShared.Log {
     }
     #endregion
     #region Static variables
-    internal static pbd::MessageDescriptor internal__static_MessageShared_Log_mLogRequest__Descriptor;
-    internal static pb::FieldAccess.FieldAccessorTable<global::MessageShared.Log.mLogRequest, global::MessageShared.Log.mLogRequest.Builder> internal__static_MessageShared_Log_mLogRequest__FieldAccessorTable;
-    internal static pbd::MessageDescriptor internal__static_MessageShared_Log_mLogResponse__Descriptor;
-    internal static pb::FieldAccess.FieldAccessorTable<global::MessageShared.Log.mLogResponse, global::MessageShared.Log.mLogResponse.Builder> internal__static_MessageShared_Log_mLogResponse__FieldAccessorTable;
+    internal static pbd::MessageDescriptor internal__static_MessageShared_mLogRequest__Descriptor;
+    internal static pb::FieldAccess.FieldAccessorTable<global::MessageShared.mLogRequest, global::MessageShared.mLogRequest.Builder> internal__static_MessageShared_mLogRequest__FieldAccessorTable;
+    internal static pbd::MessageDescriptor internal__static_MessageShared_mLogResponse__Descriptor;
+    internal static pb::FieldAccess.FieldAccessorTable<global::MessageShared.mLogResponse, global::MessageShared.mLogResponse.Builder> internal__static_MessageShared_mLogResponse__FieldAccessorTable;
     #endregion
     #region Descriptor
     public static pbd::FileDescriptor Descriptor {
@@ -30,19 +30,19 @@ namespace MessageShared.Log {
     static Log() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cglsb2cucHJvdG8SEU1lc3NhZ2VTaGFyZWQuTG9nIhsKC21Mb2dSZXF1ZXN0", 
-            "EgwKBHRleHQYASACKAkiDgoMbUxvZ1Jlc3BvbnNlMlYKC21Mb2dTZXJ2aWNl", 
-            "EkcKBFNlbmQSHi5NZXNzYWdlU2hhcmVkLkxvZy5tTG9nUmVxdWVzdBofLk1l", 
-          "c3NhZ2VTaGFyZWQuTG9nLm1Mb2dSZXNwb25zZUICSAE="));
+            "Cglsb2cucHJvdG8SDU1lc3NhZ2VTaGFyZWQiGwoLbUxvZ1JlcXVlc3QSDAoE", 
+            "dGV4dBgBIAIoCSIOCgxtTG9nUmVzcG9uc2UyTgoLbUxvZ1NlcnZpY2USPwoE", 
+            "U2VuZBIaLk1lc3NhZ2VTaGFyZWQubUxvZ1JlcXVlc3QaGy5NZXNzYWdlU2hh", 
+          "cmVkLm1Mb2dSZXNwb25zZUICSAE="));
       pbd::FileDescriptor.InternalDescriptorAssigner assigner = delegate(pbd::FileDescriptor root) {
         descriptor = root;
-        internal__static_MessageShared_Log_mLogRequest__Descriptor = Descriptor.MessageTypes[0];
-        internal__static_MessageShared_Log_mLogRequest__FieldAccessorTable = 
-            new pb::FieldAccess.FieldAccessorTable<global::MessageShared.Log.mLogRequest, global::MessageShared.Log.mLogRequest.Builder>(internal__static_MessageShared_Log_mLogRequest__Descriptor,
+        internal__static_MessageShared_mLogRequest__Descriptor = Descriptor.MessageTypes[0];
+        internal__static_MessageShared_mLogRequest__FieldAccessorTable = 
+            new pb::FieldAccess.FieldAccessorTable<global::MessageShared.mLogRequest, global::MessageShared.mLogRequest.Builder>(internal__static_MessageShared_mLogRequest__Descriptor,
                 new string[] { "Text", });
-        internal__static_MessageShared_Log_mLogResponse__Descriptor = Descriptor.MessageTypes[1];
-        internal__static_MessageShared_Log_mLogResponse__FieldAccessorTable = 
-            new pb::FieldAccess.FieldAccessorTable<global::MessageShared.Log.mLogResponse, global::MessageShared.Log.mLogResponse.Builder>(internal__static_MessageShared_Log_mLogResponse__Descriptor,
+        internal__static_MessageShared_mLogResponse__Descriptor = Descriptor.MessageTypes[1];
+        internal__static_MessageShared_mLogResponse__FieldAccessorTable = 
+            new pb::FieldAccess.FieldAccessorTable<global::MessageShared.mLogResponse, global::MessageShared.mLogResponse.Builder>(internal__static_MessageShared_mLogResponse__Descriptor,
                 new string[] { });
         return null;
       };
@@ -73,11 +73,11 @@ namespace MessageShared.Log {
     }
     
     public static pbd::MessageDescriptor Descriptor {
-      get { return global::MessageShared.Log.Log.internal__static_MessageShared_Log_mLogRequest__Descriptor; }
+      get { return global::MessageShared.Log.internal__static_MessageShared_mLogRequest__Descriptor; }
     }
     
     protected override pb::FieldAccess.FieldAccessorTable<mLogRequest, mLogRequest.Builder> InternalFieldAccessors {
-      get { return global::MessageShared.Log.Log.internal__static_MessageShared_Log_mLogRequest__FieldAccessorTable; }
+      get { return global::MessageShared.Log.internal__static_MessageShared_mLogRequest__FieldAccessorTable; }
     }
     
     public const int TextFieldNumber = 1;
@@ -218,11 +218,11 @@ namespace MessageShared.Log {
       }
       
       public override pbd::MessageDescriptor DescriptorForType {
-        get { return global::MessageShared.Log.mLogRequest.Descriptor; }
+        get { return global::MessageShared.mLogRequest.Descriptor; }
       }
       
       public override mLogRequest DefaultInstanceForType {
-        get { return global::MessageShared.Log.mLogRequest.DefaultInstance; }
+        get { return global::MessageShared.mLogRequest.DefaultInstance; }
       }
       
       public override mLogRequest BuildPartial() {
@@ -243,7 +243,7 @@ namespace MessageShared.Log {
       }
       
       public override Builder MergeFrom(mLogRequest other) {
-        if (other == global::MessageShared.Log.mLogRequest.DefaultInstance) return this;
+        if (other == global::MessageShared.mLogRequest.DefaultInstance) return this;
         PrepareBuilder();
         if (other.HasText) {
           Text = other.Text;
@@ -327,7 +327,7 @@ namespace MessageShared.Log {
       }
     }
     static mLogRequest() {
-      object.ReferenceEquals(global::MessageShared.Log.Log.Descriptor, null);
+      object.ReferenceEquals(global::MessageShared.Log.Descriptor, null);
     }
   }
   
@@ -350,11 +350,11 @@ namespace MessageShared.Log {
     }
     
     public static pbd::MessageDescriptor Descriptor {
-      get { return global::MessageShared.Log.Log.internal__static_MessageShared_Log_mLogResponse__Descriptor; }
+      get { return global::MessageShared.Log.internal__static_MessageShared_mLogResponse__Descriptor; }
     }
     
     protected override pb::FieldAccess.FieldAccessorTable<mLogResponse, mLogResponse.Builder> InternalFieldAccessors {
-      get { return global::MessageShared.Log.Log.internal__static_MessageShared_Log_mLogResponse__FieldAccessorTable; }
+      get { return global::MessageShared.Log.internal__static_MessageShared_mLogResponse__FieldAccessorTable; }
     }
     
     public override bool IsInitialized {
@@ -478,11 +478,11 @@ namespace MessageShared.Log {
       }
       
       public override pbd::MessageDescriptor DescriptorForType {
-        get { return global::MessageShared.Log.mLogResponse.Descriptor; }
+        get { return global::MessageShared.mLogResponse.Descriptor; }
       }
       
       public override mLogResponse DefaultInstanceForType {
-        get { return global::MessageShared.Log.mLogResponse.DefaultInstance; }
+        get { return global::MessageShared.mLogResponse.DefaultInstance; }
       }
       
       public override mLogResponse BuildPartial() {
@@ -503,7 +503,7 @@ namespace MessageShared.Log {
       }
       
       public override Builder MergeFrom(mLogResponse other) {
-        if (other == global::MessageShared.Log.mLogResponse.DefaultInstance) return this;
+        if (other == global::MessageShared.mLogResponse.DefaultInstance) return this;
         PrepareBuilder();
         this.MergeUnknownFields(other.UnknownFields);
         return this;
@@ -559,7 +559,7 @@ namespace MessageShared.Log {
       
     }
     static mLogResponse() {
-      object.ReferenceEquals(global::MessageShared.Log.Log.Descriptor, null);
+      object.ReferenceEquals(global::MessageShared.Log.Descriptor, null);
     }
   }
   
@@ -567,7 +567,7 @@ namespace MessageShared.Log {
   
   #region Services
   public partial interface ImLogService {
-    global::MessageShared.Log.mLogResponse Send(global::MessageShared.Log.mLogRequest mLogRequest);
+    global::MessageShared.mLogResponse Send(global::MessageShared.mLogRequest mLogRequest);
   }
   
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -589,8 +589,8 @@ namespace MessageShared.Log {
       return dispatch.CallMethod(method, request, response);
     }
     
-    public global::MessageShared.Log.mLogResponse Send(global::MessageShared.Log.mLogRequest mLogRequest) {
-       return dispatch.CallMethod("Send", mLogRequest, global::MessageShared.Log.mLogResponse.CreateBuilder());
+    public global::MessageShared.mLogResponse Send(global::MessageShared.mLogRequest mLogRequest) {
+       return dispatch.CallMethod("Send", mLogRequest, global::MessageShared.mLogResponse.CreateBuilder());
     }
     
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -612,7 +612,7 @@ namespace MessageShared.Log {
         where TMessage : pb::IMessageLite<TMessage, TBuilder>
         where TBuilder : pb::IBuilderLite<TMessage, TBuilder> {
         switch(methodName) {
-          case "Send": return response.MergeFrom(implementation.Send((global::MessageShared.Log.mLogRequest)request)).Build();
+          case "Send": return response.MergeFrom(implementation.Send((global::MessageShared.mLogRequest)request)).Build();
           default: throw pb::ThrowHelper.CreateMissingMethod(typeof(ImLogService), methodName);
         }
       }
@@ -638,7 +638,7 @@ namespace MessageShared.Log {
       
       public pb::IMessageLite CallMethod(string methodName, pb::ICodedInputStream input, pb::ExtensionRegistry registry) {
         switch(methodName) {
-          case "Send": return implementation.CallMethod(methodName, global::MessageShared.Log.mLogRequest.ParseFrom(input, registry), global::MessageShared.Log.mLogResponse.CreateBuilder());
+          case "Send": return implementation.CallMethod(methodName, global::MessageShared.mLogRequest.ParseFrom(input, registry), global::MessageShared.mLogResponse.CreateBuilder());
           default: throw pb::ThrowHelper.CreateMissingMethod(typeof(ImLogService), methodName);
         }
       }

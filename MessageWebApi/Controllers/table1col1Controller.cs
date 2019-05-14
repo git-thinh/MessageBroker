@@ -1,18 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Linq.Dynamic;
-using System.Net;
-using System.Net.Http;
 using System.Net.WebSockets;
-using System.Runtime.InteropServices;
-using System.Threading;
-using System.Web;
 using System.Web.Http;
-
-using Google.ProtocolBuffers.Rpc;
-using MessageShared.Log;
+using MessageShared;
 using WebApiShared;
 
 namespace MessageWebApi
@@ -23,39 +13,23 @@ namespace MessageWebApi
         static CacheSynchronized<string> store = new CacheSynchronized<string>(limit);
          
         static readonly mLogService _log;
+        static readonly ClientWebSocket _socket;
 
-        //////static readonly ClientWebSocket _client = new ClientWebSocket();
         static table1col1Controller()
         {
             for (int i = 0; i < limit; i++) store.Add(i, Guid.NewGuid().ToString());
-            //////try
-            //////{
-            //////    _client.ConnectAsync(new Uri("ws://localhost:56049/message"), CancellationToken.None).Wait();
-            //////    if (_client.State == WebSocketState.Open)
-            //////    {
-            //////        string msg = Guid.NewGuid().ToString();
-            //////        ArraySegment<byte> bytesToSend = new ArraySegment<byte>(System.Text.Encoding.UTF8.GetBytes(msg));
-            //////        _client.SendAsync(bytesToSend, WebSocketMessageType.Text, true, CancellationToken.None).Wait();
-            //////    }
-            //////}
-            //////catch { }
-            ///
 
             try {
-                _log = new mLogService(RpcClient.ConnectRpc(Marshal.GenerateGuidForType(typeof(ImLogService)), "ncacn_ip_tcp", @"localhost", "50051").Authenticate(RpcAuthenticationType.Self));
-                _log.Send(mLogRequest.CreateBuilder().SetText(Guid.NewGuid().ToString()).Build());
+                _socket = SocketProvider.init("ws://localhost:56049/message");
+                _socket.Send(Guid.NewGuid().ToString());
             }
             catch { }
 
-            //using (Greeter client = new Greeter(RpcClient
-            //                    .ConnectRpc(iid, "ncacn_ip_tcp", @"localhost", "50051")
-            //                    .Authenticate(RpcAuthenticationType.Self)
-            //                    //.Authenticate(RpcAuthenticationType.None)
-            //                    ))
-            //{
-            //    HelloReply response = client.SayHello(HelloRequest.CreateBuilder().SetName(Guid.NewGuid().ToString()).Build());
-            //    Console.WriteLine("OK: " + response.Message);
-            //}
+            try {
+                _log = LogProvider.init("localhost", 50051);
+                _log.Write(Guid.NewGuid().ToString());
+            }
+            catch { }
         }
 
         void createDynamic()
@@ -101,14 +75,7 @@ namespace MessageWebApi
 
             //////createDynamic();
 
-            //////if (_client.State == WebSocketState.Open)
-            //////{
-            //////    string msg = Guid.NewGuid().ToString();
-            //////    ArraySegment<byte> bytesToSend = new ArraySegment<byte>(System.Text.Encoding.UTF8.GetBytes(msg));
-            //////    _client.SendAsync(bytesToSend, WebSocketMessageType.Text, true, CancellationToken.None).Wait();
-            //////}
-
-            _log.Send(mLogRequest.CreateBuilder().SetText(Guid.NewGuid().ToString()).Build());
+            _log.Write(Guid.NewGuid().ToString());
 
             return new int[] { 3, 4, 5, 6 };
         }
