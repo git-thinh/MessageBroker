@@ -19,18 +19,16 @@ namespace MessageShared
 
     public class oUpdateReply
     {
+        public string id { set; get; }
         public bool ok { set; get; }
-        public oMessageRequest request { set; get; }
-        public string output { set; get; }
-        public int countResult { set; get; }
-        public int totalItems { set; get; }
+        public oUpdateRequest request { set; get; }
+        public string message { set; get; }
 
         public oUpdateReply(mUpdateReply reply) {
+            this.id = reply.Id;
+            this.request = new oUpdateRequest(reply.Request);
             this.ok = reply.Ok;
-            this.request = new oMessageRequest(reply.Request);
-            this.output = reply.Output;
-            this.countResult = reply.CountResult;
-            this.totalItems = reply.TotalItems;
+            this.message = reply.Message; 
         }
     }
 
@@ -46,20 +44,18 @@ namespace MessageShared
             return null;
         }
 
-        public static oMessageReply Write(this mMessageService service, oMessageRequest ret)
+        public static oUpdateReply Write(this mUpdateService service, oUpdateRequest ret)
         {
             try
             {
                 if (service != null)
                 {
-                  mMessageReply reply = service.Send(mMessageRequest.CreateBuilder()
-                        .SetKey(ret._key)
-                        .SetPageNumber(ret.pageNumber)
-                        .SetPageSize(ret.pageSize)
-                        .SetJsonConditions(ret.jsonConditions)
-                        .SetHasCache(ret.hasCache)
+                    mUpdateReply reply = service.Send(mUpdateRequest.CreateBuilder()
+                        .SetType(ret.type)
+                        .SetNameObject(ret.nameObject)
+                        .SetJsonItem(ret.jsonItem)
                         .Build());
-                    return new oMessageReply(reply);
+                    return new oUpdateReply(reply);
                 }
             }
             catch { }
