@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Owin.Hosting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,8 +13,15 @@ namespace MessageBroker
         {
             LogService.Start(50051);
 
-            Console.WriteLine("Service running ...");
-            Console.ReadLine();
+            const string url = "http://localhost:9000";
+            using (WebApp.Start<Startup>(url))
+            {
+                Console.WriteLine("Server started at:" + url);
+                Console.ReadLine();
+            }
+
+            //Console.WriteLine("Service running ...");
+            //Console.ReadLine();
         }
     }
 }

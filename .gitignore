@@ -8,3 +8,5 @@
 /MessageWebApi/obj
 /MessageWebApi/bin
 /WebApiShared/obj
+/Controllers/WebApiControllers.Test/bin
+/Controllers/WebApiControllers.Test/obj
