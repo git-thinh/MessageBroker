@@ -96,6 +96,7 @@
     <Compile Include="Api\Core\Startup.cs" />
     <Compile Include="Job\DataflowSubscribers.cs" />
     <Compile Include="Job\IJob.cs" />
+    <Compile Include="Job\JobLogPrintOut.cs" />
     <Compile Include="Job\JobDbSynchronize.cs" />
     <Compile Include="Job\JobDatabase.cs" />
     <Compile Include="Log\LogPrintService.cs" />

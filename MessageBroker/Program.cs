@@ -27,25 +27,8 @@ namespace MessageBroker
             var _dataflow = new DataflowSubscribers();
             //_dataflow.RegisterHandler<JobCache>();
             _dataflow.RegisterHandler<JobDatabase>();
+            _dataflow.RegisterHandler<JobLogPrintOut>();
 
-            ////////////////////string baseAddress = "http://localhost:" + PORT_WEBAPI_CACHE + "/";
-            ////////////////////ServiceHost host = new ServiceHost(typeof(Service), new Uri(baseAddress));
-            ////////////////////host.AddServiceEndpoint(typeof(ITest), new BasicHttpBinding(), "");
-            ////////////////////host.Description.Behaviors.Add(new MyBehavior());
-            ////////////////////host.Open();
-
-            ////////////////////Console.WriteLine("Host opened");
-
-            ////////////////////ChannelFactory<ITest> factory = new ChannelFactory<ITest>(new BasicHttpBinding(), new EndpointAddress(baseAddress));
-            ////////////////////ITest proxy = factory.CreateChannel();
-            ////////////////////Console.WriteLine("WhoAmI: {0}", proxy.WhoAmI());
-
-            ////////////////////((IClientChannel)proxy).Close();
-            ////////////////////factory.Close();
-
-            ////////////////////Console.Write("Press ENTER to close the host");
-            ////////////////////Console.ReadLine();
-            ////////////////////host.Close();
 
             //[LOG_OUTPUT] Open WebSocket listener for log print output
             int PORT_LOG_OUTPUT = int.Parse(ConfigurationManager.AppSettings["PORT_LOG_OUTPUT"]);
