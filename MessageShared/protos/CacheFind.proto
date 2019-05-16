@@ -1,0 +1,23 @@
+package MessageShared;
+
+option optimize_for = SPEED;
+
+message mCacheRequest {
+  required string _key = 1;
+  required int32 pageSize = 2;
+  required int32 pageNumber = 3;
+  required string jsonConditions = 4;
+  required bool hasCache = 5;
+}
+
+message mCacheReply {
+  required bool ok = 1;
+  required mCacheRequest request = 2;
+  required string output = 3;
+  required int32 countResult = 4;
+  required int32 totalItems = 5;
+}
+
+service mCacheService {
+  rpc Send (mCacheRequest) returns (mCacheReply) {}
+}

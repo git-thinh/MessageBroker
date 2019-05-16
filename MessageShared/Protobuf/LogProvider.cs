@@ -9,7 +9,7 @@ namespace MessageShared
         {
             try
             {
-                return new mLogService(RpcClient.ConnectRpc(Marshal.GenerateGuidForType(typeof(ImLogService)), "ncacn_ip_tcp", host, port.ToString()).Authenticate(RpcAuthenticationType.None));
+                return new mLogService(RpcClient.ConnectRpc(Marshal.GenerateGuidForType(typeof(ImUpdateService)), "ncacn_ip_tcp", host, port.ToString()).Authenticate(RpcAuthenticationType.None));
             }
             catch { }
             return null;

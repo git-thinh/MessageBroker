@@ -1,0 +1,6 @@
+
+
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /t:library /out:C:\CLRDLL\clrPushExport.dll C:\CLRDLL\PushExport.cs
+
+
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /t:library /reference:CacheEngineShared.dll /out:CacheEngine.Test.dll Test1.cs

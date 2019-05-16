@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
@@ -38,14 +36,13 @@ namespace MessageBroker
             // We have to have a wrapper to work with IJob instead of T
             //Action<IJob> actionWrapper = (job) => handleAction((T)job);
             Action<IJob> actionWrapper = (job) => {
-
                 ((T)job).execute();
             };
 
             var executionDataflowBlockOptions = new ExecutionDataflowBlockOptions()
             {
                 // execute paranell on 2 core chip (TPL)
-                MaxDegreeOfParallelism = 2,
+                MaxDegreeOfParallelism = 5,
             };
             // create the action block that executes the handler wrapper
             var actionBlock = new ActionBlock<IJob>((job) => actionWrapper(job), executionDataflowBlockOptions);

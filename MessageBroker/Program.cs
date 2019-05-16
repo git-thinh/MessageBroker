@@ -1,19 +1,9 @@
 ﻿using Microsoft.Owin.Hosting;
-using Newtonsoft.Json;
-using Owin;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.ServiceModel;
-using System.ServiceModel.Activation;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Dispatcher;
-using System.Web.Routing;
-using WebApiShared;
 
 namespace MessageBroker
 {
@@ -25,10 +15,12 @@ namespace MessageBroker
             // [Job process data]
 
             var _dataflow = new DataflowSubscribers();
-            //_dataflow.RegisterHandler<JobCache>();
-            _dataflow.RegisterHandler<JobDatabase>();
-            _dataflow.RegisterHandler<JobDbSynchronize>();
+            _dataflow.RegisterHandler<JobDbUpdate>();
+            _dataflow.RegisterHandler<JobSyncDbToCache>();
 
+            int PORT_CACHE_STORE = int.Parse(ConfigurationManager.AppSettings["PORT_CACHE_STORE"]);
+            _dataflow.RegisterHandler<JobCacheStore>(new JobCacheStore(), true, new Dictionary<string, object>() { { "port", PORT_CACHE_STORE } });
+            
             //[LOG_OUTPUT] Open WebSocket listener for log print output
             int PORT_LOG_OUTPUT = int.Parse(ConfigurationManager.AppSettings["PORT_LOG_OUTPUT"]);
             _dataflow.RegisterHandler<JobLogPrintOut>(new JobLogPrintOut(), true, new Dictionary<string, object>() { { "port", PORT_LOG_OUTPUT } });
@@ -36,6 +28,14 @@ namespace MessageBroker
             //[LOG_INPUT] Open Login service to receive message log
             int PORT_LOG_INPUT = int.Parse(ConfigurationManager.AppSettings["PORT_LOG_INPUT"]);
             LogService.Start(PORT_LOG_INPUT, _dataflow);
+
+            //[DB_UPDATE] Open Login service to receive message log
+            int PORT_DB_UPDATE = int.Parse(ConfigurationManager.AppSettings["PORT_DB_UPDATE"]);
+            DbUpdateService.Start(PORT_DB_UPDATE, _dataflow);
+
+            //[CACHE_FIND] Open Login service to receive message log
+            int PORT_CACHE_FIND = int.Parse(ConfigurationManager.AppSettings["PORT_CACHE_FIND"]);
+            CacheFindService.Start(PORT_CACHE_FIND, _dataflow);
 
             //---------------------------------------------------------------------
             //[DB_NOTIFICATION] Open UDP listener for Database notifications
@@ -49,7 +49,7 @@ namespace MessageBroker
                 {
                     var received = await serverUDP.Receive();
                     //serverUDP.Reply("copy " + received.Message, received.Sender);
-                    await dataflow.Enqueue(new JobDbSynchronize(received.Message));
+                    await dataflow.Enqueue(new JobSyncDbToCache(received.Message));
                     Thread.Sleep(100);
                 }
             }, _dataflow);

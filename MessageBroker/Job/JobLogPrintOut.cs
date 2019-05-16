@@ -9,10 +9,14 @@ using System.Threading.Tasks;
 
 namespace MessageBroker
 {
-    public class JobLogPrintOut : IJob
+    public class JobLogPrintOut : JobBase, IJob
     {
-        static bool _inited = false;
-
+        public void setOptions(Dictionary<string, object> options) => _options = options;
+        public void freeResource() { httpServerStop(); }
+        
+        ////////////////////////////////////////////////////////////////////
+        /// 
+        
         #region [ HTTP_LISTENER ]
 
         static List<WebSocket> _clients = new List<WebSocket>() { };
@@ -86,7 +90,7 @@ namespace MessageBroker
                     {
                         string message = Encoding.UTF8.GetString(receiveBuffer).TrimEnd('\0');
                         //Console.WriteLine("-> SERVER: " + message);
-                        broadCast(message);
+                        httpBroadCast(message);
 
                         ////byte[] bsend = Encoding.UTF8.GetBytes(Guid.NewGuid().ToString());
                         ////var adata = new ArraySegment<byte>(bsend, 0, bsend.Length);
@@ -116,9 +120,7 @@ namespace MessageBroker
             _httpListener.Stop();
         }
         
-        #endregion
-
-        static void broadCast(string text)
+        static void httpBroadCast(string text)
         {
             byte[] bsend = Encoding.UTF8.GetBytes(text);
             var adata = new ArraySegment<byte>(bsend, 0, bsend.Length);
@@ -136,12 +138,21 @@ namespace MessageBroker
             }
         }
 
+        #endregion
+
+        ////////////////////////////////////////////////////////////////////
+        /// 
+
+        private static bool _inited = false;
         private readonly string _message;
 
         public JobLogPrintOut(string message = "")
         {
             this._message = message;
         }
+
+        ////////////////////////////////////////////////////////////////////
+        /// 
 
         public void execute()
         {
@@ -153,15 +164,7 @@ namespace MessageBroker
             }
 
             if (string.IsNullOrWhiteSpace(_message)) return;
-            broadCast(_message);
-        }
-        public void freeResource() { httpServerStop(); }
-
-
-        private static Dictionary<string, object> _options;
-        public void setOptions(Dictionary<string, object> options)
-        {
-            _options = options;
+            httpBroadCast(_message);
         }
     }
 

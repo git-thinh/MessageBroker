@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace MessageBroker
 {
-    internal class mLogServiceAnonymous : ImLogService
+    internal class mLogServiceAnonymous : ImUpdateService
     {
         private readonly IDataflowSubscribers _dataflow;
 
@@ -25,7 +25,7 @@ namespace MessageBroker
     public class LogService
     {
         public static void Start(int port, IDataflowSubscribers dataflow) {
-            Guid iid = Marshal.GenerateGuidForType(typeof(ImLogService));
+            Guid iid = Marshal.GenerateGuidForType(typeof(ImUpdateService));
             RpcServer.CreateRpc(iid, new mLogService.ServerStub(new mLogServiceAnonymous(dataflow)))
                 //.AddAuthNegotiate()
                 .AddAuthentication(RpcAuthentication.RPC_C_AUTHN_NONE)

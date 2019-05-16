@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A31670DD-B828-41C3-97C2-E781A2B4247E}</ProjectGuid>
+    <ProjectGuid>{3414406B-08C1-4A32-BFE2-BFF08BC7A949}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MessageShared</RootNamespace>
-    <AssemblyName>MessageShared</AssemblyName>
+    <RootNamespace>CacheEngine.Test</RootNamespace>
+    <AssemblyName>CacheEngine.Test</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\MessageSharedBuild\</OutputPath>
+    <OutputPath>..\MessageBrokerBuild\CacheDll\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -31,22 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CSharpTest.Net.RpcLibrary">
-      <HintPath>..\MessageDll\CSharpTest.Net.RpcLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.ProtocolBuffers">
-      <HintPath>..\MessageDll\Google.ProtocolBuffers.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.ProtocolBuffers.Rpc">
-      <HintPath>..\MessageDll\Google.ProtocolBuffers.Rpc.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.ProtocolBuffers.Serialization">
-      <HintPath>..\MessageDll\Google.ProtocolBuffers.Serialization.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Activation" />
+    <Reference Include="System.ServiceModel.Activities" />
+    <Reference Include="System.ServiceModel.Channels" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,15 +45,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CacheSynchronized.cs" />
-    <Compile Include="Protobuf\DbUpdate.cs" />
-    <Compile Include="DynamicLinq.cs" />
-    <Compile Include="Protobuf\Log.cs" />
-    <Compile Include="Protobuf\LogProvider.cs" />
-    <Compile Include="MESSAGE_TYPE.cs" />
+    <Compile Include="Test1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Protobuf\Cache.cs" />
-    <Compile Include="SocketProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CacheEngineShared\CacheEngineShared.csproj">
+      <Project>{59646027-EEF7-456E-A1C1-18DBD96EFC7A}</Project>
+      <Name>CacheEngineShared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MessageShared\MessageShared.csproj">
+      <Project>{a31670dd-b828-41c3-97c2-e781a2b4247e}</Project>
+      <Name>MessageShared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="build.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

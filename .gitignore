@@ -10,3 +10,7 @@
 /WebApiShared/obj
 /Controllers/WebApiControllers.Test/bin
 /Controllers/WebApiControllers.Test/obj
+/CacheEngine.Test/bin
+/CacheEngine.Test/obj
+/CacheEngineShared/bin
+/CacheEngineShared/obj

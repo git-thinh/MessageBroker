@@ -566,12 +566,12 @@ namespace MessageShared {
   #endregion
   
   #region Services
-  public partial interface ImLogService {
+  public partial interface ImUpdateService {
     global::MessageShared.mLogResponse Send(global::MessageShared.mLogRequest mLogRequest);
   }
   
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-  public partial class mLogService : ImLogService, pb::IRpcDispatch, global::System.IDisposable {
+  public partial class mLogService : ImUpdateService, pb::IRpcDispatch, global::System.IDisposable {
     private readonly bool dispose;
     private readonly pb::IRpcDispatch dispatch;
     public mLogService(pb::IRpcDispatch dispatch) : this(dispatch, true) {
@@ -596,10 +596,10 @@ namespace MessageShared {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     public partial class Dispatch : pb::IRpcDispatch, global::System.IDisposable {
       private readonly bool dispose;
-      private readonly ImLogService implementation;
-      public Dispatch(ImLogService implementation) : this(implementation, true) {
+      private readonly ImUpdateService implementation;
+      public Dispatch(ImUpdateService implementation) : this(implementation, true) {
       }
-      public Dispatch(ImLogService implementation, bool dispose) {
+      public Dispatch(ImUpdateService implementation, bool dispose) {
         pb::ThrowHelper.ThrowIfNull(this.implementation = implementation, "implementation");
         this.dispose = dispose && implementation is global::System.IDisposable;
       }
@@ -613,7 +613,7 @@ namespace MessageShared {
         where TBuilder : pb::IBuilderLite<TMessage, TBuilder> {
         switch(methodName) {
           case "Send": return response.MergeFrom(implementation.Send((global::MessageShared.mLogRequest)request)).Build();
-          default: throw pb::ThrowHelper.CreateMissingMethod(typeof(ImLogService), methodName);
+          default: throw pb::ThrowHelper.CreateMissingMethod(typeof(ImUpdateService), methodName);
         }
       }
     }
@@ -621,9 +621,9 @@ namespace MessageShared {
     public partial class ServerStub : pb::IRpcServerStub, global::System.IDisposable {
       private readonly bool dispose;
       private readonly pb::IRpcDispatch implementation;
-      public ServerStub(ImLogService implementation) : this(implementation, true) {
+      public ServerStub(ImUpdateService implementation) : this(implementation, true) {
       }
-      public ServerStub(ImLogService implementation, bool dispose) : this(new Dispatch(implementation, dispose), dispose) {
+      public ServerStub(ImUpdateService implementation, bool dispose) : this(new Dispatch(implementation, dispose), dispose) {
       }
       public ServerStub(pb::IRpcDispatch implementation) : this(implementation, true) {
       }
@@ -639,7 +639,7 @@ namespace MessageShared {
       public pb::IMessageLite CallMethod(string methodName, pb::ICodedInputStream input, pb::ExtensionRegistry registry) {
         switch(methodName) {
           case "Send": return implementation.CallMethod(methodName, global::MessageShared.mLogRequest.ParseFrom(input, registry), global::MessageShared.mLogResponse.CreateBuilder());
-          default: throw pb::ThrowHelper.CreateMissingMethod(typeof(ImLogService), methodName);
+          default: throw pb::ThrowHelper.CreateMissingMethod(typeof(ImUpdateService), methodName);
         }
       }
     }

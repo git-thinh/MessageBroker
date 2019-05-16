@@ -1,0 +1,29 @@
+package MessageShared;
+
+option optimize_for = SPEED;
+
+message mParameter {
+   required string key = 1;
+   required string value = 2;
+}
+
+message mParameterCollection {
+   repeated mParameter items = 1;
+}
+
+message mDbUpdateRequest {
+  required int32 type = 1;
+  required string nameStore = 2;
+  required mParameterCollection parameters = 3;
+}
+
+message mDbUpdateReply {
+  required string id = 1;
+  required bool ok = 2;
+  required mDbUpdateRequest request = 3;
+  required string message = 4;
+}
+
+service mDbUpdateService {
+  rpc Send (mDbUpdateRequest) returns (mDbUpdateReply) {}
+}
