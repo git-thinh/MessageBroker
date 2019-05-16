@@ -2,6 +2,7 @@
 
 namespace CacheEngineShared
 {
+
     [ServiceContract]
     public interface ICacheFind
     {

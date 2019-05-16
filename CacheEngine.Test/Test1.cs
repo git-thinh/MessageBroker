@@ -10,26 +10,31 @@ namespace CacheEngine.Test
 {
     public class Test1 : ICacheFind
     {
-        string name;
+        private readonly IDataflowSubscribers _dataflow; 
 
         public Test1()
         {
         }
 
-        public Test1(string name)
+        public Test1(IDataflowSubscribers dataflow)
         {
-            this.name = name;
+            _dataflow = dataflow;
         }
 
         public string execute()
         {
-            return "Asset: " + this.name + " at " + DateTime.Now.ToString();
+            return "Asset:  at " + DateTime.Now.ToString();
         }
     }
 
     public class Test1Behavior : IServiceBehavior, IInstanceProvider
     {
-        public object GetInstance(InstanceContext instanceContext) { return new Test1("This is Test1"); }
+        private readonly IDataflowSubscribers _dataflow;
+        public Test1Behavior(IDataflowSubscribers dataflow) {
+            _dataflow = dataflow;
+        }
+
+        public object GetInstance(InstanceContext instanceContext) { return new Test1(_dataflow); }
          
         public void AddBindingParameters(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase, Collection<ServiceEndpoint> endpoints, BindingParameterCollection bindingParameters) { }
         public void Validate(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase) { }

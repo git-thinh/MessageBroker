@@ -1,21 +1,21 @@
-﻿using MessageShared;
+﻿using CacheEngineShared;
+using MessageShared;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 
 namespace MessageBroker
 {
-    public class JobDbUpdate : JobBase, IJob
+    public class JobDbUpdate : JobBase
     {
-        public void setOptions(Dictionary<string, object> options) => _options = options;
-        public void freeResource() { dbStop(); }
+        public override void freeResource() { dbStop(); }
 
         ////////////////////////////////////////////////////////////////////
         /// 
 
         private static bool _inited = false;
         private readonly mDbUpdateRequest _requestUpdateDb;
-        public JobDbUpdate(mDbUpdateRequest requestUpdateDb)
+        public JobDbUpdate(mDbUpdateRequest requestUpdateDb = null)
         {
             _requestUpdateDb = requestUpdateDb;
         }
@@ -41,7 +41,7 @@ namespace MessageBroker
         ////////////////////////////////////////////////////////////////////
         /// 
 
-        public void execute()
+        public override void execute()
         {
             if (!_inited)
             {

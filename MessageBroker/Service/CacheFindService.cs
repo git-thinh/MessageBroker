@@ -1,4 +1,5 @@
-﻿using CSharpTest.Net.RpcLibrary;
+﻿using CacheEngineShared;
+using CSharpTest.Net.RpcLibrary;
 using Google.ProtocolBuffers.Rpc;
 using MessageShared;
 using System;

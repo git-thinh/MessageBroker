@@ -1,20 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using CacheEngineShared;
+using System.Collections.Generic;
 
 namespace MessageBroker
 {
-    public class JobSyncDbToCache : JobBase, IJob
+    public class JobSyncDbToCache : JobBase
     {
-        public void setOptions(Dictionary<string, object> options) => _options = options;
-        public void freeResource() { }
-
+        private static bool _inited = false;
         private readonly string _message;
-        public JobSyncDbToCache(string message)
+        public JobSyncDbToCache(string message = null)
         {
             this._message = message;
         }
                  
-        public void execute()
+        public override void execute()
         {
+            if (!_inited)
+            {
+                _inited = true;
+                return;
+            }
+
             //using (var client = new HttpClient())
             //{
             //    string url = "api/cusid";

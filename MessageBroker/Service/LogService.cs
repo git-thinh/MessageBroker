@@ -1,4 +1,5 @@
-﻿using CSharpTest.Net.RpcLibrary;
+﻿using CacheEngineShared;
+using CSharpTest.Net.RpcLibrary;
 using Google.ProtocolBuffers.Rpc;
 using MessageShared;
 using System;
@@ -7,7 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace MessageBroker
 {
-    internal class mLogServiceAnonymous : ImUpdateService
+    internal class mLogServiceAnonymous : ImLogService
     {
         private readonly IDataflowSubscribers _dataflow;
 
@@ -25,7 +26,7 @@ namespace MessageBroker
     public class LogService
     {
         public static void Start(int port, IDataflowSubscribers dataflow) {
-            Guid iid = Marshal.GenerateGuidForType(typeof(ImUpdateService));
+            Guid iid = Marshal.GenerateGuidForType(typeof(ImLogService));
             RpcServer.CreateRpc(iid, new mLogService.ServerStub(new mLogServiceAnonymous(dataflow)))
                 //.AddAuthNegotiate()
                 .AddAuthentication(RpcAuthentication.RPC_C_AUTHN_NONE)

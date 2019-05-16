@@ -1,4 +1,5 @@
-﻿using CSharpTest.Net.RpcLibrary;
+﻿using CacheEngineShared;
+using CSharpTest.Net.RpcLibrary;
 using Google.ProtocolBuffers.Rpc;
 using MessageShared;
 using System;
@@ -33,7 +34,7 @@ namespace MessageBroker
     public class DbUpdateService
     {
         public static void Start(int port, IDataflowSubscribers dataflow) {
-            Guid iid = Marshal.GenerateGuidForType(typeof(ImUpdateService));
+            Guid iid = Marshal.GenerateGuidForType(typeof(ImDbUpdateService));
             RpcServer.CreateRpc(iid, new mDbUpdateService.ServerStub(new mDbUpdateServiceAnonymous(dataflow)))
                 //.AddAuthNegotiate()
                 .AddAuthentication(RpcAuthentication.RPC_C_AUTHN_NONE)

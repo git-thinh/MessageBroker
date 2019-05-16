@@ -97,7 +97,6 @@
     <Compile Include="Cache\AssetService.cs" />
     <Compile Include="Cache\TestService.cs" />
     <Compile Include="Job\DataflowSubscribers.cs" />
-    <Compile Include="Job\IJob.cs" />
     <Compile Include="Job\JobBase.cs" />
     <Compile Include="Job\JobCacheStore.cs" />
     <Compile Include="Job\JobLogPrintOut.cs" />

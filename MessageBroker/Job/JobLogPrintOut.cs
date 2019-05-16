@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CacheEngineShared;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -9,10 +10,9 @@ using System.Threading.Tasks;
 
 namespace MessageBroker
 {
-    public class JobLogPrintOut : JobBase, IJob
+    public class JobLogPrintOut : JobBase
     {
-        public void setOptions(Dictionary<string, object> options) => _options = options;
-        public void freeResource() { httpServerStop(); }
+        public override void freeResource() { httpServerStop(); }
         
         ////////////////////////////////////////////////////////////////////
         /// 
@@ -154,7 +154,7 @@ namespace MessageBroker
         ////////////////////////////////////////////////////////////////////
         /// 
 
-        public void execute()
+        public override void execute()
         {
             if (!_inited)
             {

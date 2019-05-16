@@ -1,14 +1,12 @@
-﻿using System;
+﻿using CacheEngineShared;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
 namespace MessageBroker
 {
-    public interface IDataflowSubscribers {
-        Task Enqueue(IJob job);
-        void freeResourceAllJob();
-    }
+
 
     /*
         var q = new DataflowSubscribers();
@@ -31,32 +29,42 @@ namespace MessageBroker
             _listFreeResource = new List<IJob>();
         }
 
-        public void RegisterHandler<T>() where T : IJob
+        public void RegisterHandler<T>(T obj) where T : IJob
         {
-            // We have to have a wrapper to work with IJob instead of T
-            //Action<IJob> actionWrapper = (job) => handleAction((T)job);
-            Action<IJob> actionWrapper = (job) => {
-                ((T)job).execute();
-            };
-
-            var executionDataflowBlockOptions = new ExecutionDataflowBlockOptions()
+            if (obj != null)
             {
-                // execute paranell on 2 core chip (TPL)
-                MaxDegreeOfParallelism = 5,
-            };
-            // create the action block that executes the handler wrapper
-            var actionBlock = new ActionBlock<IJob>((job) => actionWrapper(job), executionDataflowBlockOptions);
+                _listFreeResource.Add(obj);
+                obj.setDataflow(this);
 
-            // Link with Predicate - only if a job is of type T
-            _jobs.LinkTo(actionBlock, predicate: (job) => job is T);
+                // We have to have a wrapper to work with IJob instead of T
+                //Action<IJob> actionWrapper = (job) => handleAction((T)job);
+                Action<IJob> actionWrapper = (job) =>
+                {
+                    ((T)job).execute();
+                };
+
+                var executionDataflowBlockOptions = new ExecutionDataflowBlockOptions()
+                {
+                    // execute paranell on 2 core chip (TPL)
+                    MaxDegreeOfParallelism = 5,
+                };
+                // create the action block that executes the handler wrapper
+                var actionBlock = new ActionBlock<IJob>((job) => actionWrapper(job), executionDataflowBlockOptions);
+
+                // Link with Predicate - only if a job is of type T
+                _jobs.LinkTo(actionBlock, predicate: (job) => job is T);
+
+                obj.execute();
+            }
         }
 
-        public void RegisterHandler<T>(T objFreeResource, bool executeFirstTime = false, Dictionary<string, object> options = null) where T : IJob
+        public void RegisterHandler<T>(T obj, Dictionary<string, object> options = null) where T : IJob
         {
-            if (objFreeResource != null) _listFreeResource.Add(objFreeResource);
-            if (options != null) objFreeResource.setOptions(options);
-            RegisterHandler<T>();
-            if (executeFirstTime) objFreeResource.execute();
+            if (obj != null)
+            {
+                obj.setOptions(options);
+                RegisterHandler<T>(obj);
+            }
         }
 
         public void RegisterHandler<T>(Action<T> handleAction) where T : IJob

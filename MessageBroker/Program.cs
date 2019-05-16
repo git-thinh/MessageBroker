@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin.Hosting;
+﻿using CacheEngineShared;
+using Microsoft.Owin.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -15,15 +16,15 @@ namespace MessageBroker
             // [Job process data]
 
             var _dataflow = new DataflowSubscribers();
-            _dataflow.RegisterHandler<JobDbUpdate>();
-            _dataflow.RegisterHandler<JobSyncDbToCache>();
+            _dataflow.RegisterHandler<JobDbUpdate>(new JobDbUpdate());
+            _dataflow.RegisterHandler<JobSyncDbToCache>(new JobSyncDbToCache());
 
             int PORT_CACHE_STORE = int.Parse(ConfigurationManager.AppSettings["PORT_CACHE_STORE"]);
-            _dataflow.RegisterHandler<JobCacheStore>(new JobCacheStore(), true, new Dictionary<string, object>() { { "port", PORT_CACHE_STORE } });
+            _dataflow.RegisterHandler<JobCacheStore>(new JobCacheStore(), new Dictionary<string, object>() { { "port", PORT_CACHE_STORE } });
             
             //[LOG_OUTPUT] Open WebSocket listener for log print output
             int PORT_LOG_OUTPUT = int.Parse(ConfigurationManager.AppSettings["PORT_LOG_OUTPUT"]);
-            _dataflow.RegisterHandler<JobLogPrintOut>(new JobLogPrintOut(), true, new Dictionary<string, object>() { { "port", PORT_LOG_OUTPUT } });
+            _dataflow.RegisterHandler<JobLogPrintOut>(new JobLogPrintOut(), new Dictionary<string, object>() { { "port", PORT_LOG_OUTPUT } });
 
             //[LOG_INPUT] Open Login service to receive message log
             int PORT_LOG_INPUT = int.Parse(ConfigurationManager.AppSettings["PORT_LOG_INPUT"]);

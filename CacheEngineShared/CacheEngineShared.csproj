@@ -49,6 +49,8 @@
     <Compile Include="CacheSynchronized.cs" />
     <Compile Include="DynamicLinq.cs" />
     <Compile Include="ICacheFind.cs" />
+    <Compile Include="IDataflowSubscribers.cs" />
+    <Compile Include="IJob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

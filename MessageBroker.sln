@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheEngine.Test", "CacheEn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheEngineShared", "CacheEngineShared\CacheEngineShared.csproj", "{59646027-EEF7-456E-A1C1-18DBD96EFC7A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{898311B1-4647-4876-A68F-E9835943A222}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,8 +75,10 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{A31670DD-B828-41C3-97C2-E781A2B4247E} = {898311B1-4647-4876-A68F-E9835943A222}
 		{8EE17211-063B-4D4C-A9E4-B0C9CAEC91CC} = {B2F21F2B-B1E4-45E7-9F58-35DA5767465E}
 		{3414406B-08C1-4A32-BFE2-BFF08BC7A949} = {B2F21F2B-B1E4-45E7-9F58-35DA5767465E}
+		{59646027-EEF7-456E-A1C1-18DBD96EFC7A} = {898311B1-4647-4876-A68F-E9835943A222}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6CE7065-91E5-40FB-B1CD-C0D4B6FAD1E2}
