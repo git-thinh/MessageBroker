@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Owin;
 using System.Linq;
 using System.Net.Http.Formatting;
+using System.ServiceModel.Activation;
 using System.Web.Http;
 using System.Web.Http.Dispatcher;
 

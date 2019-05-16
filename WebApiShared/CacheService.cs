@@ -75,7 +75,7 @@ namespace WebApiShared
         protected override ServiceHost CreateServiceHost(Type serviceType, Uri[] baseAddresses)
         {
             WebSocketHost host = new WebSocketHost(serviceType, baseAddresses);
-            host.AddWebSocketEndpoint();
+            host.AddWebSocketEndpoint();            
             return host;
         }
     }

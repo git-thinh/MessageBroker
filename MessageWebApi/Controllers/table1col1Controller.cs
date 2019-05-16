@@ -9,15 +9,14 @@ namespace MessageWebApi
 {
     public class table1col1Controller : ApiController
     {
-        const int limit = 200000;
-        static CacheSynchronized<string> store = new CacheSynchronized<string>(limit);
+        static CacheSynchronized<string> store = new CacheSynchronized<string>();
          
         static readonly mLogService _log;
         static readonly ClientWebSocket _socket;
 
         static table1col1Controller()
         {
-            for (int i = 0; i < limit; i++) store.Add(i, Guid.NewGuid().ToString());
+            //for (int i = 0; i < limit; i++) store.Add(i, Guid.NewGuid().ToString());
 
             try {
                 _socket = SocketProvider.init("ws://localhost:56049/message");

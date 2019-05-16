@@ -64,9 +64,7 @@
     <Compile Include="Cache.cs" />
     <Compile Include="CacheBatchHandler.cs" />
     <Compile Include="CacheService.cs" />
-    <Compile Include="CacheSynchronized.cs" />
     <Compile Include="ControllersResolver.cs" />
-    <Compile Include="DynamicLinq.cs" />
     <Compile Include="JsonBatchHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValuesController-socket.cs" />

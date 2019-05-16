@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MessageShared;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace MessageWebApi
     public class table1col3Controller : ApiController
     {
         const int limit = 2000000;
-        static CacheSynchronized<int> store = new CacheSynchronized<int>(limit);
+        static CacheSynchronized<int> store = new CacheSynchronized<int>();
         static table1col3Controller()
         {
             for (int i = 0; i < limit; i++) store.Add(i, i);
