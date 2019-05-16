@@ -9,14 +9,14 @@ namespace MessageBroker
 {
     internal class mLogServiceAnonymous : ImLogService
     {
-        private readonly ILogOutput _logPrint;
+        private readonly IDataflowSubscribers _dataflow;
 
-        public mLogServiceAnonymous(ILogOutput logPrint) { this._logPrint = logPrint; }
+        public mLogServiceAnonymous(IDataflowSubscribers dataflow) { this._dataflow = dataflow; }
 
         public mLogResponse Send(mLogRequest logRequest)
         {
             Console.WriteLine("-> client send: {0}", logRequest.Text);
-            _logPrint.broadCast(logRequest.Text);
+            _dataflow.Enqueue(new JobLogPrintOut(logRequest.Text)).Wait();
             return mLogResponse.DefaultInstance;
             //return mLogResponse.CreateBuilder().SetMessage("Server: " + logRequest.Text).Build();
         }
@@ -24,9 +24,9 @@ namespace MessageBroker
 
     public class LogService
     {
-        public static void Start(int port, ILogOutput logPrint) {
+        public static void Start(int port, IDataflowSubscribers dataflow) {
             Guid iid = Marshal.GenerateGuidForType(typeof(ImLogService));
-            RpcServer.CreateRpc(iid, new mLogService.ServerStub(new mLogServiceAnonymous(logPrint)))
+            RpcServer.CreateRpc(iid, new mLogService.ServerStub(new mLogServiceAnonymous(dataflow)))
                 //.AddAuthNegotiate()
                 .AddAuthentication(RpcAuthentication.RPC_C_AUTHN_NONE)
                 .AddAuthNegotiate()

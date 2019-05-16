@@ -1,4 +1,5 @@
 ﻿using MessageShared;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 
@@ -6,6 +7,13 @@ namespace MessageBroker
 {
     public class JobDatabase : IJob
     {
+        private static Dictionary<string, object> _options;
+        public void setOptions(Dictionary<string, object> options)
+        {
+            _options = options;
+        }
+        public void freeResource() { }
+
         private readonly mUpdateRequest _request;
         public JobDatabase(mUpdateRequest request)
         {

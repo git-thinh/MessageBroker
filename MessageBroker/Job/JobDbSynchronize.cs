@@ -1,6 +1,7 @@
 ﻿using MessageShared;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Net.Http;
@@ -11,6 +12,12 @@ namespace MessageBroker
 {
     public class JobDbSynchronize : IJob
     {
+        private static Dictionary<string, object> _options;
+        public void setOptions(Dictionary<string, object> options)
+        {
+            _options = options;
+        }
+        public void freeResource() { }
         private readonly string _textSynchronize;
         public JobDbSynchronize(string textSynchronize)
         {

@@ -9,6 +9,7 @@ namespace MessageBroker
 {
     public interface IDataflowSubscribers {
         Task Enqueue(IJob job);
+        void freeResourceAllJob();
     }
 
     /*
@@ -24,17 +25,22 @@ namespace MessageBroker
     public class DataflowSubscribers: IDataflowSubscribers
     {
         private BroadcastBlock<IJob> _jobs;
+        private List<IJob> _listFreeResource;
 
         public DataflowSubscribers()
         {
             _jobs = new BroadcastBlock<IJob>(job => job);
+            _listFreeResource = new List<IJob>();
         }
 
         public void RegisterHandler<T>() where T : IJob
         {
             // We have to have a wrapper to work with IJob instead of T
             //Action<IJob> actionWrapper = (job) => handleAction((T)job);
-            Action<IJob> actionWrapper = (job) => ((T)job).execute();
+            Action<IJob> actionWrapper = (job) => {
+
+                ((T)job).execute();
+            };
 
             var executionDataflowBlockOptions = new ExecutionDataflowBlockOptions()
             {
@@ -46,6 +52,14 @@ namespace MessageBroker
 
             // Link with Predicate - only if a job is of type T
             _jobs.LinkTo(actionBlock, predicate: (job) => job is T);
+        }
+
+        public void RegisterHandler<T>(T objFreeResource, bool executeFirstTime = false, Dictionary<string, object> options = null) where T : IJob
+        {
+            if (objFreeResource != null) _listFreeResource.Add(objFreeResource);
+            if (options != null) objFreeResource.setOptions(options);
+            RegisterHandler<T>();
+            if (executeFirstTime) objFreeResource.execute();
         }
 
         public void RegisterHandler<T>(Action<T> handleAction) where T : IJob
@@ -68,6 +82,17 @@ namespace MessageBroker
         public async Task Enqueue(IJob job)
         {
             await _jobs.SendAsync(job);
+        }
+
+        public void freeResourceAllJob()
+        {
+            lock (_listFreeResource)
+            {
+                foreach (var item in _listFreeResource)
+                {
+                    item.freeResource();
+                }
+            }
         }
     }
 }
