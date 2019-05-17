@@ -21,9 +21,19 @@ namespace CacheEngine.Test
             _dataflow = dataflow;
         }
 
-        public string execute()
+        public string execute(string conditons, params object[] values)
         {
             return "Asset:  at " + DateTime.Now.ToString();
+        }
+
+        public string execute(string conditons)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool push(string arrayItemJson)
+        {
+            throw new NotImplementedException();
         }
     }
 

@@ -4,7 +4,8 @@ namespace CacheEngineShared
 {
     public interface IDataflowSubscribers
     {
-        Task Enqueue(IJob job);
+        void writeLog(string message);
+        Task enqueue(IJob job);
         void freeResourceAllJob();
     }
 }

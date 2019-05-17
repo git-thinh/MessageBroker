@@ -10,7 +10,7 @@ using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 
-namespace MessageBroker
+namespace CacheEngine.Test
 {
     public class oTest
     {
@@ -19,7 +19,7 @@ namespace MessageBroker
     }
 
     public class TestService : ICacheFind
-    {
+    { 
         public bool update(UPDATE_TYPE type, string valKey, string jsonObject) { return _store.Update(type, _cacheFields, valKey, jsonObject); }
 
         private readonly IDataflowSubscribers _dataflow;
@@ -41,7 +41,7 @@ namespace MessageBroker
             }
             catch (Exception ex)
             {
-                _dataflow.enqueue(new JobLogPrintOut(ex.Message));
+                _dataflow.writeLog(ex.Message);
             }
             return null;
         }
@@ -56,7 +56,7 @@ namespace MessageBroker
             }
             catch (Exception ex)
             {
-                _dataflow.enqueue(new JobLogPrintOut(ex.Message));
+                _dataflow.writeLog(ex.Message);
             }
             return false;
         }
@@ -68,11 +68,11 @@ namespace MessageBroker
         private readonly oCacheField[] _cacheFields;
         public TestBehavior(IDataflowSubscribers dataflow, oCacheField[] cacheFields) { _dataflow = dataflow; _cacheFields = cacheFields; }
 
-        public object GetInstance(InstanceContext instanceContext) => new TestService(_dataflow, _cacheFields);
+        public object GetInstance(InstanceContext instanceContext) { return new TestService(_dataflow, _cacheFields); }
         public void AddBindingParameters(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase, Collection<ServiceEndpoint> endpoints, BindingParameterCollection bindingParameters) { }
         public void Validate(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase) { }
         public void ReleaseInstance(InstanceContext instanceContext, object instance) { }
-        public object GetInstance(InstanceContext instanceContext, Message message) => this.GetInstance(instanceContext);
+        public object GetInstance(InstanceContext instanceContext, Message message) { return this.GetInstance(instanceContext); }
         public void ApplyDispatchBehavior(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase)
         {
             foreach (ChannelDispatcher cd in serviceHostBase.ChannelDispatchers)

@@ -7,6 +7,12 @@ namespace CacheEngineShared
     public interface ICacheFind
     {
         [OperationContract]
-        string execute();
+        bool push(string arrayItemJson);
+
+        [OperationContract]
+        string execute(string conditons);
+
+        [OperationContract]
+        bool update(UPDATE_TYPE type, string valKey, string jsonObject);
     }
 }

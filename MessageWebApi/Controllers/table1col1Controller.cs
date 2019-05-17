@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Dynamic;
 using System.Net.WebSockets;
 using System.Web.Http;
+using CacheEngineShared;
 using MessageShared;
 using WebApiShared;
 
@@ -10,8 +13,9 @@ namespace MessageWebApi
     public class table1col1Controller : ApiController
     {
         static CacheSynchronized<string> store = new CacheSynchronized<string>();
-         
+
         static readonly mLogService _log;
+        static readonly mCacheService _cache;
         static readonly ClientWebSocket _socket;
 
         static table1col1Controller()
@@ -24,24 +28,32 @@ namespace MessageWebApi
             }
             catch { }
 
-            try {
+            try
+            {
                 _log = LogProvider.init("localhost", 50051);
                 _log.Write(Guid.NewGuid().ToString());
+            }
+            catch { }
+
+            try
+            {
+                _cache = CacheFindProvider.init("localhost", 50052);
+                mCacheReply response = _cache.Find(new oCacheFind() {  });
             }
             catch { }
         }
 
         void createDynamic()
         {
-            //var dataType = new Type[] { typeof(string) };
-            //var genericBase = typeof(List<>);
-            //var combinedType = genericBase.MakeGenericType(dataType);
-            //var listStringInstance = Activator.CreateInstance(combinedType,);
-            //var addMethod = listStringInstance.GetType().GetMethod("Add");
-            //addMethod.Invoke(listStringInstance, new object[] { "Hello World" });
+            var dataType = new Type[] { typeof(string) };
+            var genericBase = typeof(List<>);
+            var combinedType = genericBase.MakeGenericType(dataType);
+            var listStringInstance = Activator.CreateInstance(combinedType);
+            var addMethod = listStringInstance.GetType().GetMethod("Add");
+            addMethod.Invoke(listStringInstance, new object[] { "Hello World" });
 
-            //var a = (new int[] { 1, 2, 3 }).AsQueryable().Where("it > 2").ToArray();  //.("@0.Contains(\"de\")");
-            //var a2 = (listStringInstance as List<string>).AsQueryable().Where("it.Contains(\"rl9\")").ToArray();
+            var a = (new int[] { 1, 2, 3 }).AsQueryable().Where("it > 2").ToArray();  //.("@0.Contains(\"de\")");
+            var a2 = (listStringInstance as List<string>).AsQueryable().Where("it.Contains(\"rl9\")").ToArray();
 
             object x = new Int32[7];
             Type t = x.GetType();

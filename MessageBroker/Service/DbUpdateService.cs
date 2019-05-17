@@ -19,7 +19,7 @@ namespace MessageBroker
             string id = Guid.NewGuid().ToString(), msg = string.Empty;
             bool ok = true;
 
-            _dataflow.Enqueue(new JobDbUpdate(updateRequest)).Wait();
+            _dataflow.enqueue(new JobDbUpdate(updateRequest)).Wait();
 
             //return mLogResponse.DefaultInstance;
             return mDbUpdateReply.CreateBuilder()

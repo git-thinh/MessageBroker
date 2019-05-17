@@ -17,7 +17,7 @@ namespace MessageBroker
         public mLogResponse Send(mLogRequest logRequest)
         {
             Console.WriteLine("-> client send: {0}", logRequest.Text);
-            _dataflow.Enqueue(new JobLogPrintOut(logRequest.Text)).Wait();
+            _dataflow.enqueue(new JobLogPrintOut(logRequest.Text)).Wait();
             return mLogResponse.DefaultInstance;
             //return mLogResponse.CreateBuilder().SetMessage("Server: " + logRequest.Text).Build();
         }

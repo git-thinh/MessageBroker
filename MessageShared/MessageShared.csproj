@@ -55,10 +55,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CacheSynchronized.cs" />
     <Compile Include="Protobuf\DbUpdate.cs" />
-    <Compile Include="DynamicLinq.cs" />
     <Compile Include="Protobuf\Log.cs" />
+    <Compile Include="Protobuf\CacheFindProvider.cs" />
     <Compile Include="Protobuf\LogProvider.cs" />
     <Compile Include="MESSAGE_TYPE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

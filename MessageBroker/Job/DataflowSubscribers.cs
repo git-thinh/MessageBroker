@@ -6,8 +6,6 @@ using System.Threading.Tasks.Dataflow;
 
 namespace MessageBroker
 {
-
-
     /*
         var q = new DataflowSubscribers();
         q.RegisterHandler<WorkLog>();
@@ -23,18 +21,27 @@ namespace MessageBroker
         private BroadcastBlock<IJob> _jobs;
         private List<IJob> _listFreeResource;
 
+        private static IJobCacheStore _cacheStore;
+        public IJobCacheStore CacheStore { get { return _cacheStore; } }
+
         public DataflowSubscribers()
         {
             _jobs = new BroadcastBlock<IJob>(job => job);
             _listFreeResource = new List<IJob>();
         }
 
-        public void RegisterHandler<T>(T obj) where T : IJob
+        public void RegisterHandler<T>(T obj, Dictionary<string, object> options = null) where T : IJob
         {
             if (obj != null)
             {
-                _listFreeResource.Add(obj);
+                if (obj is IJobCacheStore)
+                {
+                    _cacheStore = (IJobCacheStore)obj;
+                }
+
+                obj.setOptions(options);
                 obj.setDataflow(this);
+                _listFreeResource.Add(obj);
 
                 // We have to have a wrapper to work with IJob instead of T
                 //Action<IJob> actionWrapper = (job) => handleAction((T)job);
@@ -58,15 +65,6 @@ namespace MessageBroker
             }
         }
 
-        public void RegisterHandler<T>(T obj, Dictionary<string, object> options = null) where T : IJob
-        {
-            if (obj != null)
-            {
-                obj.setOptions(options);
-                RegisterHandler<T>(obj);
-            }
-        }
-
         public void RegisterHandler<T>(Action<T> handleAction) where T : IJob
         {
             // We have to have a wrapper to work with IJob instead of T
@@ -84,9 +82,14 @@ namespace MessageBroker
             _jobs.LinkTo(actionBlock, predicate: (job) => job is T);
         }
 
-        public async Task Enqueue(IJob job)
+        public async Task enqueue(IJob job)
         {
             await _jobs.SendAsync(job);
+        }
+
+        public async void writeLog(string message)
+        {
+            await enqueue(new JobLogPrintOut(message));
         }
 
         public void freeResourceAllJob()

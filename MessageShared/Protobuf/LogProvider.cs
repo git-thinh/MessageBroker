@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 
 namespace MessageShared
-{
+{ 
     public static class LogProvider
     {
         public static mLogService init(string host, int port)
@@ -14,6 +14,7 @@ namespace MessageShared
             catch { }
             return null;
         }
+
         public static void Write(this mLogService log, string text)
         {
             try

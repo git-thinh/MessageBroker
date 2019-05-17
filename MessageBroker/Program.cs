@@ -50,7 +50,7 @@ namespace MessageBroker
                 {
                     var received = await serverUDP.Receive();
                     //serverUDP.Reply("copy " + received.Message, received.Sender);
-                    await dataflow.Enqueue(new JobSyncDbToCache(received.Message));
+                    await dataflow.enqueue(new JobSyncDbToCache(received.Message));
                     Thread.Sleep(100);
                 }
             }, _dataflow);
@@ -65,6 +65,10 @@ namespace MessageBroker
             Console.WriteLine("-> PORT_LOG_OUTPUT: " + PORT_LOG_OUTPUT);
             Console.WriteLine("-> PORT_WEBAPI_CACHE: " + PORT_WEBAPI_CACHE);
             Console.WriteLine("-> PORT_DB_NOTIFICATION_UDP: " + PORT_DB_NOTIFICATION_UDP);
+            //---------------------------------------------------------------------
+
+            _dataflow.CacheStore.serviceRegister("test", 20190517);
+
             //---------------------------------------------------------------------
             // [ FREE_RESOURCE ]
             //Console.WriteLine("-> Enter to free resource jobs ....");

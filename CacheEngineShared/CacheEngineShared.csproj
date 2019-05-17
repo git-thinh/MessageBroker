@@ -51,6 +51,9 @@
     <Compile Include="ICacheFind.cs" />
     <Compile Include="IDataflowSubscribers.cs" />
     <Compile Include="IJob.cs" />
+    <Compile Include="IJobCacheStore.cs" />
+    <Compile Include="LinqExt.cs" />
+    <Compile Include="oCacheField.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

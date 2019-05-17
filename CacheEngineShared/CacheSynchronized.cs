@@ -9,55 +9,11 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace F88.Message
+namespace CacheEngineShared
 {
-    public static class LinqExt
-    {
-        ///<summary>Finds the index of the first item matching an expression in an enumerable.</summary>
-        ///<param name="items">The enumerable to search.</param>
-        ///<param name="predicate">The expression to test the items against.</param>
-        ///<returns>The index of the first matching item, or -1 if no items match.</returns>
-        public static int[] FindIndexs<T>(this IEnumerable<T> items, Func<T, bool> predicate)
-        {
-            if (items == null) throw new ArgumentNullException("items");
-            if (predicate == null) throw new ArgumentNullException("predicate");
 
-            int retVal = 0; List<int> ls = new List<int>() { };
-            foreach (var item in items)
-            {
-                if (predicate(item)) ls.Add(retVal);
-                retVal++;
-            }
 
-            return ls.ToArray();
-        }
-
-        ///<summary>Finds the index of the first item matching an expression in an enumerable.</summary>
-        ///<param name="items">The enumerable to search.</param>
-        ///<param name="predicate">The expression to test the items against.</param>
-        ///<returns>The index of the first matching item, or -1 if no items match.</returns>
-        public static int FindIndex<T>(this IEnumerable<T> items, Func<T, bool> predicate)
-        {
-            if (items == null) throw new ArgumentNullException("items");
-            if (predicate == null) throw new ArgumentNullException("predicate");
-
-            int retVal = 0;
-            foreach (var item in items)
-            {
-                if (predicate(item)) return retVal;
-                retVal++;
-            }
-            return -1;
-        }
-
-        ///<summary>Finds the index of the first occurrence of an item in an enumerable.</summary>
-        ///<param name="items">The enumerable to search.</param>
-        ///<param name="item">The item to find.</param>
-        ///<returns>The index of the first matching item, or -1 if the item was not found.</returns>
-        public static int IndexOf<T>(this IEnumerable<T> items, T item) { return items.FindIndex(i => EqualityComparer<T>.Default.Equals(item, i)); }
-    }
-
-    public class CacheSynchronized<T> 
+    public class CacheSynchronized<T>
     {
         private ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
         private List<T> innerCache;
@@ -68,14 +24,14 @@ namespace F88.Message
             limit = 0;
             innerCache = new List<T>() { };
         }
-        
+
         public int Count { get { return innerCache.Count; } }
 
         public void Set(IEnumerable<T> _cache)
         {
             cacheLock.EnterWriteLock();
             try
-            {  
+            {
                 this.innerCache = _cache.ToList();
                 this.limit = this.innerCache.Count;
             }
@@ -146,7 +102,7 @@ namespace F88.Message
             }
             return arr;
         }
-        
+
         public int[] Search(Func<T, bool> predicate)
         {
             int[] arr = new int[] { };
@@ -228,7 +184,8 @@ namespace F88.Message
             return Expression.Convert(constant, propertyType);
         }
 
-        object _getItemByKey(string fielKey, string typeKey, string valKey) {
+        object _getItemByKey(string fielKey, string typeKey, string valKey)
+        {
             try
             {
                 object id;
@@ -251,7 +208,16 @@ namespace F88.Message
             return null;
         }
 
-        public bool Update(UPDATE_TYPE type, string fielKey, string typeKey, string valKey, string jsonObject) {
+        public bool Update(UPDATE_TYPE type, oCacheField[] cacheFields, string valKey, string jsonObject)
+        {
+            string fielKey = string.Empty, typeKey = string.Empty;
+            var fkey = cacheFields.Where(x => x.iskey).SingleOrDefault();
+            if (fkey != null)
+            {
+                fielKey = fkey.name;
+                typeKey = fkey.type;
+            }
+
             if (string.IsNullOrWhiteSpace(jsonObject)) return false;
             try
             {
@@ -274,11 +240,17 @@ namespace F88.Message
                         cacheLock.EnterWriteLock();
                         try
                         {
-                            object it = _getItemByKey(fielKey, typeKey, valKey);
-                            if (it != null)
+                            if (!string.IsNullOrWhiteSpace(fielKey) && !string.IsNullOrWhiteSpace(typeKey))
                             {
-                                itemOld = (T)it;
-                                if (itemOld != null) innerCache.Remove(itemOld);
+                                fielKey = fkey.name;
+                                typeKey = fkey.type;
+
+                                object it = _getItemByKey(fielKey, typeKey, valKey);
+                                if (it != null)
+                                {
+                                    itemOld = (T)it;
+                                    if (itemOld != null) innerCache.Remove(itemOld);
+                                }
                             }
                         }
                         finally
@@ -290,12 +262,15 @@ namespace F88.Message
                         cacheLock.EnterWriteLock();
                         try
                         {
-                            object it = _getItemByKey(fielKey, typeKey, valKey);
-                            if (it != null)
+                            if (!string.IsNullOrWhiteSpace(fielKey) && !string.IsNullOrWhiteSpace(typeKey))
                             {
-                                itemOld = (T)it;
-                                if (itemOld != null) innerCache.Remove(itemOld);
-                                innerCache.Add(item);
+                                object it = _getItemByKey(fielKey, typeKey, valKey);
+                                if (it != null)
+                                {
+                                    itemOld = (T)it;
+                                    if (itemOld != null) innerCache.Remove(itemOld);
+                                    innerCache.Add(item);
+                                }
                             }
                         }
                         finally
@@ -314,7 +289,7 @@ namespace F88.Message
             if (cacheLock != null) cacheLock.Dispose();
         }
     }
-    
+
     public enum UPDATE_TYPE
     {
         ADD = 1,

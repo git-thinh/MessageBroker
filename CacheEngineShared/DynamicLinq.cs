@@ -190,7 +190,7 @@ namespace System.Linq.Dynamic
         #endregion
 
         #region IEnumerable Extensions
-
+         
         public static IEnumerable<T> Where<T>(this IEnumerable<T> source, string predicate, params object[] values)
         {
             if (source == null) throw new ArgumentNullException("source");

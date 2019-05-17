@@ -120,6 +120,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CacheEngineShared\CacheEngineShared.csproj">
+      <Project>{59646027-EEF7-456E-A1C1-18DBD96EFC7A}</Project>
+      <Name>CacheEngineShared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MessageShared\MessageShared.csproj">
       <Project>{a31670dd-b828-41c3-97c2-e781a2b4247e}</Project>
       <Name>MessageShared</Name>
