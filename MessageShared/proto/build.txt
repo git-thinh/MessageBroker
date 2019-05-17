@@ -1,0 +1,10 @@
+protoc.exe message.proto --csharp_out .\
+protoc.exe message.proto --csharp_out=.\ --plugin=protoc-gen-grpc="grpc_csharp_plugin.exe"
+protoc.exe message.proto --csharp_out=.\ --grpc_out=.\ --plugin=protoc-gen-grpc=grpc_csharp_plugin.exe
+
+
+protoc.exe message.proto --csharp_out=.\ --grpc_out=.\ --plugin=protoc-gen-grpc=grpc_csharp_plugin.exe
+
+protoc.exe log.proto --csharp_out=.\ --grpc_out=.\ --plugin=protoc-gen-grpc=grpc_csharp_plugin.exe
+protoc.exe CacheFind.proto --csharp_out=.\ --grpc_out=.\ --plugin=protoc-gen-grpc=grpc_csharp_plugin.exe
+protoc.exe DbUpdate.proto --csharp_out=.\ --grpc_out=.\ --plugin=protoc-gen-grpc=grpc_csharp_plugin.exe

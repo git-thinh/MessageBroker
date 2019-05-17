@@ -14,8 +14,8 @@ namespace MessageWebApi
     {
         static CacheSynchronized<string> store = new CacheSynchronized<string>();
 
-        static readonly mLogService _log;
-        static readonly mCacheService _cache;
+        static readonly svcLogService.svcLogServiceClient _log;
+        //static readonly mCacheService _cache;
         static readonly ClientWebSocket _socket;
 
         static table1col1Controller()
@@ -30,17 +30,17 @@ namespace MessageWebApi
 
             try
             {
-                _log = LogProvider.init("localhost", 50051);
+                _log = LogProvider.init();
                 _log.Write(Guid.NewGuid().ToString());
             }
             catch { }
 
-            try
-            {
-                _cache = CacheFindProvider.init("localhost", 50052);
-                mCacheReply response = _cache.Find(new oCacheFind() {  });
-            }
-            catch { }
+            //try
+            //{
+            //    _cache = CacheFindProvider.init();
+            //    mCacheReply response = _cache.Find(new oCacheFind() {  });
+            //}
+            //catch { }
         }
 
         void createDynamic()

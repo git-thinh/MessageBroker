@@ -1,5 +1,6 @@
 ﻿using CacheEngineShared;
 using MessageShared;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -26,9 +27,15 @@ namespace MessageBroker
         static SqlConnection _connect;
         static void dbStart()
         {
-            string stringConnect = ConfigurationManager.ConnectionStrings["DB_UPDATE_DATA"].ConnectionString.ToString();
-            _connect = new SqlConnection(stringConnect);
-            _connect.Open();
+            try
+            {
+                string stringConnect = ConfigurationManager.ConnectionStrings["DB_UPDATE_DATA"].ConnectionString.ToString();
+                _connect = new SqlConnection(stringConnect);
+                //_connect.Open();
+            }
+            catch(Exception ex) {
+                Dataflow.enqueue(new JobLogPrintOut(ex.Message)).Wait();
+            }
         }
 
         static void dbStop() {

@@ -1,0 +1,32 @@
+syntax = "proto3";
+package F88.Message;
+
+message mPair {
+   string key = 1;
+   string value = 2;
+}
+
+message mDictionary {
+   repeated mPair pairs = 1;
+}
+
+message mRequest {
+    int32 type = 1;
+
+	string id = 2;
+    string from = 3;
+    string message = 4;
+
+    mDictionary arguments = 5;
+}
+
+message mResponse {
+    bool ok = 1;
+    mRequest request = 2;
+    string message = 3;
+    string result = 4;
+}
+
+service svcMessageService {
+    rpc sendMsg(stream mRequest) returns (stream mResponse);
+}

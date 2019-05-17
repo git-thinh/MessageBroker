@@ -1,0 +1,66 @@
+syntax = "proto3";
+package MessageShared;
+
+enum mLOG_SCOPE
+{
+	REQUEST_URL = 0;
+	DB_DLL = 1;
+	MESSAGE_WEBAPI = 2;
+	GRPC_NOTIFICATION = 3;
+	IIS_WEB_API = 4;
+}
+
+enum mLOG_STATE
+{
+	EXCEPTION = 0;
+	SUCCESS = 1;
+}
+
+enum mLOG_ACTION
+{
+	API_SEARCH = 0;
+	API_PUT_ADD = 1;
+	API_PUT_EDIT = 2;
+	API_PUT_REMOVE = 3;
+}
+
+message mLOG
+{
+	string Id = 1;
+
+	mLOG_SCOPE Scope = 2;
+	mLOG_STATE State = 3;
+	mLOG_ACTION Action = 4;
+
+	string ProjectName = 5;
+	string ClassName = 6;
+	string FunctionName = 7;
+
+	string Url = 8;
+
+	string Method = 9;
+	string ParaJson = 10;
+
+	string MessageText = 11;
+
+	int64 TimeStart = 12;
+	int64 TimeEnd = 13;
+}
+
+message mLogResult {
+	bool Ok = 1;
+	int32 Code = 2;
+    string MessageText = 3;
+}
+
+message mLogText {
+  string text = 1;
+}
+
+message mLogTextResult {
+}
+
+service svcLogService {
+  rpc writeLog(mLOG) returns (mLogResult) {}
+  rpc writeLogText (mLogText) returns (mLogTextResult);
+}

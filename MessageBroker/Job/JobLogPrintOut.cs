@@ -1,4 +1,6 @@
 ﻿using CacheEngineShared;
+using MessageShared;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,10 +24,11 @@ namespace MessageBroker
         static List<WebSocket> _clients = new List<WebSocket>() { };
         static readonly Object _lock = new Object();
         static HttpListener _httpListener;
-        static void httpStart()
+        static void httpStart(int port)
         {
             _httpListener = new HttpListener();
-            _httpListener.Prefixes.Add("http://*:12345/log/");
+            //_httpListener.Prefixes.Add("http://*:12345/log/");
+            _httpListener.Prefixes.Add("http://*:" + port + "/");
             Task.Factory.StartNew(async (object obj) =>
             {
                 HttpListener httpListener = (HttpListener)obj;
@@ -145,10 +148,15 @@ namespace MessageBroker
 
         private static bool _inited = false;
         private readonly string _message;
+        private readonly mLOG _log;
 
         public JobLogPrintOut(string message = "")
         {
             this._message = message;
+        }
+        public JobLogPrintOut(mLOG log)
+        {
+            this._log = log;
         }
 
         ////////////////////////////////////////////////////////////////////
@@ -157,14 +165,21 @@ namespace MessageBroker
         public override void execute()
         {
             if (!_inited)
-            {
-                _inited = true;
-                httpStart();
+           {
+                try
+                {
+                    int port = (int)getOptions("port");
+                    httpStart(port);
+                    _inited = true;
+                }
+                catch { }
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(_message)) return;
-            httpBroadCast(_message);
+            if (!string.IsNullOrWhiteSpace(_message))
+                httpBroadCast(_message);
+            else if(_log != null)
+                httpBroadCast(JsonConvert.SerializeObject(_log));
         }
     }
 

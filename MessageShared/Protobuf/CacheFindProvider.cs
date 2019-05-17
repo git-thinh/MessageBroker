@@ -1,4 +1,5 @@
 ﻿using Google.ProtocolBuffers.Rpc;
+using System.Configuration;
 using System.Runtime.InteropServices;
 
 namespace MessageShared
@@ -24,11 +25,14 @@ namespace MessageShared
 
     public static class CacheFindProvider
     {
-        public static mCacheService init(string host, int port)
+        public static mCacheService init()
         {
             try
             {
-                return new mCacheService(RpcClient.ConnectRpc(Marshal.GenerateGuidForType(typeof(ImCacheService)), "ncacn_ip_tcp", host, port.ToString()).Authenticate(RpcAuthenticationType.None));
+                string HOST_CACHE_FIND = ConfigurationManager.AppSettings["HOST_CACHE_FIND"];
+                string PORT_CACHE_FIND = ConfigurationManager.AppSettings["PORT_CACHE_FIND"];
+                return new mCacheService(RpcClient.ConnectRpc(Marshal.GenerateGuidForType(typeof(ImCacheService)), "ncacn_ip_tcp",
+                    HOST_CACHE_FIND, PORT_CACHE_FIND).Authenticate(RpcAuthenticationType.None));
             }
             catch { }
             return null;

@@ -1,39 +1,50 @@
 ﻿using CacheEngineShared;
-using CSharpTest.Net.RpcLibrary;
-using Google.ProtocolBuffers.Rpc;
-using MessageShared;
+using Grpc.Core;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using MessageShared;
+using Grpc.Core.Utils;
+using System.Configuration;
 
 namespace MessageBroker
 {
-    internal class mLogServiceAnonymous : ImLogService
+    public class mLogServiceImpl : svcLogService.svcLogServiceBase
     {
         private readonly IDataflowSubscribers _dataflow;
+        public mLogServiceImpl(IDataflowSubscribers dataflow) { this._dataflow = dataflow; }
 
-        public mLogServiceAnonymous(IDataflowSubscribers dataflow) { this._dataflow = dataflow; }
-
-        public mLogResponse Send(mLogRequest logRequest)
+        public override Task<mLogResult> writeLog(mLOG request, ServerCallContext context)
         {
-            Console.WriteLine("-> client send: {0}", logRequest.Text);
-            _dataflow.enqueue(new JobLogPrintOut(logRequest.Text)).Wait();
-            return mLogResponse.DefaultInstance;
-            //return mLogResponse.CreateBuilder().SetMessage("Server: " + logRequest.Text).Build();
+            _dataflow.enqueue(new JobLogPrintOut(request)).Wait();
+            return Task.FromResult(new mLogResult { Ok = true, Code = 1, MessageText = Guid.NewGuid().ToString() });
+        }
+
+        public override Task<mLogTextResult> writeLogText(mLogText request, ServerCallContext context)
+        {
+            _dataflow.enqueue(new JobLogPrintOut(request.Text)).Wait();
+            return Task.FromResult(new mLogTextResult());
         }
     }
 
     public class LogService
     {
-        public static void Start(int port, IDataflowSubscribers dataflow) {
-            Guid iid = Marshal.GenerateGuidForType(typeof(ImLogService));
-            RpcServer.CreateRpc(iid, new mLogService.ServerStub(new mLogServiceAnonymous(dataflow)))
-                //.AddAuthNegotiate()
-                .AddAuthentication(RpcAuthentication.RPC_C_AUTHN_NONE)
-                .AddAuthNegotiate()
-                .AddProtocol("ncacn_ip_tcp", port.ToString())
-                //.AddProtocol("ncalrpc", "Greeter")
-                .StartListening();
+        static Server server;
+        public static void Start(IDataflowSubscribers dataflow)
+        {
+            int PORT_LOG_INPUT = int.Parse(ConfigurationManager.AppSettings["PORT_LOG_INPUT"]);
+            server = new Server()
+            {
+                Services = { svcLogService.BindService(new mLogServiceImpl(dataflow)) },
+                Ports = { new ServerPort("localhost", PORT_LOG_INPUT, ServerCredentials.Insecure) }
+            };
+            server.Start();
+        }
+
+        public static void Stop()
+        {
+            server.ShutdownAsync().Wait();
         }
     }
 }
