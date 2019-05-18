@@ -112,6 +112,7 @@
     <Compile Include="Job\JobLogPrintOut.cs" />
     <Compile Include="Job\JobSyncDbToCache.cs" />
     <Compile Include="Job\JobDbUpdate.cs" />
+    <Compile Include="Service\DbUpdateService.cs" />
     <Compile Include="Service\CacheFindService.cs" />
     <Compile Include="Service\LogService.cs" />
     <Compile Include="Program.cs" />

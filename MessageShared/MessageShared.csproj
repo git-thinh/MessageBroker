@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Grpc\CacheFind.cs" />
     <Compile Include="Grpc\CacheFindGrpc.cs" />
+    <Compile Include="Grpc\DbUpdateProvider.cs" />
     <Compile Include="Grpc\DbUpdate.cs" />
     <Compile Include="Grpc\DbUpdateGrpc.cs" />
     <Compile Include="Grpc\Log.cs" />
