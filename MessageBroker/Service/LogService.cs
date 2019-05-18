@@ -10,6 +10,27 @@ using System.Configuration;
 
 namespace MessageBroker
 {
+    public static class LogExt{
+        public static oLOG convertLog(this mLOG l){
+            return new oLOG()
+            {
+                Action = (oLOG_ACTION)l.Action,
+                ClassName = l.ClassName,
+                FunctionName = l.FunctionName,
+                Id = l.Id,
+                MessageText = l.MessageText,
+                Method = l.Method,
+                ParaJson = l.ParaJson,
+                ProjectName = l.ProjectName,
+                Scope = (oLOG_SCOPE)l.Scope,
+                State = (oLOG_STATE)l.State,
+                TimeEnd = l.TimeEnd,
+                TimeStart = l.TimeStart,
+                Url = l.Url
+            };
+        }
+    }
+
     public class mLogServiceImpl : svcLogService.svcLogServiceBase
     {
         private readonly IDataflowSubscribers _dataflow;
@@ -17,7 +38,7 @@ namespace MessageBroker
 
         public override Task<mLogResult> writeLog(mLOG request, ServerCallContext context)
         {
-            _dataflow.enqueue(new JobLogPrintOut(request)).Wait();
+            _dataflow.enqueue(new JobLogPrintOut(request.convertLog())).Wait();
             return Task.FromResult(new mLogResult { Ok = true, Code = 1, MessageText = Guid.NewGuid().ToString() });
         }
 

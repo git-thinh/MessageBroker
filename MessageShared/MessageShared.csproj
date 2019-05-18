@@ -68,6 +68,7 @@
     <Compile Include="Grpc\CacheFindProvider.cs" />
     <Compile Include="Grpc\LogProvider.cs" />
     <Compile Include="MESSAGE_TYPE.cs" />
+    <Compile Include="oLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SocketProvider.cs" />
   </ItemGroup>

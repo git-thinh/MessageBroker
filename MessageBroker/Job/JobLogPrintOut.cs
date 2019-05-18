@@ -2,6 +2,7 @@
 using MessageShared;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -15,10 +16,10 @@ namespace MessageBroker
     public class JobLogPrintOut : JobBase
     {
         public override void freeResource() { httpServerStop(); }
-        
+
         ////////////////////////////////////////////////////////////////////
         /// 
-        
+
         #region [ HTTP_LISTENER ]
 
         static List<WebSocket> _clients = new List<WebSocket>() { };
@@ -119,10 +120,11 @@ namespace MessageBroker
             }
         }
 
-        static void httpServerStop() {
+        static void httpServerStop()
+        {
             _httpListener.Stop();
         }
-        
+
         static void httpBroadCast(string text)
         {
             byte[] bsend = Encoding.UTF8.GetBytes(text);
@@ -148,13 +150,13 @@ namespace MessageBroker
 
         private static bool _inited = false;
         private readonly string _message;
-        private readonly mLOG _log;
+        private readonly oLOG _log;
 
         public JobLogPrintOut(string message = "")
         {
             this._message = message;
         }
-        public JobLogPrintOut(mLOG log)
+        public JobLogPrintOut(oLOG log)
         {
             this._log = log;
         }
@@ -162,14 +164,46 @@ namespace MessageBroker
         ////////////////////////////////////////////////////////////////////
         /// 
 
+        static ConcurrentQueue<string> _storeText = new ConcurrentQueue<string>() { };
+        static ConcurrentQueue<oLOG> _storeLog = new ConcurrentQueue<oLOG>() { };
+
+        void processLog()
+        {
+            Task.Run(() =>
+            {
+                while (true)
+                {
+                    if (_storeText.Count > 0)
+                    {
+                        string message;
+                        if (_storeText.TryDequeue(out message) && !string.IsNullOrEmpty(message))
+                        {
+                            httpBroadCast(message);
+                        }
+                    }
+                    if (_storeLog.Count > 0)
+                    {
+                        oLOG log = null;
+                        if (_storeLog.TryDequeue(out log) && log != null)
+                        {
+                            string json = JsonConvert.SerializeObject(log);
+                            httpBroadCast(json);
+                        }
+                    }
+                    Thread.Sleep(100);
+                }
+            });
+        }
+
         public override void execute()
         {
             if (!_inited)
-           {
+            {
                 try
                 {
                     int port = (int)getOptions("port");
                     httpStart(port);
+                    processLog();
                     _inited = true;
                 }
                 catch { }
@@ -177,9 +211,9 @@ namespace MessageBroker
             }
 
             if (!string.IsNullOrWhiteSpace(_message))
-                httpBroadCast(_message);
-            else if(_log != null)
-                httpBroadCast(JsonConvert.SerializeObject(_log));
+                _storeText.Enqueue(_message);
+            else if (_log != null)
+                _storeLog.Enqueue(_log);
         }
     }
 
