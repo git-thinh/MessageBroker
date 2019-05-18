@@ -11,13 +11,19 @@ namespace CacheEngineShared
         [OperationContract]
         bool insertItems(IList items);
 
+
         [OperationContract]
         bool push(string arrayItemJson);
 
-        [OperationContract]
-        string execute(string conditons);
 
         [OperationContract]
-        bool update(UPDATE_TYPE type, string valKey, string jsonObject);
+        string executeReplyCacheKey(string conditons);
+
+
+        [OperationContract]
+        string updateReplyCacheKey(UPDATE_TYPE type, string valKey, string jsonObject);
+
+        [OperationContract]
+        string getAllJson();
     }
 }

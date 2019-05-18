@@ -118,7 +118,7 @@
     <Compile Include="Job\JobLogPrintOut.cs" />
     <Compile Include="Job\JobSyncDbToCache.cs" />
     <Compile Include="Job\JobDbUpdate.cs" />
-    <Compile Include="Service.Cache\Contract.cs" />
+    <Compile Include="Service.Cache\oTaoHopDong.cs" />
     <Compile Include="Service.Cache\User.cs" />
     <Compile Include="Service.Grpc\DbUpdateService.cs" />
     <Compile Include="Service.Grpc\CacheFindService.cs" />

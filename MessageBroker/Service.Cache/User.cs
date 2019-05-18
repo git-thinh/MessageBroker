@@ -10,7 +10,7 @@ namespace MessageBroker
 
     public class oUserService : BaseServiceCache<oUser>
     {
-        public oUserService(IDataflowSubscribers dataflow, oCacheField[] cacheFields) : base(dataflow, cacheFields)
+        public oUserService(IDataflowSubscribers dataflow, oCacheModel cacheModel) : base(dataflow, cacheModel)
         {
             this.insertItems(new oUser[] {
                 new oUser(){ Password = "123", UserName="admin" },

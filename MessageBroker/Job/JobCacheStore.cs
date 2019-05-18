@@ -72,17 +72,16 @@ namespace MessageBroker
 
             ServiceHost host2 = new ServiceHost(typeof(oUserService), new Uri("http://localhost:" + port + "/test/"));
             host2.AddServiceEndpoint(typeof(ICacheService), new BasicHttpBinding(), "");
-            host2.Description.Behaviors.Add(new oUserBehavior(new oUserService(Dataflow, new oCacheField[] { })));
+            host2.Description.Behaviors.Add(new oUserBehavior(new oUserService(Dataflow, new oCacheModel())));
             host2.Open();
 
             ChannelFactory<ICacheService> factory2 = new ChannelFactory<ICacheService>(new BasicHttpBinding(), new EndpointAddress("http://localhost:" + port + "/test/"));
             ICacheService proxy2 = factory2.CreateChannel();
-            string key2 = proxy2.execute("UserName=\"admin\"");
+            oCacheResult rs2 = proxy2.executeReplyCacheKey("UserName=\"admin\"").getResultByCacheKey();
 
-            ObjectCache cache = MemoryCache.Default;
-            dynamic[] data = (dynamic[])cache.Get(key2);
+            rs2.clearCacheIfExist();
 
-            Console.WriteLine("test-> {0}", key2);
+            Console.WriteLine("test-> {0}", rs2.ToJson());
 
             ((IClientChannel)proxy2).Close();
             factory2.Close();

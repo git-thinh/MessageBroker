@@ -2,6 +2,8 @@
 
 namespace MessageBroker
 {
+    #region [ MODEL ]
+
     public enum oTaiSanLoai
     {
         CMT = 1,
@@ -35,8 +37,16 @@ namespace MessageBroker
         public oNguoiLienHe[] SoHoKhau { set; get; }
     }
 
-    public class oKhachHang
+    public enum oHopDongTrangThai
     {
+        HOP_DONG_NHAP_DOI_DUYET = 1,
+        HOP_DONG_DA_DUYET_DOI_GIAI_NGAN = 2,
+        HOP_DONG_THANH_CONG = 3,
+    }
+    
+    public class oHongDongKhachHang
+    {
+        public oHopDongTrangThai TrangThai { get; set; }
         public string MaKH { get; set; }
         public string TenKH { get; set; }
         public string ChanDungKH_Img { get; set; }
@@ -49,12 +59,14 @@ namespace MessageBroker
         public string TenCuaHangTatToan { get; set; }
     }
 
+    #endregion
+
     public class oTaoHopDongService : BaseServiceCache<oUser>
     {
-        public oTaoHopDongService(IDataflowSubscribers dataflow, oCacheField[] cacheFields) : base(dataflow, cacheFields)
+        public oTaoHopDongService(IDataflowSubscribers dataflow, oCacheModel cacheModel) : base(dataflow, cacheModel)
         {
-            this.insertItems(new oKhachHang[] {
-                new oKhachHang(){
+            this.insertItems(new oHongDongKhachHang[] {
+                new oHongDongKhachHang(){
                     ChanDungKH_Img = "",
                     HoaDonDien_Img = "",
                     MaCuaHangTatToan = "001",
@@ -75,7 +87,7 @@ namespace MessageBroker
                         }
                     },
                 },
-                new oKhachHang(){
+                new oHongDongKhachHang(){
                     ChanDungKH_Img = "",
                     HoaDonDien_Img = "",
                     MaCuaHangTatToan = "001",

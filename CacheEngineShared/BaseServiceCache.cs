@@ -13,26 +13,50 @@ using System.Text;
 
 namespace CacheEngineShared
 {
+    public static class StringCacheExt
+    {
+        public static oCacheResult getResultByCacheKey(this string cacheKey)
+        {
+            ObjectCache cache = MemoryCache.Default;
+            if (cache.Contains(cacheKey))
+                return (oCacheResult)cache.Get(cacheKey);
+            return null;
+        }
+
+        public static bool clearCacheIfExist(this oCacheResult rs)
+        {
+            if (rs == null || rs.Request == null || string.IsNullOrWhiteSpace(rs.Request.RequestId)) return true;
+
+            ObjectCache cache = MemoryCache.Default;
+            if (cache.Contains(rs.Request.RequestId)) {
+                cache.Remove(rs.Request.RequestId);
+            }
+
+            return false;
+        }
+
+        public static string ToJson(this oCacheResult rs)
+        {
+            if (rs == null) return "{}";
+            return JsonConvert.SerializeObject(rs);
+        }
+    }
+
     public class BaseServiceCache<T> : ICacheService
     {
-        public BaseServiceCache(IDataflowSubscribers dataflow, oCacheField[] cacheFields) { _dataflow = dataflow; _cacheFields = cacheFields; }
+        public BaseServiceCache(IDataflowSubscribers dataflow, oCacheModel cacheModel) { _dataflow = dataflow; _cacheModel = cacheModel; }
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public bool update(UPDATE_TYPE type, string valKey, string jsonObject) { return _store.Update(type, _cacheFields, valKey, jsonObject); }
+        public string updateReplyCacheKey(UPDATE_TYPE type, string valKey, string jsonObject) { return _store.updateReplyCacheKey(type, _cacheModel, valKey, jsonObject); }
 
         private readonly IDataflowSubscribers _dataflow;
-        private readonly oCacheField[] _cacheFields;
+        private readonly oCacheModel _cacheModel;
 
         static CacheSynchronized<T> _store = new CacheSynchronized<T>();
-        public string execute(string conditons)
+        public string executeReplyCacheKey(string conditons)
         {
             try
             {
-                string key = Guid.NewGuid().ToString();
-
-                var a = _store.SearchDynamic(conditons).ToArray();
-                ObjectCache cache = MemoryCache.Default;
-                cache.Set(key, a, new CacheItemPolicy());
-
+                string key = _store.searchDynamicReplyCacheKey(new oCacheRequest(_cacheModel.ServiceName, conditons));
                 return key;
             }
             catch (Exception ex)
@@ -62,12 +86,18 @@ namespace CacheEngineShared
             _store.insertItems(items);
             return true;
         }
+
+        public string getAllJson()
+        {
+            return _store.getAllJson();
+        }
     }
 
     public class BaseServiceCacheBehavior : IServiceBehavior, IInstanceProvider
     {
         private readonly object _instance;
-        public BaseServiceCacheBehavior(object instance) {
+        public BaseServiceCacheBehavior(object instance)
+        {
             _instance = instance;
         }
         public object GetInstance(InstanceContext instanceContext) { return _instance; }

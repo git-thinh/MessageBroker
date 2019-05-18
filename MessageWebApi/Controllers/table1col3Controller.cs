@@ -63,8 +63,7 @@ namespace MessageWebApi
         // POST api/values
         public IEnumerable<int> Post([FromBody]CacheRequestMessage value)
         {
-            int[] a = store.SearchDynamic(value.Condition);
-            return a; 
+            return new int[] { 0, 1 };
         }
 
         // PUT api/values/5

@@ -7,13 +7,12 @@ using System.Linq;
 using System.Linq.Dynamic;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.Caching;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace CacheEngineShared
 {
-
-
     public class CacheSynchronized<T>
     {
         private ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
@@ -39,6 +38,19 @@ namespace CacheEngineShared
             finally
             {
                 cacheLock.ExitWriteLock();
+            }
+        }
+
+        public string getAllJson()
+        {
+            cacheLock.EnterReadLock();
+            try
+            {
+                return JsonConvert.SerializeObject(innerCache);
+            }
+            finally
+            {
+                cacheLock.ExitReadLock();
             }
         }
 
@@ -84,39 +96,58 @@ namespace CacheEngineShared
             }
         }
 
-        public int[] Search(string condition)
+        //////public int[] Search(string condition)
+        //////{
+        //////    int[] arr = new int[] { };
+        //////    cacheLock.EnterReadLock();
+        //////    try
+        //////    {
+        //////        List<int> ls = new List<int>() { };
+
+        //////        //for (int i = 0; i < limit; i++) if (predicate(innerCache[i])) ls.Add(i);
+        //////        //var t = innerCache.Where("@0.Contains(\"cd\")").ToArray();
+        //////        //arr = innerCache.Where(condition).ToArray();
+        //////        //arr = ls.ToArray();
+        //////    }
+        //////    finally
+        //////    {
+        //////        cacheLock.ExitReadLock();
+        //////    }
+        //////    return arr;
+        //////}
+
+        public oCacheResult SearchDynamic(oCacheRequest request)
         {
-            int[] arr = new int[] { };
             cacheLock.EnterReadLock();
             try
             {
-                List<int> ls = new List<int>() { };
-
-                //for (int i = 0; i < limit; i++) if (predicate(innerCache[i])) ls.Add(i);
-                //var t = innerCache.Where("@0.Contains(\"cd\")").ToArray();
-                //arr = innerCache.Where(condition).ToArray();
-                //arr = ls.ToArray();
+                try
+                {
+                    dynamic[] arr = innerCache.Where(request.Conditions).Cast<dynamic>().ToArray();
+                    return new oCacheResult(request).ToOk(arr, this.Count);
+                }
+                catch (Exception ex)
+                {
+                    return new oCacheResult(request).ToFailException(ex.Message, this.Count);
+                }
             }
             finally
             {
                 cacheLock.ExitReadLock();
             }
-            return arr;
         }
 
-        public T[] SearchDynamic(string condition)
+        public string searchDynamicReplyCacheKey(oCacheRequest request)
         {
-            T[] arr = new T[] { };
-            cacheLock.EnterReadLock();
-            try
-            {
-                arr = innerCache.Where(condition).ToArray();
-            }
-            finally
-            {
-                cacheLock.ExitReadLock();
-            }
-            return arr;
+            string key = Guid.NewGuid().ToString();
+            if (string.IsNullOrWhiteSpace(request.RequestId))
+                request.RequestId = key;
+            else
+                key = request.RequestId;
+            oCacheResult rs = SearchDynamic(request);
+            ObjectCache cache = MemoryCache.Default;
+            cache.Set(key, rs, new CacheItemPolicy());
+            return key;
         }
 
         public int[] Search(Func<T, bool> predicate)
@@ -224,20 +255,51 @@ namespace CacheEngineShared
             return null;
         }
 
-        public bool Update(UPDATE_TYPE type, oCacheField[] cacheFields, string valKey, string jsonObject)
+        public string updateReplyCacheKey(UPDATE_TYPE type, oCacheModel cacheModel, string valKey, string jsonObject)
         {
-            string fielKey = string.Empty, typeKey = string.Empty;
-            var fkey = cacheFields.Where(x => x.iskey).SingleOrDefault();
-            if (fkey != null)
-            {
-                fielKey = fkey.name;
-                typeKey = fkey.type;
-            }
+            string key = Guid.NewGuid().ToString();
+            oCacheResult rs = Update( type,  cacheModel,  valKey, jsonObject);
+            ObjectCache cache = MemoryCache.Default;
+            cache.Set(key, rs, new CacheItemPolicy());
+            return key;
+        }
 
-            if (string.IsNullOrWhiteSpace(jsonObject)) return false;
+        public oCacheResult Update(UPDATE_TYPE type, oCacheModel cacheModel, string valKey, string jsonObject)
+        {
+            oCacheRequest request = new oCacheRequest(cacheModel.ServiceName, jsonObject) { RequestId = valKey };
             try
             {
-                T item = JsonConvert.DeserializeObject<T>(jsonObject);
+                bool isOk = false;
+
+                oCacheField fkey = new oCacheField() { };
+                string fielKey = string.Empty, typeKey = string.Empty;
+
+                if (type != UPDATE_TYPE.ADD)
+                {
+                    if (cacheModel == null || cacheModel.Fields.Length == 0) return new oCacheResult(request).ToFailInputNULL("The CacheModel with Fields for EDIT|REMOVE is NULL or empty");
+
+                    fkey = cacheModel.Fields.Where(x => x.iskey).SingleOrDefault();
+                    if (fkey == null)
+                        return new oCacheResult(request).ToFailInputNULL("The CacheModel with Fields for EDIT|REMOVE is NULL or empty");
+                    else
+                    {
+                        fielKey = fkey.name;
+                        typeKey = fkey.type;
+                    }
+                }
+
+                if (string.IsNullOrWhiteSpace(jsonObject)) return new oCacheResult(request).ToFailInputNULL("The Json of item for update is NULL or empty");
+
+                T item = default(T);
+                try
+                {
+                    item = JsonConvert.DeserializeObject<T>(jsonObject);
+                }
+                catch (Exception ex1)
+                {
+                    return new oCacheResult(request).ToFailConvertJson(ex1.Message, "Cannot convert Json of item to update");
+                }
+
                 T itemOld;
                 switch (type)
                 {
@@ -251,7 +313,7 @@ namespace CacheEngineShared
                         {
                             cacheLock.ExitWriteLock();
                         }
-                        return true;
+                        return new oCacheResult(request).ToOkEmpty();
                     case UPDATE_TYPE.DELETE:
                         cacheLock.EnterWriteLock();
                         try
@@ -262,10 +324,13 @@ namespace CacheEngineShared
                                 typeKey = fkey.type;
 
                                 object it = _getItemByKey(fielKey, typeKey, valKey);
-                                if (it != null)
+                                if (it == null)
+                                    return new oCacheResult(request).ToFailInputNULL("DELETE: Cannot not find item has config FIELD_KEY as follows: NAME = " + fielKey + " & KEY = " + valKey + " & TYPE = " + typeKey);
+                                else
                                 {
                                     itemOld = (T)it;
                                     if (itemOld != null) innerCache.Remove(itemOld);
+                                    isOk = true;
                                 }
                             }
                         }
@@ -273,7 +338,10 @@ namespace CacheEngineShared
                         {
                             cacheLock.ExitWriteLock();
                         }
-                        return true;
+                        if (isOk)
+                            return new oCacheResult(request).ToOkEmpty();
+                        else
+                            return new oCacheResult(request).ToFailNotFound();
                     case UPDATE_TYPE.EDIT:
                         cacheLock.EnterWriteLock();
                         try
@@ -281,11 +349,14 @@ namespace CacheEngineShared
                             if (!string.IsNullOrWhiteSpace(fielKey) && !string.IsNullOrWhiteSpace(typeKey))
                             {
                                 object it = _getItemByKey(fielKey, typeKey, valKey);
-                                if (it != null)
+                                if (it == null)
+                                    return new oCacheResult(request).ToFailInputNULL("EDIT: Cannot not find item has config FIELD_KEY as follows: NAME = " + fielKey + " & KEY = " + valKey + " & TYPE = " + typeKey);
+                                else
                                 {
                                     itemOld = (T)it;
                                     if (itemOld != null) innerCache.Remove(itemOld);
                                     innerCache.Add(item);
+                                    isOk = true;
                                 }
                             }
                         }
@@ -293,11 +364,18 @@ namespace CacheEngineShared
                         {
                             cacheLock.ExitWriteLock();
                         }
-                        break;
+                        if (isOk)
+                            return new oCacheResult(request).ToOkEmpty();
+                        else
+                            return new oCacheResult(request).ToFailNotFound();
                 }
             }
-            catch { }
-            return false;
+            catch (Exception ex)
+            {
+                return new oCacheResult(request).ToFailException(ex.Message);
+            }
+
+            return new oCacheResult(request);
         }
 
         ~CacheSynchronized()
