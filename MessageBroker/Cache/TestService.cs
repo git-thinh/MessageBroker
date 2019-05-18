@@ -18,7 +18,7 @@ namespace MessageBroker
         public string name { set; get; }
     }
 
-    public class TestService : ICacheFind
+    public class TestService : ICacheService
     {
         public bool update(UPDATE_TYPE type, string valKey, string jsonObject) { return _store.Update(type, _cacheFields, valKey, jsonObject); }
 

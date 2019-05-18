@@ -64,6 +64,7 @@
     <Compile Include="Grpc\DbUpdateGrpc.cs" />
     <Compile Include="Grpc\Log.cs" />
     <Compile Include="Grpc\LogGrpc.cs" />
+    <Compile Include="Grpc\CacheFindProvider.cs" />
     <Compile Include="Grpc\LogProvider.cs" />
     <Compile Include="MESSAGE_TYPE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

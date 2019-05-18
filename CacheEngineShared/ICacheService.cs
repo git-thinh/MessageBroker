@@ -4,7 +4,7 @@ namespace CacheEngineShared
 {
 
     [ServiceContract]
-    public interface ICacheFind
+    public interface ICacheService
     {
         [OperationContract]
         bool push(string arrayItemJson);

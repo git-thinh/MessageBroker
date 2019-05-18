@@ -33,11 +33,12 @@ namespace MessageBroker
         static Server server;
         public static void Start(IDataflowSubscribers dataflow)
         {
+            string HOST_LOG_INPUT = ConfigurationManager.AppSettings["HOST_LOG_INPUT"];
             int PORT_LOG_INPUT = int.Parse(ConfigurationManager.AppSettings["PORT_LOG_INPUT"]);
             server = new Server()
             {
                 Services = { svcLogService.BindService(new mLogServiceImpl(dataflow)) },
-                Ports = { new ServerPort("localhost", PORT_LOG_INPUT, ServerCredentials.Insecure) }
+                Ports = { new ServerPort(HOST_LOG_INPUT, PORT_LOG_INPUT, ServerCredentials.Insecure) }
             };
             server.Start();
         }

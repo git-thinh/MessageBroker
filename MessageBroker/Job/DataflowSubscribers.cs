@@ -1,4 +1,5 @@
 ﻿using CacheEngineShared;
+using MessageShared;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,13 +17,23 @@ namespace MessageBroker
         //await q.Enqueue(new WorkDatabase());
     */
 
-    public class DataflowSubscribers: IDataflowSubscribers
+    public interface ICacheFind {
+        mCacheReply Find(mCacheRequest request);
+    }
+
+    public class DataflowSubscribers: IDataflowSubscribers, ICacheFind
     {
+        public mCacheReply Find(mCacheRequest request) {
+            return new mCacheReply() { Output = Guid.NewGuid().ToString() };
+        }
+
         private BroadcastBlock<IJob> _jobs;
         private List<IJob> _listFreeResource;
 
         private static IJobCacheStore _cacheStore;
         public IJobCacheStore CacheStore { get { return _cacheStore; } }
+
+        public object CacheFind { get => (ICacheFind)this; }
 
         public DataflowSubscribers()
         {

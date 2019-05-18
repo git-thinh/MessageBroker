@@ -48,7 +48,7 @@
   <ItemGroup>
     <Compile Include="CacheSynchronized.cs" />
     <Compile Include="DynamicLinq.cs" />
-    <Compile Include="ICacheFind.cs" />
+    <Compile Include="ICacheService.cs" />
     <Compile Include="IDataflowSubscribers.cs" />
     <Compile Include="IJob.cs" />
     <Compile Include="IJobCacheStore.cs" />

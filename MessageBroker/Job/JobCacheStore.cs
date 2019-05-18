@@ -195,22 +195,22 @@ namespace MessageBroker
             int port = (int)getOptions("port");
 
             //ServiceHost host1 = new ServiceHost(typeof(AssetService), new Uri("http://localhost:" + port + "/asset/"));
-            //host1.AddServiceEndpoint(typeof(ICacheFind), new BasicHttpBinding(), "");
+            //host1.AddServiceEndpoint(typeof(ICacheService), new BasicHttpBinding(), "");
             //host1.Description.Behaviors.Add(new AssetBehavior(typeModel));
             //host1.Open();
 
             ServiceHost host2 = new ServiceHost(typeof(TestService), new Uri("http://localhost:" + port + "/test/"));
-            host2.AddServiceEndpoint(typeof(ICacheFind), new BasicHttpBinding(), "");
+            host2.AddServiceEndpoint(typeof(ICacheService), new BasicHttpBinding(), "");
             host2.Description.Behaviors.Add(new TestBehavior(JobBase.Dataflow, cacheFields));
             host2.Open();
 
-            //ChannelFactory<ICacheFind> factory1 = new ChannelFactory<ICacheFind>(new BasicHttpBinding(), new EndpointAddress("http://localhost:" + port + "/asset/"));
-            //ICacheFind proxy1 = factory1.CreateChannel();
+            //ChannelFactory<ICacheService> factory1 = new ChannelFactory<ICacheService>(new BasicHttpBinding(), new EndpointAddress("http://localhost:" + port + "/asset/"));
+            //ICacheService proxy1 = factory1.CreateChannel();
             //string res1 = proxy1.execute();
             //Console.WriteLine("asset-> {0}", res1);
 
-            ChannelFactory<ICacheFind> factory2 = new ChannelFactory<ICacheFind>(new BasicHttpBinding(), new EndpointAddress("http://localhost:" + port + "/test/"));
-            ICacheFind proxy2 = factory2.CreateChannel();
+            ChannelFactory<ICacheService> factory2 = new ChannelFactory<ICacheService>(new BasicHttpBinding(), new EndpointAddress("http://localhost:" + port + "/test/"));
+            ICacheService proxy2 = factory2.CreateChannel();
             var aa = new object[] {
                 new { id = 1, name = Guid.NewGuid().ToString() },
                 new { id = 2, name = Guid.NewGuid().ToString() }
