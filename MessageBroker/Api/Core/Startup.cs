@@ -1,4 +1,6 @@
 ﻿using Microsoft.Owin;
+using Microsoft.Owin.FileSystems;
+using Microsoft.Owin.StaticFiles;
 using Newtonsoft.Json;
 using Owin;
 using System.Linq;
@@ -40,6 +42,24 @@ namespace MessageBroker
                 defaults: new { id = RouteParameter.Optional }
             );
             app.UseWebApi(config);
+
+            //var physicalFileSystem = new PhysicalFileSystem(@"./");
+            var physicalFileSystem = new PhysicalFileSystem(@"../MessageUI");
+            var options = new FileServerOptions
+            {
+                EnableDirectoryBrowsing = true,
+                EnableDefaultFiles = true,
+                FileSystem = physicalFileSystem
+            };
+            options.StaticFileOptions.FileSystem = physicalFileSystem;
+            options.StaticFileOptions.ServeUnknownFileTypes = true;
+            options.DefaultFilesOptions.DefaultFileNames = new[]
+            {
+                "index.html"
+            };
+
+            app.UseFileServer(options);
+
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.ServiceModel;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ServiceModel;
 
 namespace CacheEngineShared
 {
@@ -6,6 +8,9 @@ namespace CacheEngineShared
     [ServiceContract]
     public interface ICacheService
     {
+        [OperationContract]
+        bool insertItems(IList items);
+
         [OperationContract]
         bool push(string arrayItemJson);
 

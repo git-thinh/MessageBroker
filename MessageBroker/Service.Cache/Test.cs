@@ -64,11 +64,11 @@ namespace MessageBroker
 
     public class TestBehavior : IServiceBehavior, IInstanceProvider
     {
+        public TestBehavior(IDataflowSubscribers dataflow, oCacheField[] cacheFields) { _dataflow = dataflow; _cacheFields = cacheFields; }
+        public object GetInstance(InstanceContext instanceContext) => new TestService(_dataflow, _cacheFields);
+        ////////////////////////////////////////////////////////////////////////////////////////////
         private readonly IDataflowSubscribers _dataflow;
         private readonly oCacheField[] _cacheFields;
-        public TestBehavior(IDataflowSubscribers dataflow, oCacheField[] cacheFields) { _dataflow = dataflow; _cacheFields = cacheFields; }
-
-        public object GetInstance(InstanceContext instanceContext) => new TestService(_dataflow, _cacheFields);
         public void AddBindingParameters(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase, Collection<ServiceEndpoint> endpoints, BindingParameterCollection bindingParameters) { }
         public void Validate(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase) { }
         public void ReleaseInstance(InstanceContext instanceContext, object instance) { }

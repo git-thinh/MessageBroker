@@ -50,14 +50,20 @@
     <Reference Include="Grpc.Core.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d754f35622e28bad, processorArchitecture=MSIL">
       <HintPath>..\packages\Grpc.Core.Api.1.20.1\lib\net45\Grpc.Core.Api.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Owin, Version=2.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.2.0.2\lib\net45\Microsoft.Owin.dll</HintPath>
+    <Reference Include="Microsoft.Owin, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.FileSystems, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.FileSystems.4.0.1\lib\net45\Microsoft.Owin.FileSystems.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Host.HttpListener, Version=2.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.Host.HttpListener.2.0.2\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Hosting, Version=2.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.Hosting.2.0.2\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.StaticFiles, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.StaticFiles.4.0.1\lib\net45\Microsoft.Owin.StaticFiles.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WebSockets, Version=0.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.WebSockets.0.2.3.1\lib\net45\Microsoft.WebSockets.dll</HintPath>
@@ -104,17 +110,18 @@
   <ItemGroup>
     <Compile Include="Api\Core\ControllersResolver.cs" />
     <Compile Include="Api\Core\Startup.cs" />
+    <Compile Include="Api\UserController.cs" />
     <Compile Include="Api\ProductsController.cs" />
-    <Compile Include="Cache\TestService.cs" />
     <Compile Include="Job\DataflowSubscribers.cs" />
     <Compile Include="Job\JobBase.cs" />
     <Compile Include="Job\JobCacheStore.cs" />
     <Compile Include="Job\JobLogPrintOut.cs" />
     <Compile Include="Job\JobSyncDbToCache.cs" />
     <Compile Include="Job\JobDbUpdate.cs" />
-    <Compile Include="Service\DbUpdateService.cs" />
-    <Compile Include="Service\CacheFindService.cs" />
-    <Compile Include="Service\LogService.cs" />
+    <Compile Include="Service.Cache\User.cs" />
+    <Compile Include="Service.Grpc\DbUpdateService.cs" />
+    <Compile Include="Service.Grpc\CacheFindService.cs" />
+    <Compile Include="Service.Grpc\LogService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UDP\UdpUser.cs" />
@@ -137,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Models.txt" />
+    <Content Include="Service.Cache\build.txt" />
     <Content Include="UDP\Readme.txt" />
   </ItemGroup>
   <ItemGroup />

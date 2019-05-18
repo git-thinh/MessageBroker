@@ -1,0 +1,11 @@
+
+
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /t:library /out:C:\CLRDLL\clrPushExport.dll C:\CLRDLL\PushExport.cs
+
+
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /t:library /reference:CacheEngineShared.dll /out:CacheEngine.Test.dll Test1.cs
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /t:library /out:C:\Projects\MessageBroker\MessageBrokerBuild\Models\test_20190517.dll C:\Projects\MessageBroker\MessageBrokerBuild\Models\test_20190517.cs
+
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /t:library /reference:System.Runtime.Caching.dll /reference:CacheEngineShared.dll /reference:Newtonsoft.Json.dll /out:TestService.dll TestService.cs
+
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /t:library /reference:System.Runtime.Caching.dll /reference:CacheEngineShared.dll /reference:Newtonsoft.Json.dll /out:User.dll User.cs

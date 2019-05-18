@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -27,12 +28,27 @@ namespace CacheEngineShared
 
         public int Count { get { return innerCache.Count; } }
 
-        public void Set(IEnumerable<T> _cache)
+        public void Set(IEnumerable<T> items)
         {
             cacheLock.EnterWriteLock();
             try
             {
-                this.innerCache = _cache.ToList();
+                this.innerCache = items.ToList();
+                this.limit = this.innerCache.Count;
+            }
+            finally
+            {
+                cacheLock.ExitWriteLock();
+            }
+        }
+
+        public void insertItems(IList items)
+        {
+            cacheLock.EnterWriteLock();
+            try
+            {
+                foreach (var o in items)
+                    this.innerCache.Add((T)o);
                 this.limit = this.innerCache.Count;
             }
             finally

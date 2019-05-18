@@ -20,30 +20,21 @@ namespace MessageBroker
     public class TestController : ApiController
     {
         static readonly svcLogService.svcLogServiceClient _log;
-        //static readonly mCacheService _cache;
-        static readonly ClientWebSocket _socket;
+        static readonly mCacheService.mCacheServiceClient _cache;
         static TestController()
         {
-            //try
-            //{
-                //string HOST_DB_UPDATE = ConfigurationManager.AppSettings["HOST_DB_UPDATE"];
-            //    int PORT_DB_UPDATE = int.Parse(ConfigurationManager.AppSettings["PORT_DB_UPDATE"]);
-            //    _socket = SocketProvider.init("ws://localhost:56049/message");
-            //    _socket.Send(Guid.NewGuid().ToString());
-            //}
-            //catch { }
             try
             {
                 _log = LogProvider.init();
                 _log.Write(Guid.NewGuid().ToString());
             }
             catch { }
-            //try
-            //{
-            //    _cache = CacheFindProvider.init();
-            //    //mCacheReply response = _cache.Find(new oCacheFind() { });
-            //}
-            //catch { }
+            try
+            {
+                _cache = CacheFindProvider.init();
+                //mCacheReply response = _cache.Find(new oCacheFind() { });
+            }
+            catch { }
         }
 
 

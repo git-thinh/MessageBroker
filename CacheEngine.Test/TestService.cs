@@ -1,6 +1,7 @@
 ﻿using CacheEngineShared;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -59,6 +60,12 @@ namespace CacheEngine.Test
                 _dataflow.writeLog(ex.Message);
             }
             return false;
+        }
+
+        public bool insertItems(IList items)
+        {
+            _store.insertItems(items);
+            return true;
         }
     }
 

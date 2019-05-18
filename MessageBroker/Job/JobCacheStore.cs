@@ -49,19 +49,19 @@ namespace MessageBroker
             //////{
             //////    var assembly = Assembly.LoadFile(file);
             //////    var types = assembly.GetTypes();
-            //////    //var matchedTypes = types.Where(i => typeof(ICacheFind).IsAssignableFrom(i)).ToList();
+            //////    //var matchedTypes = types.Where(i => typeof(ICacheService).IsAssignableFrom(i)).ToList();
 
             //////    var typeService = types.FirstOrDefault(i => i.Name.ToLower() == "test1");
             //////    var typeBehavior = types.FirstOrDefault(i => i.Name.ToLower() == "test1behavior");
             //////    IServiceBehavior instanceBehavior = createInstance<IServiceBehavior>(typeBehavior, Dataflow);
 
             //////    ServiceHost host = new ServiceHost(typeService, new Uri("http://localhost:" + port + "/test1/"));
-            //////    host.AddServiceEndpoint(typeof(ICacheFind), new BasicHttpBinding(), "");
+            //////    host.AddServiceEndpoint(typeof(ICacheService), new BasicHttpBinding(), "");
             //////    host.Description.Behaviors.Add(instanceBehavior);
             //////    host.Open();
 
-            //////    ChannelFactory<ICacheFind> factory = new ChannelFactory<ICacheFind>(new BasicHttpBinding(), new EndpointAddress("http://localhost:" + port + "/test1/"));
-            //////    ICacheFind proxy = factory.CreateChannel();
+            //////    ChannelFactory<ICacheService> factory = new ChannelFactory<ICacheService>(new BasicHttpBinding(), new EndpointAddress("http://localhost:" + port + "/test1/"));
+            //////    ICacheService proxy = factory.CreateChannel();
             //////    string res = proxy.execute();
             //////    Console.WriteLine("asset-> {0}", res);
 
@@ -70,25 +70,42 @@ namespace MessageBroker
             //////    host.Close();
             //////}
 
+            ServiceHost host2 = new ServiceHost(typeof(oUserService), new Uri("http://localhost:" + port + "/test/"));
+            host2.AddServiceEndpoint(typeof(ICacheService), new BasicHttpBinding(), "");
+            host2.Description.Behaviors.Add(new oUserBehavior(new oUserService(Dataflow, new oCacheField[] { })));
+            host2.Open();
+
+            ChannelFactory<ICacheService> factory2 = new ChannelFactory<ICacheService>(new BasicHttpBinding(), new EndpointAddress("http://localhost:" + port + "/test/"));
+            ICacheService proxy2 = factory2.CreateChannel();
+            string key2 = proxy2.execute("UserName=\"admin\"");
+
+            ObjectCache cache = MemoryCache.Default;
+            dynamic[] data = (dynamic[])cache.Get(key2);
+
+            Console.WriteLine("test-> {0}", key2);
+
+            ((IClientChannel)proxy2).Close();
+            factory2.Close();
+            host2.Close();
 
 
             //////ServiceHost host1 = new ServiceHost(typeof(AssetService), new Uri("http://localhost:" + port + "/asset/"));
-            //////host1.AddServiceEndpoint(typeof(ICacheFind), new BasicHttpBinding(), "");
+            //////host1.AddServiceEndpoint(typeof(ICacheService), new BasicHttpBinding(), "");
             //////host1.Description.Behaviors.Add(new AssetBehavior());
             //////host1.Open();
 
             //////ServiceHost host2 = new ServiceHost(typeof(TestService), new Uri("http://localhost:" + port + "/test/"));
-            //////host2.AddServiceEndpoint(typeof(ICacheFind), new BasicHttpBinding(), "");
+            //////host2.AddServiceEndpoint(typeof(ICacheService), new BasicHttpBinding(), "");
             //////host2.Description.Behaviors.Add(new TestBehavior());
             //////host2.Open();
 
-            //////ChannelFactory<ICacheFind> factory1 = new ChannelFactory<ICacheFind>(new BasicHttpBinding(), new EndpointAddress("http://localhost:" + port + "/asset/"));
-            //////ICacheFind proxy1 = factory1.CreateChannel();
+            //////ChannelFactory<ICacheService> factory1 = new ChannelFactory<ICacheService>(new BasicHttpBinding(), new EndpointAddress("http://localhost:" + port + "/asset/"));
+            //////ICacheService proxy1 = factory1.CreateChannel();
             //////string res1 = proxy1.execute();
             //////Console.WriteLine("asset-> {0}", res1);
 
-            //////ChannelFactory<ICacheFind> factory2 = new ChannelFactory<ICacheFind>(new BasicHttpBinding(), new EndpointAddress("http://localhost:" + port + "/test/"));
-            //////ICacheFind proxy2 = factory2.CreateChannel();
+            //////ChannelFactory<ICacheService> factory2 = new ChannelFactory<ICacheService>(new BasicHttpBinding(), new EndpointAddress("http://localhost:" + port + "/test/"));
+            //////ICacheService proxy2 = factory2.CreateChannel();
             //////string res2 = proxy2.execute();
             //////Console.WriteLine("test-> {0}", res2);
 
@@ -194,42 +211,42 @@ namespace MessageBroker
 
             int port = (int)getOptions("port");
 
-            //ServiceHost host1 = new ServiceHost(typeof(AssetService), new Uri("http://localhost:" + port + "/asset/"));
-            //host1.AddServiceEndpoint(typeof(ICacheService), new BasicHttpBinding(), "");
-            //host1.Description.Behaviors.Add(new AssetBehavior(typeModel));
-            //host1.Open();
+            ////////ServiceHost host1 = new ServiceHost(typeof(AssetService), new Uri("http://localhost:" + port + "/asset/"));
+            ////////host1.AddServiceEndpoint(typeof(ICacheService), new BasicHttpBinding(), "");
+            ////////host1.Description.Behaviors.Add(new AssetBehavior(typeModel));
+            ////////host1.Open();
 
-            ServiceHost host2 = new ServiceHost(typeof(TestService), new Uri("http://localhost:" + port + "/test/"));
-            host2.AddServiceEndpoint(typeof(ICacheService), new BasicHttpBinding(), "");
-            host2.Description.Behaviors.Add(new TestBehavior(JobBase.Dataflow, cacheFields));
-            host2.Open();
+            //////ServiceHost host2 = new ServiceHost(typeof(TestService), new Uri("http://localhost:" + port + "/test/"));
+            //////host2.AddServiceEndpoint(typeof(ICacheService), new BasicHttpBinding(), "");
+            //////host2.Description.Behaviors.Add(new TestBehavior(JobBase.Dataflow, cacheFields));
+            //////host2.Open();
 
-            //ChannelFactory<ICacheService> factory1 = new ChannelFactory<ICacheService>(new BasicHttpBinding(), new EndpointAddress("http://localhost:" + port + "/asset/"));
-            //ICacheService proxy1 = factory1.CreateChannel();
-            //string res1 = proxy1.execute();
-            //Console.WriteLine("asset-> {0}", res1);
+            ////////ChannelFactory<ICacheService> factory1 = new ChannelFactory<ICacheService>(new BasicHttpBinding(), new EndpointAddress("http://localhost:" + port + "/asset/"));
+            ////////ICacheService proxy1 = factory1.CreateChannel();
+            ////////string res1 = proxy1.execute();
+            ////////Console.WriteLine("asset-> {0}", res1);
 
-            ChannelFactory<ICacheService> factory2 = new ChannelFactory<ICacheService>(new BasicHttpBinding(), new EndpointAddress("http://localhost:" + port + "/test/"));
-            ICacheService proxy2 = factory2.CreateChannel();
-            var aa = new object[] {
-                new { id = 1, name = Guid.NewGuid().ToString() },
-                new { id = 2, name = Guid.NewGuid().ToString() }
-            };
-            bool res21 = proxy2.push(JsonConvert.SerializeObject(aa));
-            string key2 = proxy2.execute("id = 2");
+            //////ChannelFactory<ICacheService> factory2 = new ChannelFactory<ICacheService>(new BasicHttpBinding(), new EndpointAddress("http://localhost:" + port + "/test/"));
+            //////ICacheService proxy2 = factory2.CreateChannel();
+            //////var aa = new object[] {
+            //////    new { id = 1, name = Guid.NewGuid().ToString() },
+            //////    new { id = 2, name = Guid.NewGuid().ToString() }
+            //////};
+            //////bool res21 = proxy2.push(JsonConvert.SerializeObject(aa));
+            //////string key2 = proxy2.execute("id = 2");
 
-            ObjectCache cache = MemoryCache.Default;
-            dynamic[] data = (dynamic[])cache.Get(key2);
+            //////ObjectCache cache = MemoryCache.Default;
+            //////dynamic[] data = (dynamic[])cache.Get(key2);
 
-            Console.WriteLine("test-> {0}", key2);
+            //////Console.WriteLine("test-> {0}", key2);
 
-            //((IClientChannel)proxy1).Close();
-            //factory1.Close();
-            //host1.Close();
+            ////////((IClientChannel)proxy1).Close();
+            ////////factory1.Close();
+            ////////host1.Close();
 
-            ((IClientChannel)proxy2).Close();
-            factory2.Close();
-            host2.Close();
+            //////((IClientChannel)proxy2).Close();
+            //////factory2.Close();
+            //////host2.Close();
 
 
         }
