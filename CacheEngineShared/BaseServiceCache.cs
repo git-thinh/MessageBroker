@@ -28,7 +28,8 @@ namespace CacheEngineShared
             if (rs == null || rs.Request == null || string.IsNullOrWhiteSpace(rs.Request.RequestId)) return true;
 
             ObjectCache cache = MemoryCache.Default;
-            if (cache.Contains(rs.Request.RequestId)) {
+            if (cache.Contains(rs.Request.RequestId))
+            {
                 cache.Remove(rs.Request.RequestId);
             }
 
@@ -54,16 +55,14 @@ namespace CacheEngineShared
         static CacheSynchronized<T> _store = new CacheSynchronized<T>();
         public string executeReplyCacheKey(string conditons)
         {
-            try
-            {
-                string key = _store.searchDynamicReplyCacheKey(new oCacheRequest(_cacheModel.ServiceName, conditons));
-                return key;
-            }
-            catch (Exception ex)
-            {
-                _dataflow.writeLog(ex.Message);
-            }
-            return null;
+            string key = _store.searchDynamicReplyCacheKey(new oCacheRequest(_cacheModel.ServiceName, conditons));
+            return key;
+        }
+
+        public string insertItemReplyCacheKey(string jsonItem)
+        {
+            string key = _store.insertItemReplyCacheKey(jsonItem);
+            return key;
         }
 
         public bool push(string arrayItemJson)

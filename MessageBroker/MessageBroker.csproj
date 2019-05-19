@@ -110,16 +110,20 @@
   <ItemGroup>
     <Compile Include="Api\Core\ControllersResolver.cs" />
     <Compile Include="Api\Core\Startup.cs" />
-    <Compile Include="Api\UserController.cs" />
-    <Compile Include="Api\ProductsController.cs" />
+    <Compile Include="Service.Cache\TaiKhoan.cs" />
+    <Compile Include="Service.Cache\TaoHopDong.cs" />
+    <Compile Include="Service.Cache\TaoHopDongController.cs" />
+    <Compile Include="Service.Cache\TaiKhoanController.cs" />
     <Compile Include="Job\DataflowSubscribers.cs" />
     <Compile Include="Job\JobBase.cs" />
     <Compile Include="Job\JobCacheStore.cs" />
     <Compile Include="Job\JobLogPrintOut.cs" />
     <Compile Include="Job\JobSyncDbToCache.cs" />
     <Compile Include="Job\JobDbUpdate.cs" />
-    <Compile Include="Service.Cache\oTaoHopDong.cs" />
-    <Compile Include="Service.Cache\User.cs" />
+    <Compile Include="Service.Cache\TaoHopDongService.cs" />
+    <Compile Include="Service.Cache\TaiKhoanService.cs" />
+    <Compile Include="Service.Cache\_ApiExt.cs" />
+    <Compile Include="Service.Cache\_API_CONST.cs" />
     <Compile Include="Service.Grpc\DbUpdateService.cs" />
     <Compile Include="Service.Grpc\CacheFindService.cs" />
     <Compile Include="Service.Grpc\LogService.cs" />
@@ -145,7 +149,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Models.txt" />
-    <Content Include="Service.Cache\build.txt" />
     <Content Include="UDP\Readme.txt" />
   </ItemGroup>
   <ItemGroup />

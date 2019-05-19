@@ -46,7 +46,8 @@ namespace CacheEngineShared
         public int PageNumber { set; get; }
         public int PageSize { set; get; }
 
-        public oCacheRequest(string serviceName, string conditions) {
+        public oCacheRequest(string serviceName, string conditions)
+        {
             this.ServiceName = serviceName;
             this.Conditions = conditions;
             this.OrderbyName = string.Empty;
@@ -65,9 +66,9 @@ namespace CacheEngineShared
         public int TotalItems { set; get; }
         public int CountResult { set; get; }
 
-        public oCacheResult(oCacheRequest request)
+        public oCacheResult()
         {
-            this.Request = request;
+            this.Request = new oCacheRequest("", "");
 
             this.Ok = false;
             this.Code = oCacheResultCode.FAIL;
@@ -75,6 +76,11 @@ namespace CacheEngineShared
             this.Result = new string[] { };
             this.TotalItems = 0;
             this.CountResult = 0;
+        }
+
+        public oCacheResult(oCacheRequest request) : base()
+        {
+            this.Request = request;
         }
 
         public oCacheResult ToOk(dynamic[] results, int totalItems)
@@ -94,24 +100,23 @@ namespace CacheEngineShared
             return this;
         }
 
-        public oCacheResult ToFailException(string message, int totalItems = 0)
+        public oCacheResult ToFailException(string message, string title = "")
         {
             this.Code = oCacheResultCode.FAIL_EXCEPTION;
-            this.TotalItems = totalItems;
-            this.Message = message;
+            this.Message = string.IsNullOrWhiteSpace(title) ? message : (title + Environment.NewLine + message);
             return this;
         }
 
-        public oCacheResult ToFailInputNULL(string message = "The input is NULL")
+        public oCacheResult ToFailInputNULL(string message = "The input is NULL", string title = "")
         {
             this.Code = oCacheResultCode.FAIL_INPUT_NULL;
-            this.Message = message;
+            this.Message = string.IsNullOrWhiteSpace(title) ? message : (title + Environment.NewLine + message);
             return this;
         }
-        public oCacheResult ToFailNotFound(string message = "Cannot find object")
+        public oCacheResult ToFailNotFound(string message = "Cannot find object", string title = "")
         {
             this.Code = oCacheResultCode.FAIL_NOT_FOUND;
-            this.Message = message;
+            this.Message = string.IsNullOrWhiteSpace(title) ? message : (title + Environment.NewLine + message);
             return this;
         }
         public oCacheResult ToFailConvertJson(string message = "Cannot convert JSON", string title = "")

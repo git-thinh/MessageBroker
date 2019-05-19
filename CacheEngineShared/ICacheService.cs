@@ -9,17 +9,17 @@ namespace CacheEngineShared
     public interface ICacheService
     {
         [OperationContract]
-        bool insertItems(IList items);
+        string insertItemReplyCacheKey(string jsonItem);
 
+        [OperationContract]
+        bool insertItems(IList items);
 
         [OperationContract]
         bool push(string arrayItemJson);
-
-
+        
         [OperationContract]
         string executeReplyCacheKey(string conditons);
-
-
+        
         [OperationContract]
         string updateReplyCacheKey(UPDATE_TYPE type, string valKey, string jsonObject);
 

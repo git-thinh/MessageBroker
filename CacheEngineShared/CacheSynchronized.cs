@@ -54,19 +54,76 @@ namespace CacheEngineShared
             }
         }
 
-        public void insertItems(IList items)
+        public oCacheResult insertItems(IList items)
         {
-            cacheLock.EnterWriteLock();
+            string title = "CacheSynchronized.cs > insertItems(IList items)";
+            if (items == null || items.Count == 0)
+                return new oCacheResult().ToFailInputNULL("IList items is NULL or empty", title);
             try
             {
-                foreach (var o in items)
-                    this.innerCache.Add((T)o);
-                this.limit = this.innerCache.Count;
+                cacheLock.EnterWriteLock();
+                try
+                {
+                    foreach (var o in items)
+                        this.innerCache.Add((T)o);
+                    this.limit = this.innerCache.Count;
+                }
+                finally
+                {
+                    cacheLock.ExitWriteLock();
+                }
             }
-            finally
+            catch (Exception ex)
             {
-                cacheLock.ExitWriteLock();
+                return new oCacheResult().ToFailException(ex.Message, title);
             }
+            return new oCacheResult().ToOkEmpty();
+        }
+
+        public oCacheResult insertItem(object item)
+        {
+            string title = "CacheSynchronized.cs > insertItem(object item)";
+            if (item == null)
+                return new oCacheResult().ToFailInputNULL("Item for ADD_NEW is NULL or empty", title);
+            try
+            {
+                cacheLock.EnterWriteLock();
+                try
+                {
+                    this.innerCache.Add((T)item);
+                    this.limit = this.innerCache.Count;
+                }
+                finally
+                {
+                    cacheLock.ExitWriteLock();
+                }
+            }
+            catch (Exception ex)
+            {
+                return new oCacheResult().ToFailException(ex.Message, title);
+            }
+            return new oCacheResult().ToOkEmpty();
+        }
+
+        public string insertItemReplyCacheKey(string jsonItem)
+        {
+            string key = Guid.NewGuid().ToString();
+            oCacheResult rs = null;
+
+            T item = default(T);
+            try
+            {
+                item = JsonConvert.DeserializeObject<T>(jsonItem);
+                rs = insertItem(item);
+            }
+            catch (Exception ex)
+            {
+                rs = new oCacheResult().ToFailConvertJson(ex.Message);
+            }
+
+            ObjectCache cache = MemoryCache.Default;
+            cache.Set(key, rs, new CacheItemPolicy());
+            return key;
         }
 
         public T Read(int index)
@@ -123,12 +180,12 @@ namespace CacheEngineShared
             {
                 try
                 {
-                    dynamic[] arr = innerCache.Where(request.Conditions).Cast<dynamic>().ToArray();
+                    dynamic[] arr = innerCache.Where(request.Conditions).Distinct().Cast<dynamic>().ToArray();
                     return new oCacheResult(request).ToOk(arr, this.Count);
                 }
                 catch (Exception ex)
                 {
-                    return new oCacheResult(request).ToFailException(ex.Message, this.Count);
+                    return new oCacheResult(request).ToFailException(ex.Message, "CacheSynchronized.cs > SearchDynamic(oCacheRequest request)");
                 }
             }
             finally
@@ -258,7 +315,7 @@ namespace CacheEngineShared
         public string updateReplyCacheKey(UPDATE_TYPE type, oCacheModel cacheModel, string valKey, string jsonObject)
         {
             string key = Guid.NewGuid().ToString();
-            oCacheResult rs = Update( type,  cacheModel,  valKey, jsonObject);
+            oCacheResult rs = Update(type, cacheModel, valKey, jsonObject);
             ObjectCache cache = MemoryCache.Default;
             cache.Set(key, rs, new CacheItemPolicy());
             return key;
