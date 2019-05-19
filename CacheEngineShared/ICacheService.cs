@@ -9,6 +9,9 @@ namespace CacheEngineShared
     public interface ICacheService
     {
         [OperationContract]
+        string insertItemsByCacheKey(string cacheKey);
+
+        [OperationContract]
         string insertItemReplyCacheKey(string jsonItem);
 
         [OperationContract]
@@ -24,6 +27,6 @@ namespace CacheEngineShared
         string updateReplyCacheKey(UPDATE_TYPE type, string valKey, string jsonObject);
 
         [OperationContract]
-        string getAllJson();
+        string getAllJsonReplyCacheKey();
     }
 }

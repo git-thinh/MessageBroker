@@ -3,25 +3,39 @@ using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Caching;
 using System.Text;
 using System.Web.Http;
 
 namespace MessageBroker
 {
-    public class UserController : ApiController
+    public class TaiKhoanController : ApiController
     {
         static readonly ICacheService _cache;
-        static UserController()
+        static void initData()
         {
-            _cache = _API_CONST.TAI_KHOAN.initCacheService();
+            ObjectCache cache = MemoryCache.Default;
+            string key = Guid.NewGuid().ToString();
+            cache.Set(key, new oTaiKhoan[] {
+                new oTaiKhoan(){ TaiKHoanId="1", MatKhau = "123", TenTaiKhoan="admin", MaThietBiTruyCap = Guid.NewGuid().ToString(), NhomKH="XE_OM_CONG_NGHE" },
+                new oTaiKhoan(){ TaiKHoanId="2", MatKhau = "123", TenTaiKhoan="user", MaThietBiTruyCap = Guid.NewGuid().ToString(), NhomKH="ECPAY" },
+            }, new CacheItemPolicy());
+            _cache.insertItemsByCacheKey(key);
         }
 
-        public HttpResponseMessage get_All()
+        static TaiKhoanController()
         {
-            string json = _cache.getAllJson();
-            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
-            response.Content = new StringContent(json, Encoding.UTF8, "application/json");
-            return response;
+            _cache = _API_CONST.TAI_KHOAN.initCacheService();
+            initData();
+        } 
+
+        public oCacheResult get_All()
+        {
+            oCacheResult result = _cache.getAllJsonReplyCacheKey().getResultByCacheKey();
+            //string json = JsonConvert.SerializeObject(result);
+            //HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+            //response.Content = new StringContent(json, Encoding.UTF8, "application/json");
+            return result;
         }
 
         public oCacheResult post_Login([FromBody]oTaiKhoan user)

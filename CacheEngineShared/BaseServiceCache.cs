@@ -65,6 +65,10 @@ namespace CacheEngineShared
             return key;
         }
 
+        public string insertItemsByCacheKey(string cacheKey) {
+            return _store.insertItemsByCacheKey(cacheKey);
+        }
+
         public bool push(string arrayItemJson)
         {
             try
@@ -86,9 +90,9 @@ namespace CacheEngineShared
             return true;
         }
 
-        public string getAllJson()
+        public string getAllJsonReplyCacheKey()
         {
-            return _store.getAllJson();
+            return _store.getAllJsonReplyCacheKey();
         }
     }
 

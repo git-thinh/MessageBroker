@@ -41,17 +41,64 @@ namespace CacheEngineShared
             }
         }
 
-        public string getAllJson()
+        public oCacheResult getAllJson()
         {
-            cacheLock.EnterReadLock();
+            string title = "CacheSynchronized.cs > getAllJson()";
             try
             {
-                return JsonConvert.SerializeObject(innerCache);
+                cacheLock.EnterReadLock();
+                try
+                {
+                    try
+                    {
+                        JsonConvert.SerializeObject(innerCache);
+                    }
+                    catch (Exception ex1) {
+                        return new oCacheResult().ToFailConvertJson(ex1.Message, title);
+                    }
+                    return new oCacheResult().ToOk(innerCache.Cast<dynamic>().ToArray(), Count);
+                }
+                finally
+                {
+                    cacheLock.ExitReadLock();
+                }
             }
-            finally
+            catch (Exception ex)
             {
-                cacheLock.ExitReadLock();
+                return new oCacheResult().ToFailException(ex.Message, title);
             }
+        }
+
+        public string insertItemsByCacheKey(string cacheKey) {
+            ObjectCache cache = MemoryCache.Default;
+            if (cache.Contains(cacheKey)) {
+                cacheLock.EnterWriteLock();
+                try
+                {
+                    try
+                    {
+                        T[] arr = (T[])cache.Get(cacheKey);
+                        this.innerCache.AddRange(arr);
+                        this.limit = this.innerCache.Count;
+                        cache.Remove(cacheKey);
+                    }
+                    catch { }
+                }
+                finally
+                {
+                    cacheLock.ExitWriteLock();
+                }
+            }
+            return string.Empty;
+        }
+
+        public string getAllJsonReplyCacheKey()
+        {
+            string key = Guid.NewGuid().ToString();
+            oCacheResult rs = getAllJson();
+            ObjectCache cache = MemoryCache.Default;
+            cache.Set(key, rs, new CacheItemPolicy());
+            return key;
         }
 
         public oCacheResult insertItems(IList items)

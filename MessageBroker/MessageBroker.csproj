@@ -87,6 +87,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Activation" />
     <Reference Include="System.Threading.Tasks.Dataflow, Version=4.6.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -108,8 +109,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\Core\ControllersResolver.cs" />
-    <Compile Include="Api\Core\Startup.cs" />
+    <Compile Include="Service.Cache\Api.Core\ControllersResolver.cs" />
+    <Compile Include="Service.Cache\Api.Core\Startup.cs" />
     <Compile Include="Service.Cache\TaiKhoan.cs" />
     <Compile Include="Service.Cache\TaoHopDong.cs" />
     <Compile Include="Service.Cache\TaoHopDongController.cs" />

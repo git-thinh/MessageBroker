@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace CacheEngineShared
 {
+    [DataContract]
     public class oCacheModel
     {
+        [DataMember]
         public string ServiceName { set; get; }
+
+        [DataMember]
         public oCacheField[] Fields { set; get; }
 
         public oCacheModel()
@@ -20,13 +25,20 @@ namespace CacheEngineShared
         }
     }
 
+    [DataContract]
     public class oCacheField
     {
+        [DataMember]
         public string name { set; get; }
+
+        [DataMember]
         public string type { set; get; }
+
+        [DataMember]
         public bool iskey { set; get; }
     }
 
+    [DataContract]
     public enum oCacheResultCode
     {
         FAIL = 0,
@@ -37,13 +49,25 @@ namespace CacheEngineShared
         FAIL_CONVERT_JSON = 1002,
     }
 
+    [DataContract]
     public class oCacheRequest
     {
+        [DataMember]
         public string RequestId { set; get; }
+
+        [DataMember]
         public string ServiceName { set; get; }
+
+        [DataMember]
         public string Conditions { set; get; }
+
+        [DataMember]
         public string OrderbyName { set; get; }
+
+        [DataMember]
         public int PageNumber { set; get; }
+
+        [DataMember]
         public int PageSize { set; get; }
 
         public oCacheRequest(string serviceName, string conditions)
@@ -54,16 +78,28 @@ namespace CacheEngineShared
         }
     }
 
+    [DataContract]
     public class oCacheResult
     {
+        [DataMember]
         public bool Ok { set; get; }
 
+        [DataMember]
         public oCacheResultCode Code { set; get; }
 
+        [DataMember]
         public string Message { set; get; }
+
+        [DataMember]
         public dynamic[] Result { set; get; }
+
+        [DataMember]
         public oCacheRequest Request { set; get; }
+
+        [DataMember]
         public int TotalItems { set; get; }
+
+        [DataMember]
         public int CountResult { set; get; }
 
         public oCacheResult()
