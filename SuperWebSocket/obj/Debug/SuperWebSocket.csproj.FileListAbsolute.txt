@@ -1,0 +1,15 @@
+D:\SRC\SuperWebSocket-master\SuperWebSocket\bin\Debug\SuperWebSocket.XML
+D:\SRC\SuperWebSocket-master\SuperWebSocket\bin\Debug\SuperWebSocket.dll
+D:\SRC\SuperWebSocket-master\SuperWebSocket\bin\Debug\SuperWebSocket.pdb
+D:\SRC\SuperWebSocket-master\SuperWebSocket\bin\Debug\log4net.dll
+D:\SRC\SuperWebSocket-master\SuperWebSocket\bin\Debug\Newtonsoft.Json.dll
+D:\SRC\SuperWebSocket-master\SuperWebSocket\bin\Debug\SuperSocket.Common.dll
+D:\SRC\SuperWebSocket-master\SuperWebSocket\bin\Debug\SuperSocket.SocketBase.dll
+D:\SRC\SuperWebSocket-master\SuperWebSocket\bin\Debug\Newtonsoft.Json.xml
+D:\SRC\SuperWebSocket-master\SuperWebSocket\bin\Debug\SuperSocket.Common.pdb
+D:\SRC\SuperWebSocket-master\SuperWebSocket\bin\Debug\SuperSocket.Common.xml
+D:\SRC\SuperWebSocket-master\SuperWebSocket\bin\Debug\SuperSocket.SocketBase.pdb
+D:\SRC\SuperWebSocket-master\SuperWebSocket\bin\Debug\SuperSocket.SocketBase.xml
+D:\SRC\SuperWebSocket-master\SuperWebSocket\obj\Debug\SuperWebSocket.csprojResolveAssemblyReference.cache
+D:\SRC\SuperWebSocket-master\SuperWebSocket\obj\Debug\SuperWebSocket.dll
+D:\SRC\SuperWebSocket-master\SuperWebSocket\obj\Debug\SuperWebSocket.pdb

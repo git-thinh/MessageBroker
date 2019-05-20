@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div style="padding:20px;">
+        <input type="file" name="documentFile" id="documentFile" accept="image/gif, image/jpeg, image/png" aria-describedby="fileHelp" ref="myFiles" onchange="previewFiles(event)" multiple="multiple">
+    </div>
+    <script>
+        var _self = { files: [] };
+        function previewFiles(e) {
+            console.log(e);
+            var _self = this;
+            var files = document.getElementById('documentFile').files;
+            console.log(files);
+            _self.files = [];
+            var rs = [];
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var item = {
+                    id: i,
+                    token: '123',
+                    folder: 'test',
+                    name: file.name,
+                    size: file.size,
+                    uploadPercen: 0,
+                    type: file.type,
+                    file: file
+                };
+
+                var worker = new Worker('wk-on.js');
+                //var blob = new Blob([document.querySelector('#worker1').textContent]);
+                //var worker = new Worker(window.URL.createObjectURL(blob));
+
+                worker.onmessage = function (oEvent) {
+                    var _data = oEvent.data;
+                    //console.log('->UI: ' + JSON.stringify(_data));
+                    switch (_data.Code) {
+                        case 'SOCKET_SENDING':
+                            var uploadPercen = (_data.Index / _data.PageTotal * 100).toFixed(2);
+                            console.log(_data.Id + ' [' + _data.Index + '/' + _data.PageTotal + ']|' + _data.Name + ' === ' + uploadPercen);
+                            break;
+                        default:
+                            break;
+                    }
+                };
+                worker.onerror = function (oEvent) {
+                    //console.log('->UI: ' + oEvent.data);
+                    throw oEvent.data;
+                };
+                worker.postMessage(item);
+
+                item.worker = worker;
+                rs.push(item);
+
+            }
+            _self.files = rs;
+
+
+            ////Test Push => uploadprocessbar
+            //var spanToChance = document.getElementById('uploadprocessbar');
+            //var uploadPercen_ = _self.files[0].uploadPercen;
+            //var fileuploadname = _self.files[0].name;
+            //document.getElementById("uploadprocessbar").innerHTML = fileuploadname;
+
+
+
+        }
+
+
+    </script>
+</body>
+</html>

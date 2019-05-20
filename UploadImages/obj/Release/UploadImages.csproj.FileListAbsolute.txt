@@ -1,0 +1,16 @@
+C:\Projects\MessageBroker\UploadImages\obj\Release\UploadImages.csproj.CoreCompileInputs.cache
+C:\Projects\MessageBroker\UploadImages\bin\UploadImages.dll.config
+C:\Projects\MessageBroker\UploadImages\bin\UploadImages.dll
+C:\Projects\MessageBroker\UploadImages\bin\UploadImages.pdb
+C:\Projects\MessageBroker\UploadImages\bin\log4net.dll
+C:\Projects\MessageBroker\UploadImages\bin\Newtonsoft.Json.dll
+C:\Projects\MessageBroker\UploadImages\bin\SuperSocket.Common.dll
+C:\Projects\MessageBroker\UploadImages\bin\SuperSocket.Facility.dll
+C:\Projects\MessageBroker\UploadImages\bin\SuperSocket.SocketBase.dll
+C:\Projects\MessageBroker\UploadImages\bin\SuperSocket.SocketEngine.dll
+C:\Projects\MessageBroker\UploadImages\bin\SuperWebSocket.dll
+C:\Projects\MessageBroker\UploadImages\bin\Newtonsoft.Json.xml
+C:\Projects\MessageBroker\UploadImages\bin\SuperWebSocket.pdb
+C:\Projects\MessageBroker\UploadImages\obj\Release\UploadImages.csproj.CopyComplete
+C:\Projects\MessageBroker\UploadImages\obj\Release\UploadImages.dll
+C:\Projects\MessageBroker\UploadImages\obj\Release\UploadImages.pdb

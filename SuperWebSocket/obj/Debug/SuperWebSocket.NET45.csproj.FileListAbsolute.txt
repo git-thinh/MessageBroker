@@ -1,0 +1,10 @@
+C:\Projects\MessageBroker\SuperWebSocket\bin\Debug\SuperWebSocket.XML
+C:\Projects\MessageBroker\SuperWebSocket\bin\Debug\SuperWebSocket.dll
+C:\Projects\MessageBroker\SuperWebSocket\bin\Debug\SuperWebSocket.pdb
+C:\Projects\MessageBroker\SuperWebSocket\bin\Debug\Newtonsoft.Json.dll
+C:\Projects\MessageBroker\SuperWebSocket\obj\Debug\SuperWebSocket.NET45.csproj.CoreCompileInputs.cache
+C:\Projects\MessageBroker\SuperWebSocket\obj\Debug\SuperWebSocket.NET45.csproj.CopyComplete
+C:\Projects\MessageBroker\SuperWebSocket\obj\Debug\SuperWebSocket.dll
+C:\Projects\MessageBroker\SuperWebSocket\obj\Debug\SuperWebSocket.pdb
+C:\Projects\MessageBroker\UploadImages\DLL\SuperWebSocket.dll
+C:\Projects\MessageBroker\UploadImages\DLL\SuperWebSocket.pdb

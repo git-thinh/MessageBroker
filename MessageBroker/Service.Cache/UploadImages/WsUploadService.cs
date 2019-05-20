@@ -128,7 +128,7 @@ namespace MessageBroker
                             var stream = new MemoryStream();
                             streams.TryAdd(this.SessionID, stream);
 
-                            this.Send("0");
+                            this.Send("SOCKET_BUFFERING_START");
                         }
                         catch { }
                     }

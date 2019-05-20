@@ -1,0 +1,2 @@
+C:\Projects\MessageBroker\SuperWebSocket\obj\Release\SuperWebSocket.NET45.csprojAssemblyReference.cache
+C:\Projects\MessageBroker\SuperWebSocket\obj\Release\SuperWebSocket.NET45.csproj.CoreCompileInputs.cache

@@ -1,0 +1,7 @@
+C:\Projects\MessageBroker\FleskUploadImages.Build\FleskUploadImages.exe.config
+C:\Projects\MessageBroker\FleskUploadImages.Build\FleskUploadImages.exe
+C:\Projects\MessageBroker\FleskUploadImages.Build\FleskUploadImages.pdb
+C:\Projects\MessageBroker\FleskUploadImages\obj\Debug\FleskUploadImages.csproj.CoreCompileInputs.cache
+C:\Projects\MessageBroker\FleskUploadImages\obj\Debug\FleskUploadImages.csproj.CopyComplete
+C:\Projects\MessageBroker\FleskUploadImages\obj\Debug\FleskUploadImages.exe
+C:\Projects\MessageBroker\FleskUploadImages\obj\Debug\FleskUploadImages.pdb
