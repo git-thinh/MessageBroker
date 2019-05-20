@@ -9,7 +9,8 @@ onmessage = function (e) {
 };
 
 /*===[CONFIG_SERVER_UPLOAD_IMAGE_HERE]!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!===*/
-ws = new WebSocket("ws://192.168.10.21:9099/");
+ws = new WebSocket("ws://127.0.0.1:9099/");
+var size = 65536; // max limit are 65536 64kB
 /*===[CONFIG_SERVER_UPLOAD_IMAGE_HERE]!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!===*/
 
 ws.binaryType = 'arraybuffer';

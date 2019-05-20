@@ -69,6 +69,9 @@
     <Reference Include="Dapper, Version=1.60.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.1.60.6\lib\net451\Dapper.dll</HintPath>
     </Reference>
+    <Reference Include="Fleck, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fleck.1.1.0\lib\net45\Fleck.dll</HintPath>
+    </Reference>
     <Reference Include="Google.Protobuf, Version=3.7.0.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Protobuf.3.7.0\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
@@ -152,8 +155,6 @@
     <Compile Include="Job\JobDbUpdate.cs" />
     <Compile Include="Service.Cache\TaoHopDongService.cs" />
     <Compile Include="Service.Cache\TaiKhoanService.cs" />
-    <Compile Include="Service.Cache\UploadImages\WsUploadServer.cs" />
-    <Compile Include="Service.Cache\UploadImages\WsUploadService.cs" />
     <Compile Include="Service.Cache\_ApiExt.cs" />
     <Compile Include="Service.Cache\_API_CONST.cs" />
     <Compile Include="Service.Grpc\DbUpdateService.cs" />
@@ -164,6 +165,7 @@
     <Compile Include="UDP\UdpUser.cs" />
     <Compile Include="UDP\UdpBase.cs" />
     <Compile Include="UDP\UdpListener.cs" />
+    <Compile Include="UploadWsServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -21,8 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheEngineShared", "CacheE
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{898311B1-4647-4876-A68F-E9835943A222}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FleskUploadImages", "FleskUploadImages\FleskUploadImages.csproj", "{7B80230A-DCD7-4DDD-91DF-E271919FA01A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,12 +70,6 @@ Global
 		{59646027-EEF7-456E-A1C1-18DBD96EFC7A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{59646027-EEF7-456E-A1C1-18DBD96EFC7A}.Release40|Any CPU.ActiveCfg = Release|Any CPU
 		{59646027-EEF7-456E-A1C1-18DBD96EFC7A}.Release40|Any CPU.Build.0 = Release|Any CPU
-		{7B80230A-DCD7-4DDD-91DF-E271919FA01A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B80230A-DCD7-4DDD-91DF-E271919FA01A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B80230A-DCD7-4DDD-91DF-E271919FA01A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B80230A-DCD7-4DDD-91DF-E271919FA01A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7B80230A-DCD7-4DDD-91DF-E271919FA01A}.Release40|Any CPU.ActiveCfg = Release|Any CPU
-		{7B80230A-DCD7-4DDD-91DF-E271919FA01A}.Release40|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

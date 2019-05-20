@@ -5,3 +5,4 @@ C:\Projects\MessageBroker\FleskUploadImages\obj\Debug\FleskUploadImages.csproj.C
 C:\Projects\MessageBroker\FleskUploadImages\obj\Debug\FleskUploadImages.csproj.CopyComplete
 C:\Projects\MessageBroker\FleskUploadImages\obj\Debug\FleskUploadImages.exe
 C:\Projects\MessageBroker\FleskUploadImages\obj\Debug\FleskUploadImages.pdb
+C:\Projects\MessageBroker\FleskUploadImages\obj\Debug\FleskUploadImages.csprojAssemblyReference.cache

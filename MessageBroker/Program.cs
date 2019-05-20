@@ -30,8 +30,8 @@ namespace MessageBroker
             int PORT_LOG_OUTPUT = int.Parse(ConfigurationManager.AppSettings["PORT_LOG_OUTPUT"]);
             _dataflow.RegisterHandler<JobLogPrintOut>(new JobLogPrintOut(), new Dictionary<string, object>() { { "port", PORT_LOG_OUTPUT } });
 
-            //string HOST_WS_UPLOAD = ConfigurationManager.AppSettings["HOST_WS_UPLOAD"];
-            //WsUploadServiceStatic.Start(HOST_WS_UPLOAD);
+            string HOST_WS_UPLOAD = ConfigurationManager.AppSettings["HOST_WS_UPLOAD"];
+            new UploadWsServer(_dataflow).Start(HOST_WS_UPLOAD);
 
             ////[DB_UPDATE] Open Login service to receive message log
             //int PORT_DB_UPDATE = int.Parse(ConfigurationManager.AppSettings["PORT_DB_UPDATE"]);
@@ -66,6 +66,7 @@ namespace MessageBroker
             //---------------------------------------------------------------------
             string PORT_LOG_INPUT = ConfigurationManager.AppSettings["PORT_LOG_INPUT"];
             Console.WriteLine("-> PORT_DB_NOTIFICATION_UDP: " + PORT_DB_NOTIFICATION_UDP);
+            Console.WriteLine("-> HOST_WS_UPLOAD: " + HOST_WS_UPLOAD);
             Console.WriteLine("-> PORT_LOG_INPUT: " + PORT_LOG_INPUT);
             Console.WriteLine("-> PORT_LOG_OUTPUT: " + PORT_LOG_OUTPUT);
             Console.WriteLine("-> PORT_WEBAPI_ADMIN: " + PORT_WEBAPI_ADMIN);
