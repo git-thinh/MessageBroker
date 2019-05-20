@@ -29,6 +29,8 @@ namespace MessageBroker
             int PORT_LOG_OUTPUT = int.Parse(ConfigurationManager.AppSettings["PORT_LOG_OUTPUT"]);
             _dataflow.RegisterHandler<JobLogPrintOut>(new JobLogPrintOut(), new Dictionary<string, object>() { { "port", PORT_LOG_OUTPUT } });
 
+            string HOST_WS_UPLOAD = ConfigurationManager.AppSettings["HOST_WS_UPLOAD"];
+            WsUploadServiceStatic.Start(HOST_WS_UPLOAD);
 
             ////[DB_UPDATE] Open Login service to receive message log
             //int PORT_DB_UPDATE = int.Parse(ConfigurationManager.AppSettings["PORT_DB_UPDATE"]);

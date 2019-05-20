@@ -32,9 +32,6 @@ namespace MessageBroker
         public oCacheResult get_All()
         {
             oCacheResult result = _cache.getAllJsonReplyCacheKey().getResultByCacheKey();
-            //string json = JsonConvert.SerializeObject(result);
-            //HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
-            //response.Content = new StringContent(json, Encoding.UTF8, "application/json");
             return result;
         }
 
@@ -43,6 +40,16 @@ namespace MessageBroker
             oCacheResult result = _cache
                 .executeReplyCacheKey("TenTaiKhoan=\"" + user.TenTaiKhoan + "\" And MatKhau=\"" + user.MatKhau + "\"")
                 .getResultByCacheKey();
+            return result;
+        }
+
+        public oCacheResult post_Search([FromBody]oCacheRequest request)
+        {
+            request.RequestId = Guid.NewGuid().ToString();
+            oCacheResult result = _cache
+                .executeReplyCacheKey(request.Conditions)
+                .getResultByCacheKey();
+            result.Request = request;
             return result;
         }
 

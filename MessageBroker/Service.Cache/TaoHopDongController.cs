@@ -100,6 +100,16 @@ namespace MessageBroker
             return data;
         }
 
+        public oCacheResult post_Search([FromBody]oCacheRequest request)
+        {
+            request.RequestId = Guid.NewGuid().ToString();
+            oCacheResult result = _cache
+                .executeReplyCacheKey(request.Conditions)
+                .getResultByCacheKey();
+            result.Request = request;
+            return result;
+        }
+
         public oCacheResult post_AddNew([FromBody]oHongDongKhachHang item)
         {
             item.MaTaiKhoanTaoHD = Guid.NewGuid().ToString();
