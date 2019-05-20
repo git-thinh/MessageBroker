@@ -1,9 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using MessageBroker;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Caching;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
@@ -94,6 +96,7 @@ namespace CacheEngineShared
         {
             return _store.getAllJsonReplyCacheKey();
         }
+
     }
 
     public class BaseServiceCacheBehavior : IServiceBehavior, IInstanceProvider

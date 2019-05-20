@@ -20,9 +20,9 @@ namespace MessageBroker
         {
             int port = (int)getOptions("port");
 
-            ServiceHost userService = new ServiceHost(typeof(TaiKhoanService), new Uri("http://localhost:" + port + "/" + _API_CONST.TAI_KHOAN + "/"));
+            ServiceHost userService = new ServiceHost(typeof(UserLoginService), new Uri("http://localhost:" + port + "/" + _API_CONST.USER_LOGIN + "/"));
             userService.AddServiceEndpoint(typeof(ICacheService), new BasicHttpBinding(), "");
-            userService.Description.Behaviors.Add(new TaiKhoanBehavior(new TaiKhoanService(Dataflow, new oCacheModel())));
+            userService.Description.Behaviors.Add(new UserLoginBehavior(new UserLoginService(Dataflow, new oCacheModel())));
             userService.Open();
 
             ServiceHost taohopdongService = new ServiceHost(typeof(PawnInfoService), new Uri("http://localhost:" + port + "/" + _API_CONST.PAWN_INFO + "/"));
@@ -71,9 +71,9 @@ namespace MessageBroker
         {
             int port = (int)getOptions("port");
 
-            ServiceHost host2 = new ServiceHost(typeof(TaiKhoanService), new Uri("http://localhost:" + port + "/test/"));
+            ServiceHost host2 = new ServiceHost(typeof(UserLoginService), new Uri("http://localhost:" + port + "/test/"));
             host2.AddServiceEndpoint(typeof(ICacheService), new BasicHttpBinding(), "");
-            host2.Description.Behaviors.Add(new TaiKhoanBehavior(new TaiKhoanService(Dataflow, new oCacheModel())));
+            host2.Description.Behaviors.Add(new UserLoginBehavior(new UserLoginService(Dataflow, new oCacheModel())));
             host2.Open();
 
             ChannelFactory<ICacheService> factory2 = new ChannelFactory<ICacheService>(new BasicHttpBinding(), new EndpointAddress("http://localhost:" + port + "/test/"));

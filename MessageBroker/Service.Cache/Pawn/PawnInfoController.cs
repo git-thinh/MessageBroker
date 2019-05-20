@@ -1,13 +1,7 @@
 ﻿using CacheEngineShared;
-using Newtonsoft.Json;
-using System;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Reflection;
-using System.Runtime.Caching;
 using System.Text;
-using System.Web.Caching;
 using System.Web.Http;
 
 namespace MessageBroker
@@ -176,34 +170,15 @@ namespace MessageBroker
             initData();
         }
 
-        public oModelInfo get_model_Attrs()
-        {
-            oModelInfo model = new oModelInfo();
-            Type typeModel = typeof(oPawnInfo);
-            model.Name = typeModel.Name;
+        [AttrApiInfo("GET|POST PING: kiểm tra online")]
+        [HttpGet, HttpPost] public HttpResponseMessage ping() { return new HttpResponseMessage() { Content = new StringContent("OK", Encoding.UTF8, "text/plain") }; }
 
-            object[] attrsModel = typeModel.GetCustomAttributes(true);
-            foreach (var attr in attrsModel)
-            {
-                AttrModelInfo attrExt = attr as AttrModelInfo;
-                if (attrExt != null) 
-                    model.Title = attrExt.GetTitle(); 
-            }
 
-            PropertyInfo[] props = typeModel.GetProperties();
-            foreach (PropertyInfo prop in props)
-            {
-                object[] attrsField = prop.GetCustomAttributes(true);
-                foreach (object attr in attrsField)
-                {
-                    AttrFieldInfo attrExt = attr as AttrFieldInfo;
-                    if (attrExt != null)
-                        model.Properties.Add(new oModelFielInfo(prop.Name, attrExt));
-                }
-            }
 
-            return model;
-        }
+
+
+        //[AttrApiInfo("Thông tin schema các field của model service")]
+        //public HttpResponseMessage get_model_attrs() { return new HttpResponseMessage() { Content = new StringContent(_cache.get_modelAttrsJson(), Encoding.UTF8, "application/json") }; }
 
         //public oCacheResult get_All()
         //{
