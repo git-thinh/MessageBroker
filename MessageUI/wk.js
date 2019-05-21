@@ -10,7 +10,7 @@ onmessage = function (e) {
 
 /*===[CONFIG_SERVER_UPLOAD_IMAGE_HERE]!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!===*/
 ws = new WebSocket("ws://127.0.0.1:9099/");
-var size = 65536; // max limit are 65536 64kB
+var size = 255; // max limit are 65536 64kB
 /*===[CONFIG_SERVER_UPLOAD_IMAGE_HERE]!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!===*/
 
 ws.binaryType = 'arraybuffer';
@@ -35,7 +35,7 @@ ws.onopen = function () {
         //console.log('WK.rawData = ', rawData);
         //console.log('WK.uint8Array = ', uint8Array);
 
-        var len = uint8Array.length, size = 255; // max limit are 65536 64kB
+        var len = uint8Array.length;
         var page = Math.round(len / size);
         if (len % size != 0) page++;
         var blob, min, max;
@@ -53,7 +53,7 @@ ws.onopen = function () {
 
         console.log('WORKER.BUFFER: '+ item.id + '.' + item.name + ' === ' + buffers.length);
         //-> send info of the file to begin buffering via socket
-        ws.send(JSON.stringify({ folder: '', name: item.name, size: item.size, type: item.type }));
+        ws.send(JSON.stringify({ Id: item.id, folder: '', name: item.name, size: item.size, type: item.type }));
     }
     reader.readAsArrayBuffer(item.file);
 
@@ -66,7 +66,7 @@ ws.onmessage = function (evt) {
         case 'SOCKET_BUFFERING_START':
             //-> begin buffering first packet
             //var a = new Uint8Array([8, 6, 7, 3, 5, 9.0]);
-            console.log('WORKER.SOCKET_BUFFERING_START: ', buffers[0]);
+            console.log('WORKER.SOCKET_BUFFERING_START: ', buffers[0].length);
             //ws.send(a.buffer);
             ws.send(buffers[0]);
             postMessage({ Id: item.id, Name: item.name, Code: 'SOCKET_SENDING', PageTotal: buffers.length, Index: 1 });
@@ -83,7 +83,16 @@ ws.onmessage = function (evt) {
             }
             break;
         default:
-            postMessage({ Id: item.id, Name: item.name, Code: 'SOCKET_MSG', Data: data });
+            if (data.length > 1 && data[0] == '{' && data[data.length - 1] == '}') {
+                var fiNew = JSON.parse(data);
+                if (fiNew.Code == 'FILE_CHANGE_NAME') {
+                    item.nameNew = fiNew.nameNew;
+                }
+                console.log('WORKER.' + fiNew.Code + ': ' + fiNew.nameNew);
+                postMessage(fiNew);
+            } else {
+                postMessage({ Id: item.id, Name: item.name, Code: 'SOCKET_MSG', Data: data });
+            }
             break;
     }
 };

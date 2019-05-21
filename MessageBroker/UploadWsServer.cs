@@ -14,8 +14,11 @@ namespace MessageBroker
 {
     public class oFile
     {
+        public int Id { set; get; }
+        public string Code { set; get; }
         public string folder { set; get; }
         public string name { set; get; }
+        public string nameNew { set; get; }
         public string type { set; get; }
         public int size { set; get; }
     }
@@ -50,7 +53,7 @@ namespace MessageBroker
             catch { }
         }
 
-        bool saveFile(string SessionID)
+        bool saveFile(IWebSocketConnection socket, string SessionID)
         {
             try
             {
@@ -63,8 +66,17 @@ namespace MessageBroker
                     MemoryStream stream = streams[SessionID];
                     string pathFile = Path.Combine(rootPath, fi.name);
 
-                    if (File.Exists(pathFile))
-                        pathFile = Path.Combine(rootPath, DateTime.Now.ToString("yyyyMMdd-HHmmssfff-") + fi.name);
+                    //if (File.Exists(pathFile))
+                    //{
+                    //    string fiNew = DateTime.Now.ToString("yyyyMMdd-HHmmssfff-") + fi.name;
+                    //    fi.command = "FILE_CHANGE_NAME";
+                    //    fi.nameNew = fiNew;
+                    //    socket.Send(JsonConvert.SerializeObject(fi));
+                    //    fi.command = string.Empty;
+                    //    fi.name = fiNew;
+
+                    //    pathFile = Path.Combine(rootPath, fiNew);
+                    //}
 
                     using (var ms = new FileStream(pathFile, FileMode.OpenOrCreate))
                     {
@@ -115,11 +127,11 @@ namespace MessageBroker
                             switch (msg)
                             {
                                 case "FILE_DELETE":
-                                //fileDelete();
-                                socket.Send("FILE_DELETE_SUCCESS");
+                                    //fileDelete();
+                                    socket.Send("FILE_DELETE_SUCCESS");
                                     break;
                                 case "SENDING_COMPLETE":
-                                    bool ok = saveFile(socket.ConnectionInfo.Id.ToString());
+                                    bool ok = saveFile(socket, socket.ConnectionInfo.Id.ToString());
                                     if (ok)
                                     {
                                         socket.Send("UPLOAD_SUCCESS");
@@ -129,12 +141,22 @@ namespace MessageBroker
                                     socket.Close();
                                     break;
                                 default:
-                                // Begin receive buffer of the files
-                                if (msg[0] == '{' && msg[msg.Length - 1] == '}')
+                                    // Begin receive buffer of the files
+                                    if (msg[0] == '{' && msg[msg.Length - 1] == '}')
                                     {
                                         try
                                         {
                                             oFile fi = JsonConvert.DeserializeObject<oFile>(msg);
+
+                                            // rename file = current time + file_name
+                                            string fiNew = DateTime.Now.ToString("yyyyMMdd-HHmmssfff-") + fi.name;
+                                            fi.Code = "FILE_CHANGE_NAME";
+                                            fi.nameNew = fiNew;
+                                            socket.Send(JsonConvert.SerializeObject(fi));
+                                            fi.Code = string.Empty;
+                                            fi.nameNew = string.Empty;
+                                            fi.name = fiNew;
+
                                             if (files.ContainsKey(socket.ConnectionInfo.Id.ToString()))
                                                 files[socket.ConnectionInfo.Id.ToString()] = fi;
                                             else
@@ -142,7 +164,7 @@ namespace MessageBroker
 
                                             var stream = new MemoryStream();
                                             streams.TryAdd(socket.ConnectionInfo.Id.ToString(), stream);
-
+                                            
                                             socket.Send("SOCKET_BUFFERING_START");
                                         }
                                         catch { }

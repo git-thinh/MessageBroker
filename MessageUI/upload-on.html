@@ -27,7 +27,8 @@
                     size: file.size,
                     uploadPercen: 0,
                     type: file.type,
-                    file: file
+                    file: file,
+                    done: false
                 };
 
                 var worker = new Worker('wk-on.js');
@@ -36,11 +37,31 @@
 
                 worker.onmessage = function (oEvent) {
                     var _data = oEvent.data;
+                    var _it;
                     //console.log('->UI: ' + JSON.stringify(_data));
                     switch (_data.Code) {
                         case 'SOCKET_SENDING':
-                            var uploadPercen = (_data.Index / _data.PageTotal * 100).toFixed(2);
-                            console.log(_data.Id + ' [' + _data.Index + '/' + _data.PageTotal + ']|' + _data.Name + ' === ' + uploadPercen);
+                            _it = _self.files[_data.Id];
+                            var uploadPercen = Math.round((_data.Index / _data.PageTotal * 100).toFixed(2));
+                            if (_it.uploadPercen < uploadPercen) {
+                                _it.uploadPercen = uploadPercen;
+                                console.log(_data.Id + ' [' + _data.Index + '/' + _data.PageTotal + ']|' + _it.name + ' ===> ' + _it.nameNew + ' === ' + uploadPercen);
+                            }
+                            if (uploadPercen == 100) {
+                                if (_it.done != true) {
+                                    _it.done = true;
+
+                                    setTimeout(function (it_) {
+                                        console.log('====> ' + it_.name + ' -> ' + it_.nameNew + ': DONE');
+                                        it_.worker.terminate();
+                                    }, 500, _it);
+                                }
+                            }
+                            break;
+                        case 'FILE_CHANGE_NAME':
+                            _it = _self.files[_data.Id];
+                            _it.nameNew = _data.nameNew;
+                            console.log(_data.Id + '.FILE_CHANGE_NAME|' + _it.name + ' ===> ' + _it.nameNew);
                             break;
                         default:
                             break;

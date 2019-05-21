@@ -53,7 +53,7 @@ ws.onopen = function () {
 
         console.log('WORKER.BUFFER: '+ item.id + '.' + item.name + ' === ' + buffers.length);
         //-> send info of the file to begin buffering via socket
-        ws.send(JSON.stringify({ folder: '', name: item.name, size: item.size, type: item.type }));
+        ws.send(JSON.stringify({ Id: item.id, folder: '', name: item.name, size: item.size, type: item.type }));
     }
     reader.readAsArrayBuffer(item.file);
 
@@ -83,7 +83,16 @@ ws.onmessage = function (evt) {
             }
             break;
         default:
-            postMessage({ Id: item.id, Name: item.name, Code: 'SOCKET_MSG', Data: data });
+            if (data.length > 1 && data[0] == '{' && data[data.length - 1] == '}') {
+                var fiNew = JSON.parse(data);
+                if (fiNew.Code == 'FILE_CHANGE_NAME') {
+                    item.nameNew = fiNew.nameNew;
+                }
+                console.log('WORKER.' + fiNew.Code + ': ' + fiNew.nameNew);
+                postMessage(fiNew);
+            } else {
+                postMessage({ Id: item.id, Name: item.name, Code: 'SOCKET_MSG', Data: data });
+            }
             break;
     }
 };
