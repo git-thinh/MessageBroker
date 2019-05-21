@@ -1,8 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using Dapper;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Linq.Expressions;
@@ -23,6 +28,36 @@ namespace CacheEngineShared
         {
             limit = 0;
             innerCache = new List<T>() { };
+        }
+
+        public void initDataFromDbStore(string storeName){
+            try
+            {
+                string stringConnect = ConfigurationManager.ConnectionStrings["DB_UPDATE_DATA"].ConnectionString.ToString();
+                using (IDbConnection cnn = new SqlConnection(stringConnect))
+                {
+                    cnn.Open();
+                    cacheLock.EnterWriteLock();
+                    try
+                    {
+                        innerCache = cnn.Query<T>(storeName, null, commandType: CommandType.StoredProcedure).ToList();
+
+                        //cache file json
+                        string file = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), storeName+".json");
+                        if (innerCache.Count > 0 && File.Exists(file) == false) {
+                            File.WriteAllText(file, JsonConvert.SerializeObject(innerCache));
+                        }
+                        this.limit = this.innerCache.Count;
+                    }
+                    finally
+                    {
+                        cacheLock.ExitWriteLock();
+                    }
+                }
+            }
+            catch (Exception ex) {
+                string msg = ex.Message;
+            }
         }
 
         public int Count { get { return innerCache.Count; } }

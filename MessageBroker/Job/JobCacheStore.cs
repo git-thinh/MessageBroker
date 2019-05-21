@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using System.Text;
 
 namespace MessageBroker
@@ -16,19 +17,49 @@ namespace MessageBroker
         ////////////////////////////////////////////////////////////////////
         //
 
+        static string getServiceName(string key)
+        {
+            string s = key;
+            string[] a = s.Split('_').Select(x => x[0].ToString().ToUpper() + x.Substring(1)).ToArray();
+            return string.Join(string.Empty, a);
+        }
+
         static void cacheStart()
         {
             int port = (int)getOptions("port");
 
-            ServiceHost userService = new ServiceHost(typeof(UserLoginService), new Uri("http://localhost:" + port + "/" + _API_CONST.USER_LOGIN + "/"));
-            userService.AddServiceEndpoint(typeof(ICacheService), new BasicHttpBinding(), "");
-            userService.Description.Behaviors.Add(new UserLoginBehavior(new UserLoginService(Dataflow, new oCacheModel())));
-            userService.Open();
+            string[] rounters = typeof(_API_CONST).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
+                        .Where(fi => fi.IsLiteral && !fi.IsInitOnly && fi.FieldType.Name == "String")
+                        .Select(x => x.GetRawConstantValue() as string)
+                        .ToArray();
+            for (int i = 0; i < rounters.Length; i++)
+            {
+                string serviceName = getServiceName(rounters[i]);
 
-            ServiceHost taohopdongService = new ServiceHost(typeof(PawnInfoService), new Uri("http://localhost:" + port + "/" + _API_CONST.PAWN_INFO + "/"));
-            taohopdongService.AddServiceEndpoint(typeof(ICacheService), new BasicHttpBinding(), "");
-            taohopdongService.Description.Behaviors.Add(new PawnInfoBehavior(new PawnInfoService(Dataflow, new oCacheModel())));
-            taohopdongService.Open();
+                Type typeService = Type.GetType("MessageBroker." + serviceName + "Service, MessageBroker");
+                if (typeService == null) continue;
+
+                Type typeBehavior = Type.GetType("MessageBroker." + serviceName + "Behavior, MessageBroker");
+                if (typeBehavior == null) continue;
+
+                object instanceService = Activator.CreateInstance(typeService, Dataflow, new oCacheModel());
+                IServiceBehavior instanceBehavior = Activator.CreateInstance(typeBehavior, instanceService) as IServiceBehavior; 
+
+                ServiceHost host = new ServiceHost(typeService, new Uri("http://localhost:" + port + "/"+ rounters[i] + "/"));
+                host.AddServiceEndpoint(typeof(ICacheService), new BasicHttpBinding(), "");
+                host.Description.Behaviors.Add(instanceBehavior);
+                host.Open();
+            }
+
+            //ServiceHost userService = new ServiceHost(typeof(UserLoginService), new Uri("http://localhost:" + port + "/" + _API_CONST.USER_LOGIN + "/"));
+            //userService.AddServiceEndpoint(typeof(ICacheService), new BasicHttpBinding(), "");
+            //userService.Description.Behaviors.Add(new UserLoginBehavior(new UserLoginService(Dataflow, new oCacheModel())));
+            //userService.Open();
+
+            //ServiceHost taohopdongService = new ServiceHost(typeof(PawnInfoService), new Uri("http://localhost:" + port + "/" + _API_CONST.PAWN_INFO + "/"));
+            //taohopdongService.AddServiceEndpoint(typeof(ICacheService), new BasicHttpBinding(), "");
+            //taohopdongService.Description.Behaviors.Add(new PawnInfoBehavior(new PawnInfoService(Dataflow, new oCacheModel())));
+            //taohopdongService.Open();
         }
 
         public override void execute()

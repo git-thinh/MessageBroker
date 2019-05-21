@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
@@ -34,7 +35,7 @@ namespace MessageBroker
         }
 
         [AttrApiInfo("Danh sách thông tin các hàm API")]
-        public List<oApiInfo> get_api_all()
+        public HttpResponseMessage get_api_all()
         {
             List<oApiInfo> ls = new List<oApiInfo>() { };
 
@@ -86,7 +87,14 @@ namespace MessageBroker
                 }
             }
 
-            return ls;
+            var gs = ls.GroupBy(x => x.Service).Select(x => new { Service = x.Key, APIs = x.ToArray() });
+            string json = JsonConvert.SerializeObject(gs);
+
+            //cache file json
+            string file = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "get_api_all.json");
+            File.WriteAllText(file, JsonConvert.SerializeObject(json));
+
+            return new HttpResponseMessage() { Content = new StringContent(json, Encoding.UTF8, "application/json") };
         }
 
 
@@ -96,7 +104,7 @@ namespace MessageBroker
 
             Type typeModel = Type.GetType("MessageBroker." + typeName + ", MessageBroker");
             if (typeModel == null) return "{}";
-            
+
             model.Name = typeModel.Name;
 
             object[] attrsModel = typeModel.GetCustomAttributes(true);
@@ -107,6 +115,7 @@ namespace MessageBroker
                 {
                     model.Title = attrExt.Title;
                     model.ServiceName = attrExt.ServiceName;
+                    model.DbStoreInitData = attrExt.DbStoreInitData;
                 }
             }
 
@@ -121,12 +130,24 @@ namespace MessageBroker
                         model.Properties.Add(new oModelFielInfo(prop.Name, attrExt));
                 }
             }
+            string json = JsonConvert.SerializeObject(model);
 
-            return JsonConvert.SerializeObject(model);
+            //cache file json
+            string file = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "schema-" + typeName + ".json");
+            File.WriteAllText(file, json);
+
+            return json;
         }
 
         [AttrApiInfo("Thông tin schema các field của model service", Description = "value = tên model service. Vd: oPawnInfo, oUserLogin...")]
         public HttpResponseMessage get_model_attrs(string value) { return new HttpResponseMessage() { Content = new StringContent(get_modelAttrsJson(value), Encoding.UTF8, "application/json") }; }
+
+    }
+
+    public class oApiInfo_GroupService
+    {
+        public string Service { set; get; }
+        public oApiInfo[] APIs { set; get; }
 
     }
 

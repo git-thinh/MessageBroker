@@ -97,6 +97,10 @@ namespace CacheEngineShared
             return _store.getAllJsonReplyCacheKey();
         }
 
+        public void initDataFromDbStore(string storeName)
+        {
+            _store.initDataFromDbStore(storeName);
+        }
     }
 
     public class BaseServiceCacheBehavior : IServiceBehavior, IInstanceProvider

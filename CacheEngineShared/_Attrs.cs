@@ -16,6 +16,8 @@ namespace MessageBroker
         public AttrApiInfo(string title)
         {
             this.Title = title;
+            this.Description = string.Empty;
+            this.Result = string.Empty;
         }
     }
 
@@ -24,11 +26,13 @@ namespace MessageBroker
     {
         public string Title { set; get; }
         public string ServiceName { set; get; }
+        public string DbStoreInitData { set; get; }
 
         public AttrModelInfo(string title, string serviceName = "")
         {
             this.Title = title;
             this.ServiceName = serviceName;
+            this.DbStoreInitData = string.Empty;
         }
     }
 
@@ -133,10 +137,13 @@ namespace MessageBroker
         public string Name { get; set; }
         public string Title { get; set; }
         public string ServiceName { get; set; }
+        public string DbStoreInitData { set; get; }
+
         public List<oModelFielInfo> Properties { get; set; }
         public oModelInfo()
         {
             this.ServiceName = string.Empty;
+            this.DbStoreInitData = string.Empty;
             this.Name = string.Empty;
             this.Title = string.Empty;
             this.Properties = new List<oModelFielInfo>() { };

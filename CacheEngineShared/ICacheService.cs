@@ -28,6 +28,9 @@ namespace CacheEngineShared
 
         [OperationContract]
         string getAllJsonReplyCacheKey();
+
+        [OperationContract]
+        void initDataFromDbStore(string storeName);
     }
 }
  
