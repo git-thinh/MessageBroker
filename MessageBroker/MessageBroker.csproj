@@ -148,9 +148,12 @@
     <Compile Include="Service.Cache\Pawn\Models\oContactPeople.cs" />
     <Compile Include="Service.Cache\Pawn\Models\oAssetImages.cs" />
     <Compile Include="Service.Cache\Pawn\Models\oPawnInfo.cs" />
+    <Compile Include="Service.Cache\Pawn\Models\oCustomerInfo.cs" />
     <Compile Include="Service.Cache\Pawn\Models\oUserLogin.cs" />
     <Compile Include="Service.Cache\Pawn\BankInfoService.cs" />
     <Compile Include="Service.Cache\Pawn\BankInfoController.cs" />
+    <Compile Include="Service.Cache\Pawn\CustomerInfoController.cs" />
+    <Compile Include="Service.Cache\Pawn\CustomerInfoService .cs" />
     <Compile Include="Service.Cache\Pawn\ShopInfoService.cs" />
     <Compile Include="Service.Cache\Pawn\ShopInfoController.cs" />
     <Compile Include="Service.Cache\SystemController.cs" />
