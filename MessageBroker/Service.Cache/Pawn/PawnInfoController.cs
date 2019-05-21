@@ -8,34 +8,11 @@ using System.Web.Http;
 
 namespace MessageBroker
 {
-    public class PawnInfoController : ApiController
+    public class PawnInfoController : BaseController
     {
-        static readonly ICacheService _cache; 
-        static PawnInfoController()
-        {
+        static PawnInfoController() {
             _cache = _API_CONST.PAWN_INFO.initCacheService();
-            _cache.initDataFromDbStore("[dbo].[mobi_pawn_info_cacheInitData]");
-        }
-
-        [AttrApiInfo("GET|POST PING: kiểm tra online")]
-        [HttpGet, HttpPost] public HttpResponseMessage ping() { return new HttpResponseMessage() { Content = new StringContent("OK", Encoding.UTF8, "text/plain") }; }
-
-        [AttrApiInfo("Danh sách hợp đồng")]
-        public oCacheResult get_All()
-        {
-            oCacheResult result = _cache.getAllJsonReplyCacheKey().getResultByCacheKey();
-            return result;
-        }
-
-        [AttrApiInfo("Tìm kiếm hợp đồng")]
-        public oCacheResult post_Search([FromBody]oCacheRequest request)
-        {
-            request.RequestId = Guid.NewGuid().ToString();
-            oCacheResult result = _cache
-                .executeReplyCacheKey(request.Conditions)
-                .getResultByCacheKey();
-            result.Request = request;
-            return result;
+            m_initDataFromDbStore = "[dbo].[mobi_pawn_info_cacheInitData]";
         }
 
         [AttrApiInfo("Danh sách trạng thái của hợp đồng")]

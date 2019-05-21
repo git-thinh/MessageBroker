@@ -3,11 +3,14 @@ using Microsoft.Owin.FileSystems;
 using Microsoft.Owin.StaticFiles;
 using Newtonsoft.Json;
 using Owin;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.Routing;
 
 [assembly: OwinStartup(typeof(MessageBroker.Startup))]
 
@@ -40,6 +43,13 @@ namespace MessageBroker
             await Next.Invoke(context);
         }
     }
+    public class CustomDirectRouteProvider : DefaultDirectRouteProvider
+    {
+        protected override IReadOnlyList<IDirectRouteFactory>GetActionRouteFactories(HttpActionDescriptor actionDescriptor)
+        {
+            return actionDescriptor.GetCustomAttributes<IDirectRouteFactory>(inherit: true);
+        }
+    }
 
     public class Startup
     {
@@ -70,7 +80,9 @@ namespace MessageBroker
 
             //--------------------------------------------------------------
             // Routing dynamic
-            config.MapHttpAttributeRoutes();            
+            //config.MapHttpAttributeRoutes();
+            config.MapHttpAttributeRoutes(new CustomDirectRouteProvider());
+
             string[] rounters = typeof(_API_CONST).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
                         .Where(fi => fi.IsLiteral && !fi.IsInitOnly && fi.FieldType.Name == "String")
                         .Select(x => x.GetRawConstantValue() as string)

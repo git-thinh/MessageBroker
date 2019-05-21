@@ -63,7 +63,7 @@ namespace MessageBroker
             int PORT_WEBAPI_ADMIN = int.Parse(ConfigurationManager.AppSettings["PORT_WEBAPI_ADMIN"]);
             WebApp.Start<Startup>("http://*:" + PORT_WEBAPI_ADMIN);
              
-            _dataflow.RegisterHandler<JobPdfExport>(new JobPdfExport());
+            //_dataflow.RegisterHandler<JobPdfExport>(new JobPdfExport());
 
             //---------------------------------------------------------------------
             string PORT_LOG_INPUT = ConfigurationManager.AppSettings["PORT_LOG_INPUT"];

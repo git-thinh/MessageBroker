@@ -157,6 +157,7 @@
     <Compile Include="Service.Cache\Pawn\CustomerInfoService .cs" />
     <Compile Include="Service.Cache\Pawn\ShopInfoService.cs" />
     <Compile Include="Service.Cache\Pawn\ShopInfoController.cs" />
+    <Compile Include="Service.Cache\BaseController.cs" />
     <Compile Include="Service.Cache\SystemController.cs" />
     <Compile Include="Service.Cache\Pawn\Models\oShopInfo.cs" />
     <Compile Include="Service.Cache\Pawn\PawnInfoController.cs" />
