@@ -25,9 +25,9 @@ namespace MessageBroker
             userService.Description.Behaviors.Add(new TaiKhoanBehavior(new TaiKhoanService(Dataflow, new oCacheModel())));
             userService.Open();
 
-            ServiceHost taohopdongService = new ServiceHost(typeof(TaoHopDongService), new Uri("http://localhost:" + port + "/" + _API_CONST.TAO_HOP_DONG + "/"));
+            ServiceHost taohopdongService = new ServiceHost(typeof(PawnInfoService), new Uri("http://localhost:" + port + "/" + _API_CONST.PAWN_INFO + "/"));
             taohopdongService.AddServiceEndpoint(typeof(ICacheService), new BasicHttpBinding(), "");
-            taohopdongService.Description.Behaviors.Add(new TaoHopDongBehavior(new TaoHopDongService(Dataflow, new oCacheModel())));
+            taohopdongService.Description.Behaviors.Add(new PawnInfoBehavior(new PawnInfoService(Dataflow, new oCacheModel())));
             taohopdongService.Open();
         }
 

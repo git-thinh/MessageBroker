@@ -9,6 +9,6 @@ namespace MessageBroker
     public class _API_CONST
     {
         public const string TAI_KHOAN = "taikhoan";
-        public const string TAO_HOP_DONG = "taohopdong";
+        public const string PAWN_INFO = "PawnInfo";
     }
 }

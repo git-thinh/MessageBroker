@@ -144,8 +144,8 @@
     <Compile Include="Service.Cache\Api.Core\Startup.cs" />
     <Compile Include="Service.Cache\TaiKhoan.cs" />
     <Compile Include="Service.Cache\_SystemController.cs" />
-    <Compile Include="Service.Cache\TaoHopDong.cs" />
-    <Compile Include="Service.Cache\TaoHopDongController.cs" />
+    <Compile Include="Service.Cache\PawnInfo.cs" />
+    <Compile Include="Service.Cache\PawnInfoController.cs" />
     <Compile Include="Service.Cache\TaiKhoanController.cs" />
     <Compile Include="Job\DataflowSubscribers.cs" />
     <Compile Include="Job\JobBase.cs" />
@@ -153,7 +153,7 @@
     <Compile Include="Job\JobLogPrintOut.cs" />
     <Compile Include="Job\JobSyncDbToCache.cs" />
     <Compile Include="Job\JobDbUpdate.cs" />
-    <Compile Include="Service.Cache\TaoHopDongService.cs" />
+    <Compile Include="Service.Cache\PawnInfoService.cs" />
     <Compile Include="Service.Cache\TaiKhoanService.cs" />
     <Compile Include="Service.Cache\_ApiExt.cs" />
     <Compile Include="Service.Cache\_API_CONST.cs" />
