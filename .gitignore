@@ -22,3 +22,4 @@
 /Pdf/TuesPechkin.Wkhtmltox.Win64/obj
 /Pdf/TuesPechkin/obj
 /Pdf/TuesPechkin.TestFormsApp/obj
+*.sql
