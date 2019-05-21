@@ -11,7 +11,7 @@ namespace MessageBroker
         static BankInfoController()
         {
             _cache = _API_CONST.BANK_INFO.initCacheService();
-            _cache.initDataFromDbStore("dbo.mobi_bank_info_cacheInitData");
+            _cache.initDataFromDbStore("[dbo].[mobi_bank_info_cacheInitData]");
         }
 
         [AttrApiInfo("Danh sách tất cả ngân hàng")]
