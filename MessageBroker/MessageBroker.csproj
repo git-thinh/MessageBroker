@@ -198,6 +198,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Models.txt" />
+    <Content Include="Service.Cache\Pawn\ReadMe.txt" />
     <Content Include="UDP\Readme.txt" />
   </ItemGroup>
   <ItemGroup>

@@ -21,12 +21,6 @@ namespace MessageBroker
             return data;
         }
 
-        [AttrApiInfo("Danh sách trạng thái của oCacheResult", Description = "value = tham số để tính xyz")]
-        public string[] get_code_all(string value)
-        {
-            return new string[] { value, Guid.NewGuid().ToString() };
-        }
-
         string getControllerName(string key)
         {
             string s = key;
@@ -97,7 +91,6 @@ namespace MessageBroker
             return new HttpResponseMessage() { Content = new StringContent(json, Encoding.UTF8, "application/json") };
         }
 
-
         string get_modelAttrsJson(string typeName = "")
         {
             oModelInfo model = new oModelInfo();
@@ -115,7 +108,6 @@ namespace MessageBroker
                 {
                     model.Title = attrExt.Title;
                     model.ServiceName = attrExt.ServiceName;
-                    model.DbStoreInitData = attrExt.DbStoreInitData;
                 }
             }
 
@@ -140,7 +132,48 @@ namespace MessageBroker
         }
 
         [AttrApiInfo("Thông tin schema các field của model service", Description = "value = tên model service. Vd: oPawnInfo, oUserLogin...")]
-        public HttpResponseMessage get_model_attrs(string value) { return new HttpResponseMessage() { Content = new StringContent(get_modelAttrsJson(value), Encoding.UTF8, "application/json") }; }
+        public HttpResponseMessage get_model_attrs(string value)
+        {
+            return new HttpResponseMessage() { Content = new StringContent(get_modelAttrsJson(value), Encoding.UTF8, "application/json") };
+        }
+
+        [AttrApiInfo("Danh sách các models")]
+        public HttpResponseMessage get_models()
+        {
+            string json = "{}";
+
+            string[] rounters = typeof(_API_CONST).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
+                        .Where(fi => fi.IsLiteral && !fi.IsInitOnly && fi.FieldType.Name == "String")
+                        .Select(x => x.GetRawConstantValue() as string)
+                        .ToArray();
+
+            var ts = typeof(SystemController).Assembly.GetTypes()
+                .Where(x => x.Name[0] == 'o')
+                //.Select(x => x.Name)
+                .ToArray();
+
+            List<oModelInfo> ls = new List<oModelInfo>() { };
+            foreach (var typeModel in ts) {
+                object[] attrsModel = typeModel.GetCustomAttributes(true);
+                foreach (var attr in attrsModel)
+                {
+                    AttrModelInfo attrExt = attr as AttrModelInfo;
+                    if (attrExt != null)
+                    {
+                        oModelInfo model = new oModelInfo();
+                        model.Name = typeModel.Name;
+                        model.Title = attrExt.Title;
+                        model.ServiceName = attrExt.ServiceName;
+
+                        ls.Add(model);
+                    }
+                }
+            }
+
+            json = JsonConvert.SerializeObject(ls);
+
+            return new HttpResponseMessage() { Content = new StringContent(json, Encoding.UTF8, "application/json") };
+        }
 
     }
 

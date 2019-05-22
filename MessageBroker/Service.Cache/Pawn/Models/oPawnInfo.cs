@@ -4,24 +4,40 @@
     public class oPawnInfo
     {
         //-------------------------------------------
+        
+        //-------------------------------------------
         // Thong tin khoan vay
         [AttrFieldInfo(11, "Hợp đồng Id", AttrDataType.INT, true, true)]
-        public int PawnID { get; set; } // Hop dong id
+        public int PawnID { get; set; }
 
         [AttrFieldInfo(12, "Mã hợp đồng", AttrDataType.STRING, false, true)]
-        public string PawnCode { get; set; } //Ma hop dong
+        public string PawnCode { get; set; }
 
         [AttrFieldInfo(13, "Số tiền vay", AttrDataType.LONG)]
-        public long LoanAmount { get; set; } //So tien vay
+        public long LoanAmount { get; set; }
 
-        [AttrFieldInfo(14, "Thời hạn vay", AttrDataType.INT)]
-        public int LoanTerm { get; set; } //Thoi han vay tien
+
+        [AttrFieldInfo(14, "Ngày tạo hợp đồng", AttrDataType.LONG_DATETIME, true, true)]
+        public long DatetimeCreate { get; set; }  
+
+        [AttrFieldInfo(15, "Thời hạn vay", AttrDataType.LONG_DATETIME, true, true)]
+        public long DatetimeFinish { get; set; } 
+
+        [AttrFieldInfo(16, "Số ngày vay tiền", AttrDataType.INT)]
+        public int SumLoanDate { get; set; }
+        
+
+        [AttrFieldInfo(20, "Tên tài sản", AttrDataType.STRING)]
+        public string AssetName { get; set; }
 
         //-------------------------------------------
         // Thong tin khach hang
-        [AttrFieldInfo(201, "Họ và tên", AttrDataType.STRING, false, true, true)]
-        public string FullName { set; get; }
+        [AttrFieldInfo(200, "Mã khách hàng", AttrDataType.INT)]
+        public int CustomerID { set; get; }
 
+        [AttrFieldInfo(201, "Tên khách hàng", AttrDataType.STRING)]
+        public string CustomerName { set; get; }
+        
         [AttrFieldInfo(202, "CMND/CCCD", AttrDataType.STRING)]
         public string CMND_CCCD { get; set; }
 
