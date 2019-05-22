@@ -2,11 +2,8 @@
 {
     [AttrModelInfo("Thông tin hợp đồng", _API_CONST.PAWN_INFO)]
     public class oPawnInfo
-    {
-        //-------------------------------------------
-        
-        //-------------------------------------------
-        // Thong tin khoan vay
+    { 
+        //------------------------------------------- 
         [AttrFieldInfo(11, "Hợp đồng Id", AttrDataType.INT, true, true)]
         public int PawnID { get; set; }
 
@@ -73,7 +70,7 @@
         [AttrFieldInfo(500, "Ảnh tài sản", AttrDataType.ENTITY, EntityName = "oAssetImages")]
         public oAssetImages AssetImages { get; set; }
 
-        //public oTaiSanLoai[] TaiSan { get; set; }
+        //-------------------------------------------
 
         [AttrFieldInfo(900, "Trạng thái hợp đồng", AttrDataType.ENUM, EntityName = "oContractStatus")]
         public oContractStatus Status { get; set; }

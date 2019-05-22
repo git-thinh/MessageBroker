@@ -1,5 +1,6 @@
 ﻿using CacheEngineShared;
 using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -35,6 +36,14 @@ namespace MessageBroker
                 .getResultByCacheKey();
             result.Request = request;
             return result;
+        }
+
+        [AttrApiInfo("Danh sách trạng thái của hợp đồng")]
+        public dynamic[] get_state_type()
+        {
+            var type = typeof(oContractStatus);
+            var data = Enum.GetNames(type).Select(name => new { Id = (int)Enum.Parse(type, name), Name = name }).ToArray();
+            return data;
         }
 
         //public oCacheResult post_AddNew([FromBody]oHopDongKhachHang item)
