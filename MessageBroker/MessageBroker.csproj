@@ -85,6 +85,9 @@
     <Reference Include="Grpc.Core.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d754f35622e28bad, processorArchitecture=MSIL">
       <HintPath>..\packages\Grpc.Core.Api.1.20.1\lib\net45\Grpc.Core.Api.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>PDF\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Owin, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.4.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
@@ -141,6 +144,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Job\JobPdfExport.cs" />
     <Compile Include="Service.Cache\Api.Core\ControllersResolver.cs" />
     <Compile Include="Service.Cache\Api.Core\Startup.cs" />
     <Compile Include="Service.Cache\Pawn\Models\oBankInfo.cs" />
@@ -184,6 +188,9 @@
     <None Include="App.config" />
     <None Include="MessageBroker_TemporaryKey.pfx" />
     <None Include="packages.config" />
+    <None Include="PDF\arialuni.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\app.manifest" />
   </ItemGroup>
   <ItemGroup>
