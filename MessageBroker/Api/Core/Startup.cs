@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin;
+﻿using FluentValidation.WebApi;
+using Microsoft.Owin;
 using Microsoft.Owin.FileSystems;
 using Microsoft.Owin.StaticFiles;
 using Newtonsoft.Json;
@@ -56,7 +57,7 @@ namespace MessageBroker
         public void Configuration(IAppBuilder app)
         {
             HttpConfiguration config = new HttpConfiguration();
-
+            
             //--------------------------------------------------------------
             // Web API configuration and services
             var appXmlType = config.Formatters.XmlFormatter.SupportedMediaTypes.FirstOrDefault(t => t.MediaType == "application/xml");
@@ -116,6 +117,10 @@ namespace MessageBroker
 
             app.UseFileServer(options);
 
+            //--------------------------------------------------------------
+            //Fluent Validation
+            config.Filters.Add(new ValidateModelStateFilter());
+            FluentValidationModelValidatorProvider.Configure(config);
         }
     }
 }
