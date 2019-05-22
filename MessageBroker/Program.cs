@@ -62,12 +62,14 @@ namespace MessageBroker
             //[WEBAPI_ADMIN] Open WebApi to cache objects on ApiController
             int PORT_WEBAPI_ADMIN = int.Parse(ConfigurationManager.AppSettings["PORT_WEBAPI_ADMIN"]);
             WebApp.Start<Startup>("http://*:" + PORT_WEBAPI_ADMIN);
+             
+            _dataflow.RegisterHandler<JobPdfExport>(new JobPdfExport());
 
             //---------------------------------------------------------------------
             string PORT_LOG_INPUT = ConfigurationManager.AppSettings["PORT_LOG_INPUT"];
             Console.WriteLine("-> PORT_DB_NOTIFICATION_UDP: " + PORT_DB_NOTIFICATION_UDP);
             Console.WriteLine("-> HOST_WS_UPLOAD: " + HOST_WS_UPLOAD);
-            Console.WriteLine("-> PORT_LOG_INPUT: " + PORT_LOG_INPUT);
+            Console.WriteLine("-> PORT_LOG_INPUT: " + PORT_LOG_INPUT);  
             Console.WriteLine("-> PORT_LOG_OUTPUT: " + PORT_LOG_OUTPUT);
             Console.WriteLine("-> PORT_WEBAPI_ADMIN: " + PORT_WEBAPI_ADMIN);
             //---------------------------------------------------------------------

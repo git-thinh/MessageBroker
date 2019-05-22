@@ -33,7 +33,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -84,9 +84,6 @@
     </Reference>
     <Reference Include="Grpc.Core.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d754f35622e28bad, processorArchitecture=MSIL">
       <HintPath>..\packages\Grpc.Core.Api.1.20.1\lib\net45\Grpc.Core.Api.dll</HintPath>
-    </Reference>
-    <Reference Include="itextsharp">
-      <HintPath>PDF\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.4.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
@@ -182,11 +179,10 @@
     <Compile Include="UDP\UdpUser.cs" />
     <Compile Include="UDP\UdpBase.cs" />
     <Compile Include="UDP\UdpListener.cs" />
-    <Compile Include="UploadWsServer.cs" />
+    <Compile Include="Upload\UploadWsServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="MessageBroker_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="PDF\arialuni.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -202,9 +198,16 @@
       <Project>{a31670dd-b828-41c3-97c2-e781a2b4247e}</Project>
       <Name>MessageShared</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Pdf\TuesPechkin.Wkhtmltox.Win64\TuesPechkin.Wkhtmltox.Win64.csproj">
+      <Project>{f77cffca-1cf0-49c8-98b6-5c6009c6be63}</Project>
+      <Name>TuesPechkin.Wkhtmltox.Win64</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pdf\TuesPechkin\TuesPechkin.csproj">
+      <Project>{023df833-b252-48b3-b6af-dbbb13e39b13}</Project>
+      <Name>TuesPechkin</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Models.txt" />
     <Content Include="Service.Cache\Pawn\ReadMe.txt" />
     <Content Include="UDP\Readme.txt" />
   </ItemGroup>

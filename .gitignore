@@ -16,3 +16,9 @@
 /CacheEngineShared/obj
 /MessageBroker/Service.Cache/CacheEngineShared.pdb
 /MessageUI/UploadImages
+/Pdf/Build
+/Pdf/Buildx64
+/Pdf/Buildx86
+/Pdf/TuesPechkin.Wkhtmltox.Win64/obj
+/Pdf/TuesPechkin/obj
+/Pdf/TuesPechkin.TestFormsApp/obj
