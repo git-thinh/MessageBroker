@@ -1,5 +1,9 @@
 ﻿using CacheEngineShared;
+using Dapper;
 using System;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -24,6 +28,32 @@ namespace MessageBroker
             var type = typeof(oContractStatus);
             var data = Enum.GetNames(type).Select(name => new { Id = (int)Enum.Parse(type, name), Name = name }).ToArray();
             return data;
+        }
+
+        [AttrApiInfo("Tạo mã hợp đồng khi mở hợp đồng mới")]
+        public string get_pawnCode_createNew() {
+            var param = new DynamicParameters();
+            //param.Add("@ShopID", 154);// VietPost
+            param.Add("@ShopID", 999); // ECPay
+            string maxCode;
+
+            using (IDbConnection cnn = new SqlConnection(_DB_CONST.get_connectString_POS()))
+            {
+                cnn.Open();
+                maxCode = cnn.Query<string>("pos.GetMaxPawnIndexByShop", param, null, true, null, CommandType.StoredProcedure).SingleOrDefault();
+            }
+
+            int newIndex = 1;
+            if (!string.IsNullOrEmpty(maxCode))
+            {
+                string[] codes = maxCode.Split('/');
+                newIndex = Convert.ToInt16(codes.Last()) + 1;
+            }
+
+            // Lấy CodeNo dựa vào ShopID = 'DR'
+            string codeNo = $"HĐCC/DR/{DateTime.Now.ToString("yyMM")}/{newIndex}";
+
+            return codeNo;
         }
 
         //public oCacheResult post_AddNew([FromBody]oHopDongKhachHang item)

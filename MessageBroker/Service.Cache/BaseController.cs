@@ -43,8 +43,7 @@ namespace MessageBroker
                     //param.Add("@Count", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 }
 
-                string stringConnect = ConfigurationManager.ConnectionStrings["DB_UPDATE_DATA"].ConnectionString.ToString();
-                using (IDbConnection cnn = new SqlConnection(stringConnect))
+                using (IDbConnection cnn = new SqlConnection(_DB_CONST.get_connectString_Mobility()))
                 {
                     cnn.Open();
                     object[] result;

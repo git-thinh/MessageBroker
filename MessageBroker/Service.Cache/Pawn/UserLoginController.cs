@@ -13,7 +13,6 @@ namespace MessageBroker
         static UserLoginController()
         {
             _cache = _API_CONST.USER_LOGIN.initCacheService();
-            //m_initDataFromDbStore = "[dbo].[mobi_user_login_cacheInitData]";
             m_initDataFromDbStore = "user_login_cacheInitData";
         }
 

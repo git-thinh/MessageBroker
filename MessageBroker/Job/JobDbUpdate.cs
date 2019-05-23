@@ -28,9 +28,8 @@ namespace MessageBroker
         static void dbStart()
         {
             try
-            {
-                string stringConnect = ConfigurationManager.ConnectionStrings["DB_UPDATE_DATA"].ConnectionString.ToString();
-                _connect = new SqlConnection(stringConnect);
+            { 
+                _connect = new SqlConnection(_DB_CONST.get_connectString_Mobility());
                 //_connect.Open();
             }
             catch(Exception ex) {

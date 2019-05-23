@@ -20,6 +20,16 @@
 
         [AttrFieldInfo(1, "Địa chỉ", AttrDataType.STRING)]
         public string AddressPlace { get; set; }
+        
+        [AttrFieldInfo(1, "Facebook", AttrDataType.STRING)]
+        public string Facebook { get; set; }
+
+        [AttrFieldInfo(1, "Zalo", AttrDataType.STRING)]
+        public string Zalo { get; set; }
+
+        [AttrFieldInfo(1, "Google", AttrDataType.STRING)]
+        public string Google { get; set; } 
+
 
         [AttrFieldInfo(1, "Trang thai", AttrDataType.STRING)]
         public int Status { get; set; }

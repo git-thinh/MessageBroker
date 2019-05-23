@@ -13,7 +13,7 @@ namespace MessageBroker
         static CustomerInfoController()
         {
             _cache = _API_CONST.CUSTOMER_INFO.initCacheService();
-            m_initDataFromDbStore = "dbo.mobi_customer_info_cacheInitData";
+            m_initDataFromDbStore = "customer_info_cacheInitData";
         }
     }
 }

@@ -33,8 +33,7 @@ namespace CacheEngineShared
         public void initDataFromDbStore(string storeName){
             try
             {
-                string stringConnect = ConfigurationManager.ConnectionStrings["DB_UPDATE_DATA"].ConnectionString.ToString();
-                using (IDbConnection cnn = new SqlConnection(stringConnect))
+                using (IDbConnection cnn = new SqlConnection(_DB_CONST.get_connectString_Mobility()))
                 {
                     cnn.Open();
                     cacheLock.EnterWriteLock();

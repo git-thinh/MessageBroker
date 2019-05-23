@@ -111,6 +111,8 @@ namespace MessageBroker
 
     public enum AttrDataType
     {
+        BOOL = 1,
+
         INT_ARRAY = 10,
         INT = 11,
         INT_DATE = 12, //yyyyMMdd

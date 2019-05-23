@@ -144,10 +144,10 @@
     <Compile Include="Job\JobPdfExport.cs" />
     <Compile Include="Service.Cache\Api.Core\ControllersResolver.cs" />
     <Compile Include="Service.Cache\Api.Core\Startup.cs" />
+    <Compile Include="Service.Cache\Pawn\Models\oPawnImages.cs" />
     <Compile Include="Service.Cache\Pawn\Models\oBankInfo.cs" />
     <Compile Include="Service.Cache\Pawn\Models\oContractStatus.cs" />
     <Compile Include="Service.Cache\Pawn\Models\oContactInfo.cs" />
-    <Compile Include="Service.Cache\Pawn\Models\oAssetImages.cs" />
     <Compile Include="Service.Cache\Pawn\Models\oPawnInfo.cs" />
     <Compile Include="Service.Cache\Pawn\Models\oCustomerInfo.cs" />
     <Compile Include="Service.Cache\Pawn\Models\oSourceInfo.cs" />
@@ -155,6 +155,7 @@
     <Compile Include="Service.Cache\Pawn\BankInfoController.cs" />
     <Compile Include="Service.Cache\Pawn\CustomerInfoController.cs" />
     <Compile Include="Service.Cache\Pawn\ContactInfoController.cs" />
+    <Compile Include="Service.Cache\Pawn\PawnImagesController.cs" />
     <Compile Include="Service.Cache\Pawn\SourceInfoController.cs" />
     <Compile Include="Service.Cache\Pawn\ShopInfoController.cs" />
     <Compile Include="Service.Cache\BaseController.cs" />
