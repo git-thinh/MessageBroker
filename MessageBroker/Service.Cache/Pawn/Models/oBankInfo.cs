@@ -11,8 +11,7 @@
         
         [AttrFieldInfo(3, "Tên ngân hàng", AttrDataType.STRING, false, true, true)]
         public string Name { set; get; }
-
-
+        
         [AttrFieldInfo(4, "Chi nhánh", AttrDataType.STRING)]
         public string Branch { set; get; }
 

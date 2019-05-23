@@ -29,20 +29,6 @@ namespace MessageBroker
         [AttrApiInfo("Thêm mới tài khoản đăng nhập", Description = "BodyJson: {\"UserId\":123456789,\"Username\":\"admin\",\"Password\":\"123\"}")]
         public oCacheResult post_AddNew([FromBody]dtoUserLogin_AddNew item)
         {
-            //////item.User_ID = long.Parse(DateTime.Now.ToString("yyMMddHHmmssfff"));
-
-            //////if (string.IsNullOrWhiteSpace(item.Username))
-            //////    return new oCacheResult(new oCacheRequest("", "")).ToFailInputNULL("Username is NULL or empty");
-
-            //////if (string.IsNullOrWhiteSpace(item.Password))
-            //////    return new oCacheResult(new oCacheRequest("", "")).ToFailInputNULL("Password is NULL or empty");
-
-            //////if (string.IsNullOrWhiteSpace(item.GroupType))
-            //////    return new oCacheResult(new oCacheRequest("", "")).ToFailInputNULL("CustomerGroup is NULL or empty");
-
-            //////oCacheResult result = _cache.insertItemReplyCacheKey(JsonConvert.SerializeObject(item)).getResultByCacheKey();
-            //////return result;
-
             oCacheResult rs = this.sqlExecute<dtoUserLogin_AddNew_Result, dtoUserLogin_AddNew>("user_login_contact_createNew", item);
             if (rs.Ok && rs.Result.Length > 0)
             {
@@ -52,9 +38,25 @@ namespace MessageBroker
                     this.reloadCacheByServiceNameArray(it.ServiceCache.Split(',').Select(x => x.Trim().ToLower()).ToArray());
                 }
             }
-
             return rs;
         }
     }
 
+    public class dtoUserLogin_AddNew_Result
+    {
+        public bool Ok { set; get; }
+        public string Message { set; get; }
+        public string ServiceCache { set; get; }
+        public long Contact_ID { set; get; }
+        public long User_ID { set; get; }
+    }
+
+    public class dtoUserLogin_AddNew
+    {
+        public string Name { set; get; }
+        public string AddressCompany { set; get; }
+        public string AddressPlace { set; get; }
+        public string Phones { set; get; }
+        public string Emails { set; get; }
+    }
 }

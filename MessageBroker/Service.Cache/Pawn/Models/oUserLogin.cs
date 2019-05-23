@@ -1,23 +1,5 @@
 ﻿namespace MessageBroker
 {
-    public class dtoUserLogin_AddNew_Result
-    {
-        public bool Ok { set; get; }
-        public string Message { set; get; }
-        public string ServiceCache { set; get; }
-        public long Contact_ID { set; get; }
-        public long User_ID { set; get; }
-    }
-
-    public class dtoUserLogin_AddNew
-    {
-        public string Name { set; get; }
-        public string AddressCompany { set; get; }
-        public string AddressPlace { set; get; }
-        public string Phones { set; get; }
-        public string Emails { set; get; }
-    }
-
     [AttrModelInfo("Thông tin đăng nhập", _API_CONST.USER_LOGIN)]
     public class oUserLogin
     {            

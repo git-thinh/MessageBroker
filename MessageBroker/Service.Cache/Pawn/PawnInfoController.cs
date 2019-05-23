@@ -15,7 +15,6 @@ namespace MessageBroker
     {
         static PawnInfoController() {
             _cache = _API_CONST.PAWN_INFO.initCacheService();
-            //m_initDataFromDbStore = "[dbo].[mobi_pawn_info_cacheInitData]";
             m_initDataFromDbStore = "pawn_info_cacheInitData";
         }
 
