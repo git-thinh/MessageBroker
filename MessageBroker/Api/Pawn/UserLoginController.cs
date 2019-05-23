@@ -30,6 +30,7 @@ namespace MessageBroker
         [AttrApiInfo("Thêm mới tài khoản đăng nhập", Description = "BodyJson: {\"UserId\":123456789,\"Username\":\"admin\",\"Password\":\"123\"}")]
         public oCacheResult post_AddNew([FromBody]dtoUserLogin_addNew item)
         {
+            
             //oCacheResult rs = this.sqlExecute<dtoUserLogin_addNewResult, dtoUserLogin_addNew>("user_login_contact_createNew", item);
             //if (rs.Ok && rs.Result.Length > 0)
             //{
@@ -69,10 +70,18 @@ namespace MessageBroker
         public dtoUserLogin_addNewValidator()
         {
             RuleFor(r => r.Name).NotEmpty().WithMessage("Vui lòng nhập họ và tên");
+            RuleFor(r => r.Name).Length(9, 250).WithMessage("Vui lòng nhập họ và tên > 9");
             RuleFor(r => r.AddressCompany).NotEmpty().WithMessage("Vui lòng nhập địa chỉ nơi công tác");
             RuleFor(r => r.AddressPlace).NotEmpty().WithMessage("Vui lòng nhập địa chỉ nơi sống");
             RuleFor(r => r.Phones).NotEmpty().WithMessage("Vui lòng nhập số điện thoại");
             RuleFor(r => r.Emails).NotEmpty().WithMessage("Vui lòng nhập địa chỉ hộp thư");
+            //RuleFor(x => x.Postcode).Must(BeAValidPostcode).WithMessage("Please specify a valid postcode");
+            //RuleFor(x => x.Discount).NotEqual(0).When(x => x.HasDiscount);
+            //RuleFor(x => x.Address).Length(20, 250);
+        }
+        private bool BeAValidPostcode(string postcode)
+        {
+            return false;
         }
     }
 }
