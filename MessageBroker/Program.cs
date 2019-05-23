@@ -52,8 +52,19 @@ namespace MessageBroker
                 while (true)
                 {
                     var received = await serverUDP.Receive();
-                    //serverUDP.Reply("copy " + received.Message, received.Sender);
-                    await dataflow.enqueue(new JobSyncDbToCache(received.Message));
+                    string msg = received.Message;
+                    if (!string.IsNullOrWhiteSpace(msg))
+                    {
+                        switch (msg[0]) {
+                            case '#':
+                                break;
+                            case '!':
+                                serverUDP.Reply("OK=" + msg, received.Sender);
+                                break;
+                        }
+                        //serverUDP.Reply("copy " + received.Message, received.Sender);
+                        await dataflow.enqueue(new JobSyncDbToCache(received.Message));
+                    }
                     Thread.Sleep(100);
                 }
             }, _dataflow);

@@ -1,0 +1,6 @@
+C:\Projects\MessageBroker\MessageBrocker.TestUdpClient\bin\Debug\MessageBrocker.TestUdpClient.exe.config
+C:\Projects\MessageBroker\MessageBrocker.TestUdpClient\bin\Debug\MessageBrocker.TestUdpClient.exe
+C:\Projects\MessageBroker\MessageBrocker.TestUdpClient\bin\Debug\MessageBrocker.TestUdpClient.pdb
+C:\Projects\MessageBroker\MessageBrocker.TestUdpClient\obj\Debug\MessageBrocker.TestUdpClient.csproj.CoreCompileInputs.cache
+C:\Projects\MessageBroker\MessageBrocker.TestUdpClient\obj\Debug\MessageBrocker.TestUdpClient.exe
+C:\Projects\MessageBroker\MessageBrocker.TestUdpClient\obj\Debug\MessageBrocker.TestUdpClient.pdb

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -16,9 +15,7 @@ namespace MessageBroker
 
         public UdpListener(int port)
         {
-            string HOST_DB_NOTIFICATION_UDP = ConfigurationManager.AppSettings["HOST_DB_NOTIFICATION_UDP"];
-            //_listenOn = new IPEndPoint(IPAddress.Any, port);
-            _listenOn = new IPEndPoint(IPAddress.Parse(HOST_DB_NOTIFICATION_UDP), port);
+            _listenOn = new IPEndPoint(IPAddress.Any, port);
             Client = new UdpClient(_listenOn);
         }
 

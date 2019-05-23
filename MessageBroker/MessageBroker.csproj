@@ -152,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\Core\ValidateModelStateFilter.cs" />
+    <Compile Include="Api\_VALID.cs" />
     <Compile Include="Job\JobPdfExport.cs" />
     <Compile Include="Api\Core\ControllersResolver.cs" />
     <Compile Include="Api\Core\Startup.cs" />

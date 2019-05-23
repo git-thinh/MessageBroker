@@ -24,6 +24,9 @@
         [AttrFieldInfo(5, "Nhóm khách hàng", AttrDataType.STRING)]
         public string GroupType { get; set; }
 
+        [AttrFieldInfo(5, "Admin|User", AttrDataType.STRING)]
+        public int GroupType_ID { get; set; }
+
         [AttrFieldInfo(5, "Trạng thái", AttrDataType.INT)]
         public int Status { get; set; }
 

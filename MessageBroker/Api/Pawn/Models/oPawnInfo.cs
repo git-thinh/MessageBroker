@@ -41,7 +41,7 @@
         public int CMND_CreateDate { get; set; }
 
         [AttrFieldInfo(204, "Nơi cấp", AttrDataType.STRING)]
-        public string CMND_CreateAddress { get; set; }
+        public string CMND_CreatePlace { get; set; }
 
         //-------------------------------------------
         
@@ -49,7 +49,7 @@
         public string Custorer_Name { set; get; }
 
         [AttrFieldInfo(205, "Dien thoai", AttrDataType.INT, false, true, true)]
-        public int Custorer_Phone { set; get; }
+        public string Custorer_Phone { set; get; }
 
         [AttrFieldInfo(206, "Địa chỉ", AttrDataType.STRING)]
         public string Custorer_AddressPlace { get; set; }
@@ -87,7 +87,7 @@
         //-------------------------------------------
 
         [AttrFieldInfo(400, "Cửa hàng tất toán hợp đồng", AttrDataType.STRING)]
-        public int ContractSettlementShop_Name { get; set; }
+        public string ContractSettlementShop_Name { get; set; }
 
         //-------------------------------------------
 

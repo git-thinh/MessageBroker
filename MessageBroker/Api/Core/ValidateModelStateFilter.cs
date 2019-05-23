@@ -20,26 +20,28 @@ namespace MessageBroker
                 //    .Select(v => v.ErrorMessage)
                 //    .ToList();
 
-                var errors = actionContext.ModelState.Where(v => v.Value.Errors.Count > 0)
+                var errors = actionContext.ModelState.Where(v => v.Value.Errors.Count > 0 && v.Value.Errors.Count(x => x.ErrorMessage.Length > 0) > 0)
                     //.SelectMany(v => new { Key = v.Key, Errors = v.Value.Errors })
                     .Select(v => new { Key = v.Key, Messages = v.Value.Errors.Select(x => x.ErrorMessage).ToArray() })
                     //.Select(v => v.ErrorMessage)
                     .ToArray();
-
-                var responseObj = new
+                if (errors.Length > 0)
                 {
-                    Ok = false,
-                    Message = "Bad Request",
-                    Errors = errors
-                };
+                    var responseObj = new
+                    {
+                        Ok = false,
+                        Message = "Bad Request",
+                        Errors = errors
+                    };
 
-                //actionContext.Result = new JsonResult(responseObj)
-                //{
-                //    StatusCode = 400
-                //};
-                HttpResponseMessage response = actionContext.Request.CreateResponse(HttpStatusCode.OK);
-                response.Content = new StringContent(JsonConvert.SerializeObject(responseObj), System.Text.Encoding.UTF8, "application/json");
-                actionContext.Response = response;
+                    //actionContext.Result = new JsonResult(responseObj)
+                    //{
+                    //    StatusCode = 400
+                    //};
+                    HttpResponseMessage response = actionContext.Request.CreateResponse(HttpStatusCode.OK);
+                    response.Content = new StringContent(JsonConvert.SerializeObject(responseObj), System.Text.Encoding.UTF8, "application/json");
+                    actionContext.Response = response;
+                }
             }
         }
     }
