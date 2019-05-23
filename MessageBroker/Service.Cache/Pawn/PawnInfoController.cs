@@ -1,13 +1,9 @@
 ﻿using CacheEngineShared;
 using Dapper;
 using System;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Web.Http;
 
 namespace MessageBroker
@@ -15,11 +11,19 @@ namespace MessageBroker
     public class PawnInfoService : BaseServiceCache<oPawnInfo> { public PawnInfoService(IDataflowSubscribers dataflow, oCacheModel cacheModel) : base(dataflow, cacheModel) { } }
     public class PawnInfoBehavior : BaseServiceCacheBehavior { public PawnInfoBehavior(object instance) : base(instance) { } }
 
+    public class _DB_STORE_PAWN_INFO
+    {
+        public const string _cacheInitData = "pawn_info_cacheInitData";
+        public const string _addNew = "pawn_info_createNew";
+        public const string _pawnCode_createNew = "pos.GetMaxPawnIndexByShop";
+    }
+
     public class PawnInfoController : BaseController
     {
-        static PawnInfoController() {
+        static PawnInfoController()
+        {
             _cache = _API_CONST.PAWN_INFO.initCacheService();
-            m_initDataFromDbStore = "pawn_info_cacheInitData";
+            m_initDataFromDbStore = _DB_STORE_PAWN_INFO._cacheInitData;
         }
 
         [AttrApiInfo("Danh sách trạng thái của hợp đồng")]
@@ -31,7 +35,8 @@ namespace MessageBroker
         }
 
         [AttrApiInfo("Tạo mã hợp đồng khi mở hợp đồng mới")]
-        public string get_pawnCode_createNew() {
+        public string get_pawnCode_createNew()
+        {
             var param = new DynamicParameters();
             //param.Add("@ShopID", 154);// VietPost
             param.Add("@ShopID", 999); // ECPay
@@ -40,7 +45,7 @@ namespace MessageBroker
             using (IDbConnection cnn = new SqlConnection(_DB_CONST.get_connectString_POS()))
             {
                 cnn.Open();
-                maxCode = cnn.Query<string>("pos.GetMaxPawnIndexByShop", param, null, true, null, CommandType.StoredProcedure).SingleOrDefault();
+                maxCode = cnn.Query<string>(_DB_STORE_PAWN_INFO._pawnCode_createNew, param, null, true, null, CommandType.StoredProcedure).SingleOrDefault();
             }
 
             int newIndex = 1;
@@ -56,44 +61,72 @@ namespace MessageBroker
             return codeNo;
         }
 
-        //public oCacheResult post_AddNew([FromBody]oHopDongKhachHang item)
-        //{
-        //    item.MaTaiKhoanTaoHD = Guid.NewGuid().ToString();
+        [AttrApiInfo("Mở hợp đồng mới")]
+        public oCacheResult post_AddNew([FromBody]dtoPawnInfo_addNew item)
+        {
+            oCacheResult rs = this.sqlExecute<dtoPawnInfo_addNewResult, dtoPawnInfo_addNew>(_DB_STORE_PAWN_INFO._addNew, item);
+            if (rs.Ok && rs.Result.Length > 0)
+            {
+                var it = (dtoPawnInfo_addNewResult)rs.Result[0];
+                if (!string.IsNullOrWhiteSpace(it.ServiceCache))
+                {
+                    this.reloadCacheByServiceNameArray(it.ServiceCache.Split(',').Select(x => x.Trim().ToLower()).ToArray());
+                }
+            }
+            return rs;
+        }
+    }
 
-        //    if (string.IsNullOrWhiteSpace(item.MaKH))
-        //        return new oCacheResult(new oCacheRequest("", "")).ToFailInputNULL("MaKH is NULL or empty");
+    public class dtoPawnInfo_addNewResult
+    {
+        public bool Ok { set; get; }
+        public string Message { set; get; }
+        public string ServiceCache { set; get; }
+        public long Contact_ID { set; get; }
+        public long User_ID { set; get; }
+    }
 
-        //    if (string.IsNullOrWhiteSpace(item.TenKH))
-        //        return new oCacheResult(new oCacheRequest("", "")).ToFailInputNULL("TenKH is NULL or empty");
+    public class dtoPawnInfo_addNew
+    {
+        //--+ PayAccount
+        public int Bank_ID { set; get; } 
+        public string PayAccount_No { set; get; }
 
-        //    if (string.IsNullOrWhiteSpace(item.TenCuaHangTatToan))
-        //        return new oCacheResult(new oCacheRequest("", "")).ToFailInputNULL("TenCuaHangTatToan is NULL or empty");
+        //--+ ContactInfo for type is a ContactRegistrationBook_ID nguoi than tren so ho khau
+        public string RegistrationBook_Name { set; get; }
+        public string RegistrationBook_AddressPlace { set; get; }
+        public string RegistrationBook_Phone { set; get; }
 
-        //    oCacheResult result = _cache.insertItemReplyCacheKey(JsonConvert.SerializeObject(item)).getResultByCacheKey();
-        //    return result;
-        //}
+        //--+ ContactInfo for type is a ContactColleague_ID dong nghiep
+        public string Colleague_Name { set; get; }
+        public string Colleague_AddressPlace { set; get; }
+        public string Colleague_Phone { set; get; }
 
+        //--+ ContactInfo for type is a Customer
+        public string Custorer_Name { set; get; }
+        public string Custorer_AddressPlace { set; get; }
+        public string Custorer_Phone { set; get; }
 
-        //public dynamic[] get_ds_Loai_TaiSan()
-        //{
-        //    var type = typeof(oTaiSanLoai);
-        //    var data = Enum.GetNames(type).Select(name => new { Id = (int)Enum.Parse(type, name), Name = name }).ToArray();
-        //    return data;
-        //}
+        //--+ CustomerInfo: @Contact_ID 
+        public long Invite_ID { set; get; } // It is User_ID logined
+        public string CMND_CCCD { set; get; }
+        public int CMND_CreateDate { set; get; }
+        public string CMND_CreatePlace { set; get; }
 
-        //public dynamic[] get_ds_TrangThai_HopDong()
-        //{
-        //    var type = typeof(oHopDongTrangThai);
-        //    var data = Enum.GetNames(type).Select(name => new { Id = (int)Enum.Parse(type, name), Name = name }).ToArray();
-        //    return data;
-        //}
+        //--+ PawnInfo: @PayAccount_ID
+        public string PawnCode { set; get; } // ma hop dong
+        public long LoanAmount { set; get; } // so tien vay
+        public int SumLoanDate { set; get; } // thoi han vay theo ngay
+        public long DatetimeFinish { set; get; }// ngay tat toan hop dong
+        public int ContractSettlementShop_ID { set; get; }// chon sua hang tat toan
 
-        //public dynamic[] get_ds_Loai_ThanhToan()
-        //{
-        //    var type = typeof(oThanhToanLoai);
-        //    var data = Enum.GetNames(type).Select(name => new { Id = (int)Enum.Parse(type, name), Name = name }).ToArray();
-        //    return data;
-        //}
-
+        //--+ PawnImages, PawnImageLocate
+        public string Image_RegistrationBook_1 { set; get; }
+        public string Image_RegistrationBook_2 { set; get; }
+        public string Image_VehicleRegistration_1 { set; get; }
+        public string Image_VehicleRegistration_2 { set; get; }
+        public string Image_Asset_1 { set; get; }
+        public string Image_Asset_2 { set; get; }
+        public string Image_InvoiceElectric_1 { set; get; }
     }
 }

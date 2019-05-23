@@ -26,13 +26,13 @@ namespace MessageBroker
         }
 
         [AttrApiInfo("Thêm mới tài khoản đăng nhập", Description = "BodyJson: {\"UserId\":123456789,\"Username\":\"admin\",\"Password\":\"123\"}")]
-        public oCacheResult post_AddNew([FromBody]dtoUserLogin_AddNew item)
+        public oCacheResult post_AddNew([FromBody]dtoUserLogin_addNew item)
         {
-            oCacheResult rs = this.sqlExecute<dtoUserLogin_AddNew_Result, dtoUserLogin_AddNew>("user_login_contact_createNew", item);
+            oCacheResult rs = this.sqlExecute<dtoUserLogin_addNewResult, dtoUserLogin_addNew>("user_login_contact_createNew", item);
             if (rs.Ok && rs.Result.Length > 0)
             {
                 object obj = rs.Result[0];
-                dtoUserLogin_AddNew_Result it = (dtoUserLogin_AddNew_Result)obj;
+                dtoUserLogin_addNewResult it = (dtoUserLogin_addNewResult)obj;
                 if (!string.IsNullOrWhiteSpace(it.ServiceCache)) {
                     this.reloadCacheByServiceNameArray(it.ServiceCache.Split(',').Select(x => x.Trim().ToLower()).ToArray());
                 }
@@ -41,7 +41,7 @@ namespace MessageBroker
         }
     }
 
-    public class dtoUserLogin_AddNew_Result
+    public class dtoUserLogin_addNewResult
     {
         public bool Ok { set; get; }
         public string Message { set; get; }
@@ -50,7 +50,7 @@ namespace MessageBroker
         public long User_ID { set; get; }
     }
 
-    public class dtoUserLogin_AddNew
+    public class dtoUserLogin_addNew
     {
         public string Name { set; get; }
         public string AddressCompany { set; get; }
