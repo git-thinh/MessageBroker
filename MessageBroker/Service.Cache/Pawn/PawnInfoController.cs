@@ -8,11 +8,15 @@ using System.Web.Http;
 
 namespace MessageBroker
 {
+    public class PawnInfoService : BaseServiceCache<oPawnInfo> { public PawnInfoService(IDataflowSubscribers dataflow, oCacheModel cacheModel) : base(dataflow, cacheModel) { } }
+    public class PawnInfoBehavior : BaseServiceCacheBehavior { public PawnInfoBehavior(object instance) : base(instance) { } }
+
     public class PawnInfoController : BaseController
     {
         static PawnInfoController() {
             _cache = _API_CONST.PAWN_INFO.initCacheService();
-            m_initDataFromDbStore = "[dbo].[mobi_pawn_info_cacheInitData]";
+            //m_initDataFromDbStore = "[dbo].[mobi_pawn_info_cacheInitData]";
+            m_initDataFromDbStore = "pawn_info_cacheInitData";
         }
 
         [AttrApiInfo("Danh sách trạng thái của hợp đồng")]

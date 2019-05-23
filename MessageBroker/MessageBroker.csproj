@@ -146,16 +146,16 @@
     <Compile Include="Service.Cache\Api.Core\Startup.cs" />
     <Compile Include="Service.Cache\Pawn\Models\oBankInfo.cs" />
     <Compile Include="Service.Cache\Pawn\Models\oContractStatus.cs" />
-    <Compile Include="Service.Cache\Pawn\Models\oContactPeople.cs" />
+    <Compile Include="Service.Cache\Pawn\Models\oContactInfo.cs" />
     <Compile Include="Service.Cache\Pawn\Models\oAssetImages.cs" />
     <Compile Include="Service.Cache\Pawn\Models\oPawnInfo.cs" />
     <Compile Include="Service.Cache\Pawn\Models\oCustomerInfo.cs" />
+    <Compile Include="Service.Cache\Pawn\Models\oSourceInfo.cs" />
     <Compile Include="Service.Cache\Pawn\Models\oUserLogin.cs" />
-    <Compile Include="Service.Cache\Pawn\BankInfoService.cs" />
     <Compile Include="Service.Cache\Pawn\BankInfoController.cs" />
     <Compile Include="Service.Cache\Pawn\CustomerInfoController.cs" />
-    <Compile Include="Service.Cache\Pawn\CustomerInfoService .cs" />
-    <Compile Include="Service.Cache\Pawn\ShopInfoService.cs" />
+    <Compile Include="Service.Cache\Pawn\ContactInfoController.cs" />
+    <Compile Include="Service.Cache\Pawn\SourceInfoController.cs" />
     <Compile Include="Service.Cache\Pawn\ShopInfoController.cs" />
     <Compile Include="Service.Cache\BaseController.cs" />
     <Compile Include="Service.Cache\SystemController.cs" />
@@ -168,8 +168,6 @@
     <Compile Include="Job\JobLogPrintOut.cs" />
     <Compile Include="Job\JobSyncDbToCache.cs" />
     <Compile Include="Job\JobDbUpdate.cs" />
-    <Compile Include="Service.Cache\Pawn\PawnInfoService.cs" />
-    <Compile Include="Service.Cache\Pawn\UserLoginService.cs" />
     <Compile Include="Service.Cache\_ApiExt.cs" />
     <Compile Include="Service.Cache\_API_CONST.cs" />
     <Compile Include="Service.Grpc\DbUpdateService.cs" />
@@ -209,7 +207,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Service.Cache\Pawn\ReadMe.txt" />
+    <Content Include="Service.Cache\Pawn\Models\ReadMe.txt" />
     <Content Include="UDP\Readme.txt" />
   </ItemGroup>
   <ItemGroup>

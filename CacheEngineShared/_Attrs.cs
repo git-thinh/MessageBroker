@@ -44,7 +44,11 @@ namespace MessageBroker
         public bool IsFullTextSearch { set; get; }
         public AttrDataType TypeCode { set; get; }
         public string TypeName { set; get; }
+
         public string EntityName = string.Empty;
+
+        public string ServiceLink = string.Empty;
+        public string ServiceLinkFieldName = string.Empty;
 
         public string GroupTitle = string.Empty;
 
@@ -127,7 +131,9 @@ namespace MessageBroker
         ENTITY_ARRAY = 80,
         ENTITY = 81,
 
-        OBJECT = 90
+        OBJECT = 90,
+
+        SERVICE_LINK_RESULT = 99
     }
 
     public class oModelInfo
@@ -157,6 +163,8 @@ namespace MessageBroker
         public bool IsFullTextSearch { set; get; }
         public bool IsIndex { set; get; }
         public string EntityName { set; get; }
+        public string ServiceLink { set; get; }
+        public string ServiceLinkFieldName { set; get; }
         public string GroupTitle { set; get; }
 
         public oModelFielInfo(string name, AttrFieldInfo attr)
@@ -184,6 +192,8 @@ namespace MessageBroker
             }
 
             this.EntityName = attr.EntityName;
+            this.ServiceLink = attr.ServiceLink;
+            this.ServiceLinkFieldName = attr.ServiceLinkFieldName;
         }
     }
 }

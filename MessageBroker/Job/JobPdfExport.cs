@@ -58,6 +58,7 @@ namespace MessageBroker
 
         static void test_01()
         {
+
             const string url = "http://localhost:9096/pdf/giay-yeu-cau-bao-hiem.html";
             HtmlToPdfDocument Document = new HtmlToPdfDocument() { Objects = { new ObjectSettings { PageUrl = url } } };
 

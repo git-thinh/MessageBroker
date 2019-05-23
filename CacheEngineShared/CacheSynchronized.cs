@@ -40,8 +40,8 @@ namespace CacheEngineShared
                     cacheLock.EnterWriteLock();
                     try
                     {
-                        innerCache = cnn.Query<T>(storeName, null, commandType: CommandType.StoredProcedure).ToList();
-
+                        var rs = cnn.Query<T>(storeName, null, commandType: CommandType.StoredProcedure).ToList();
+                        innerCache = rs;
                         //cache file json
                         string file = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), storeName+".json");
                         if (innerCache.Count > 0 && File.Exists(file) == false) {

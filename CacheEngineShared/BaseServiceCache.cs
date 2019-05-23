@@ -1,9 +1,13 @@
-﻿using MessageBroker;
+﻿using Dapper;
+using MessageBroker;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Caching;
@@ -55,6 +59,9 @@ namespace CacheEngineShared
         private readonly oCacheModel _cacheModel;
 
         static CacheSynchronized<T> _store = new CacheSynchronized<T>();
+
+
+
         public string executeReplyCacheKey(string conditons)
         {
             string key = _store.searchDynamicReplyCacheKey(new oCacheRequest(_cacheModel.ServiceName, conditons));
@@ -67,7 +74,8 @@ namespace CacheEngineShared
             return key;
         }
 
-        public string insertItemsByCacheKey(string cacheKey) {
+        public string insertItemsByCacheKey(string cacheKey)
+        {
             return _store.insertItemsByCacheKey(cacheKey);
         }
 

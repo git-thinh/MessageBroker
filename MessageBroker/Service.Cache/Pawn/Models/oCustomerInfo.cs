@@ -10,7 +10,7 @@ namespace MessageBroker
     public class oCustomerInfo
     {
         public int PawnID { set; get; } // int] NULL,
-        public int CustomerID { set; get; } // int] NULL,
+        public int Customer_ID { set; get; } // int] NULL,
         public int HouseholdRegionID { set; get; } // int] NULL,
         public string HouseholdAddress { set; get; } // nvarchar] (1000) NULL,
         public int CurrentAddressRegionID { set; get; } // int] NULL,

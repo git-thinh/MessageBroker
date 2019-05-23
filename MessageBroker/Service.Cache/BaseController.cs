@@ -1,7 +1,11 @@
 ﻿using CacheEngineShared;
+using Dapper;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -15,6 +19,48 @@ namespace MessageBroker
     {
         protected static string m_initDataFromDbStore;
         public static ICacheService _cache;
+
+        protected void reloadCacheByServiceNameArray(string[] arrServiceName)
+        {
+            foreach (var sv in arrServiceName)
+            {
+                sv.initCacheService().initDataFromDbStore(sv + "_cacheInitData");
+            }
+        }
+
+        protected oCacheResult sqlExecute<R, DTO>(string storeName, DTO objPara)
+        {
+            try
+            {
+                DynamicParameters param = null;
+
+                if (objPara != null)
+                {
+                    IDictionary<string, object> paramenters = objPara.convertToDictionary<DTO>();
+                    param = new DynamicParameters();
+                    foreach (var kv in paramenters)
+                        param.Add("@" + kv.Key, kv.Value);
+                    //param.Add("@Count", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                }
+
+                string stringConnect = ConfigurationManager.ConnectionStrings["DB_UPDATE_DATA"].ConnectionString.ToString();
+                using (IDbConnection cnn = new SqlConnection(stringConnect))
+                {
+                    cnn.Open();
+                    object[] result;
+                    if (objPara == null)
+                        result = cnn.Query<R>(storeName, null, commandType: CommandType.StoredProcedure).Cast<object>().ToArray();
+                    else
+                        result = cnn.Query<R>(storeName, param, commandType: CommandType.StoredProcedure).Cast<object>().ToArray();
+
+                    return new oCacheResult() { Ok = true, Result = result };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new oCacheResult().ToFailException(ex.Message);
+            }
+        }
 
         [AttrApiInfo("Chức năng đồng bộ tất cả dữ liệu từ Database")]
         [HttpPost]

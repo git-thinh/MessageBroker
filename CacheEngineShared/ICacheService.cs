@@ -30,7 +30,7 @@ namespace CacheEngineShared
         string getAllJsonReplyCacheKey();
 
         [OperationContract]
-        void initDataFromDbStore(string storeName);
+        void initDataFromDbStore(string storeName);         
     }
 }
  
