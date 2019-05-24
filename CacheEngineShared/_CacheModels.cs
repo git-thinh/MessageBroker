@@ -119,8 +119,9 @@ namespace CacheEngineShared
             this.Request = request;
         }
 
-        public oCacheResult ToOk(dynamic[] results, int totalItems)
+        public oCacheResult ToOk(dynamic[] results = null, int totalItems = 0)
         {
+            if (results == null) results = new dynamic[] { };
             this.Ok = true;
             this.Code = oCacheResultCode.SUCCESS;
             this.Result = results;

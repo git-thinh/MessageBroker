@@ -12,8 +12,7 @@ namespace MessageBroker
     {
         static BankInfoController()
         {
-            _cache = _API_CONST.BANK_INFO.initCacheService();
-            m_initDataFromDbStore = "bank_info_cacheInitData";
+            initCacheService(_API_CONST.BANK_INFO); 
         }
     }
 }

@@ -4,7 +4,7 @@
     public class oBankInfo
     {
         [AttrFieldInfo(1, "Ngân Hàng Id", AttrDataType.INT, true, true, true)]
-        public int Id { set; get; }
+        public int Bank_ID { set; get; }
 
         [AttrFieldInfo(2, "Ma ngân hàng", AttrDataType.STRING, false, true, true)]
         public string Code { set; get; }

@@ -14,8 +14,7 @@ namespace MessageBroker
     {
         static UserLoginController()
         {
-            _cache = _API_CONST.USER_LOGIN.initCacheService();
-            m_initDataFromDbStore = _DB_STORE_USER_LOGIN._cacheInitData;
+            initCacheService(_API_CONST.USER_LOGIN);
         }
 
         [AttrApiInfo("Đăng nhâp tài khoản", Description = "BodyJson: {\"Username\":\"admin\",\"Password\":\"123\"}", Result = "Thành công nếu mảng Result[].length > 0")]

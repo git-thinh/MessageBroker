@@ -9,9 +9,7 @@ namespace MessageBroker
     {
         static ContactInfoController()
         {
-            _cache = _API_CONST.CONTACT_INFO.initCacheService(); 
-            m_initDataFromDbStore = "contact_info_cacheInitData";
-            
+            initCacheService(_API_CONST.CONTACT_INFO);            
         }
     }
 }

@@ -10,7 +10,7 @@ namespace MessageBroker
     public class oSourceInfo
     {
         [AttrFieldInfo(1, "Mã nguồn", AttrDataType.INT, true)]
-        public int Id { set; get; }
+        public int Source_Id { set; get; }
 
         [AttrFieldInfo(2, "Tên nguồn", AttrDataType.STRING)]
         public string Name { set; get; }

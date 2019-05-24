@@ -17,8 +17,7 @@ namespace MessageBroker
     {
         static PawnInfoController()
         {
-            _cache = _API_CONST.PAWN_INFO.initCacheService();
-            m_initDataFromDbStore = _DB_STORE_PAWN_INFO._cacheInitData;
+            initCacheService(_API_CONST.PAWN_INFO);
         }
 
         [AttrApiInfo("Danh sách trạng thái của hợp đồng")]

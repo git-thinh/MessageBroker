@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MessageBroker
+﻿namespace MessageBroker
 {
     public class _API_CONST
     { 
         public const string SYSTEM = "system";
 
+        public const string PROFILE_INFO = "profile_info"; 
         public const string PAWN_IMAGES = "pawn_images"; // //1= xe ôm công nghệ | 2 = ecpay
         public const string SOURCE_INFO = "source_info"; // //1= xe ôm công nghệ | 2 = ecpay
         public const string USER_LOGIN = "user_login";

@@ -9,9 +9,7 @@ namespace MessageBroker
     {
         static SourceInfoController()
         {
-            _cache = _API_CONST.SHOP_INFO.initCacheService(); 
-            m_initDataFromDbStore = "source_info_cacheInitData";
-            
+            initCacheService(_API_CONST.SHOP_INFO);         
         }
     }
 }

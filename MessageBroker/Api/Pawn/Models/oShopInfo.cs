@@ -4,7 +4,7 @@
     public class oShopInfo
     {
         [AttrFieldInfo(1, "Cửa hàng Id", AttrDataType.INT, true, true, true)]
-        public int ShopID { set; get; }
+        public int Shop_ID { set; get; }
 
         [AttrFieldInfo(2, "Mã cửa hàng", AttrDataType.STRING, false, true)]
         public string Code { set; get; }

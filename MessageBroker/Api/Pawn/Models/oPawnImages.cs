@@ -7,7 +7,7 @@
         public int PawnImage_ID { set; get; }
 
         [AttrFieldInfo(1, "", AttrDataType.INT)]
-        public int Pawn_ID { set; get; }
+        public long Pawn_ID { set; get; }
 
         [AttrFieldInfo(1, "", AttrDataType.INT)]
         public int PawnImageType_ID { set; get; }

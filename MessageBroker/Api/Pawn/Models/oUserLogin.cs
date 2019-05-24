@@ -21,9 +21,6 @@
         [AttrFieldInfo(4, "Mã thiết bị truy cập", AttrDataType.STRING)]
         public string DeviceCode { get; set; }
 
-        [AttrFieldInfo(5, "Nhóm khách hàng", AttrDataType.STRING)]
-        public string GroupType { get; set; }
-
         [AttrFieldInfo(5, "Admin|User", AttrDataType.STRING)]
         public int GroupType_ID { get; set; }
 
