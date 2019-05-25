@@ -261,7 +261,11 @@ namespace CacheEngineShared
             {
                 try
                 {
-                    var rs = innerCache.Where(request.Conditions);
+                    IEnumerable<T> rs = null;
+                    if (string.IsNullOrWhiteSpace(request.Conditions))
+                        rs = innerCache;
+                    else
+                        rs = innerCache.Where(request.Conditions);
                     int countResult = rs.Count();
 
                     if (!string.IsNullOrWhiteSpace(request.OrderbyName))
