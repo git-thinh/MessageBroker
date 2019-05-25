@@ -375,8 +375,8 @@ namespace MessageBroker
 
             //--+ PawnInfo: @PayAccount_ID
             RuleFor(r => r.PawnCode).NotEmpty().WithMessage("Vui lòng nhập thông tin"); // ma hop dong
-            RuleFor(r => r.LoanAmount).GreaterThan(0).WithMessage("Vui lòng nhập thông tin"); // so tien vay
-            RuleFor(r => r.SumLoanDate).GreaterThan(0).WithMessage("Vui lòng nhập thông tin"); // thoi han vay theo ngay
+            RuleFor(r => r.LoanAmount).GreaterThan(1).WithMessage("Vui lòng nhập thông tin"); // so tien vay
+            RuleFor(r => r.SumLoanDate).GreaterThan(1).WithMessage("Vui lòng nhập thông tin"); // thoi han vay theo ngay
             RuleFor(r => r.DatetimeFinish).GreaterThan(0).WithMessage("Vui lòng nhập thông tin");// ngay tat toan hop dong
             RuleFor(r => r.ContractSettlementShop_ID).GreaterThan(0).WithMessage("Vui lòng nhập thông tin");// chon sua hang tat toan
 
