@@ -371,6 +371,7 @@ namespace MessageBroker
             RuleFor(r => r.Invite_ID).GreaterThan(0).WithMessage("Vui lòng nhập thông tin"); // It is User_ID logined
             RuleFor(r => r.CMND_CCCD).NotEmpty().WithMessage("Vui lòng nhập thông tin");
             RuleFor(r => r.CMND_CreateDate).GreaterThan(0).WithMessage("Vui lòng nhập thông tin");
+            RuleFor(r => r.CMND_CreateDate).LessThan(int.Parse(DateTime.Now.ToString("yyyyMMdd"))).WithMessage("Ngày cấp CMND không hợp lệ");
             RuleFor(r => r.CMND_CreatePlace).NotEmpty().WithMessage("Vui lòng nhập thông tin");
 
             //--+ PawnInfo: @PayAccount_ID
