@@ -119,8 +119,8 @@ namespace MessageBroker
 
             //--------------------------------------------------------------
             //Fluent Validation
-            config.Filters.Add(new ValidateModelStateFilter());
-            FluentValidationModelValidatorProvider.Configure(config);
+            //config.Filters.Add(new ValidateModelStateFilter());
+            //FluentValidationModelValidatorProvider.Configure(config);
         }
     }
 }

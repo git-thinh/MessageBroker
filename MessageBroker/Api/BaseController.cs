@@ -168,14 +168,15 @@ namespace MessageBroker
             oCacheResult result = _cache.getAllJsonReplyCacheKey().getResultByCacheKey();
             return result;
         }
-
-
+        
         [AttrApiInfo("Chức năng tìm kiếm", Description = "{\"Conditions\":\" Linq.Dynamic clause at here ... \"}")]
-        public oCacheResult post_Search([FromBody]oCacheRequest request)
+        public oCacheResult post_Search([FromBody]oCacheRequest value)
         {
-            request.RequestId = Guid.NewGuid().ToString();
-            oCacheResult result = _cache.executeReplyCacheKey(request.Conditions).getResultByCacheKey();
-            result.Request = request;
+            if (value == null) return new oCacheResult().ToFailConvertJson("Please check format string json of input.");
+
+            value.RequestId = Guid.NewGuid().ToString();
+            oCacheResult result = _cache.executeRequestJsonReplyCacheKey(value.ToJson()).getResultByCacheKey();
+            result.Request = value;
             return result;
         }
 

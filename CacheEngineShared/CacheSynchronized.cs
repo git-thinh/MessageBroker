@@ -261,8 +261,17 @@ namespace CacheEngineShared
             {
                 try
                 {
-                    dynamic[] arr = innerCache.Where(request.Conditions).Distinct().Cast<dynamic>().ToArray();
-                    return new oCacheResult(request).ToOk(arr, this.Count);
+                    var rs = innerCache.Where(request.Conditions);
+                    int countResult = rs.Count();
+
+                    if (!string.IsNullOrWhiteSpace(request.OrderbyName))
+                        rs = rs.OrderBy(request.OrderbyName);
+
+                    if(request.PageNumber > 0 && request.PageSize > 0)
+                        rs = rs.Skip(request.PageSize * request.PageNumber).Take(request.PageSize);
+
+                    dynamic[] arr = rs.Distinct().Cast<dynamic>().ToArray();
+                    return new oCacheResult(request).ToOk(arr, this.Count, countResult);
                 }
                 catch (Exception ex)
                 {

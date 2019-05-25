@@ -61,8 +61,13 @@ namespace CacheEngineShared
         static CacheSynchronized<T> _store = new CacheSynchronized<T>();
 
 
+        public string executeRequestJsonReplyCacheKey(string jsonCacheRequest)
+        {
+            string key = _store.searchDynamicReplyCacheKey(JsonConvert.DeserializeObject<oCacheRequest>(jsonCacheRequest));
+            return key;
+        }
 
-        public string executeReplyCacheKey(string conditons)
+        public string executeConditonsReplyCacheKey(string conditons)
         {
             string key = _store.searchDynamicReplyCacheKey(new oCacheRequest(_cacheModel.ServiceName, conditons));
             return key;

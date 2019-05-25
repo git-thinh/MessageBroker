@@ -109,7 +109,7 @@ namespace MessageBroker
 
             ChannelFactory<ICacheService> factory2 = new ChannelFactory<ICacheService>(new BasicHttpBinding(), new EndpointAddress("http://localhost:" + port + "/test/"));
             ICacheService proxy2 = factory2.CreateChannel();
-            oCacheResult rs2 = proxy2.executeReplyCacheKey("UserName=\"admin\"").getResultByCacheKey();
+            oCacheResult rs2 = proxy2.executeConditonsReplyCacheKey("UserName=\"admin\"").getResultByCacheKey();
 
             rs2.clearCacheIfExist();
 

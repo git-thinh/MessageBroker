@@ -18,10 +18,12 @@ namespace MessageBroker
         }
 
         [AttrApiInfo("Đăng nhâp tài khoản", Description = "BodyJson: {\"Username\":\"admin\",\"Password\":\"123\"}", Result = "Thành công nếu mảng Result[].length > 0")]
-        public oCacheResult post_Login([FromBody]oUserLogin user)
+        public oCacheResult post_Login([FromBody]oUserLogin item)
         {
+            if (item == null) return new oCacheResult().ToFailConvertJson("Please check format string json of input.");
+
             oCacheResult result = _cache
-                .executeReplyCacheKey("Username=\"" + user.Username + "\" And Password=\"" + user.Password + "\"")
+                .executeConditonsReplyCacheKey("Username=\"" + item.Username + "\" And Password=\"" + item.Password + "\"")
                 .getResultByCacheKey();
             return result;
         }

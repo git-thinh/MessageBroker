@@ -160,6 +160,7 @@
     <Compile Include="Api\Core\ValidateModelStateFilter.cs" />
     <Compile Include="Api\Pawn\Models\oProfileInfo.cs" />
     <Compile Include="Api\Pawn\Models\oPosPushNotify.cs" />
+    <Compile Include="Api\Pawn\PawnImagesController.cs" />
     <Compile Include="Api\Pawn\ProfileInfoController.cs" />
     <Compile Include="Api\Pawn\PosPushNotifyController.cs" />
     <Compile Include="Api\Pawn\Upload\FileUploadDetails.cs" />
@@ -180,7 +181,6 @@
     <Compile Include="Api\Pawn\BankInfoController.cs" />
     <Compile Include="Api\Pawn\CustomerInfoController.cs" />
     <Compile Include="Api\Pawn\ContactInfoController.cs" />
-    <Compile Include="Api\Pawn\PawnImagesController.cs" />
     <Compile Include="Api\Pawn\SourceInfoController.cs" />
     <Compile Include="Api\Pawn\ShopInfoController.cs" />
     <Compile Include="Api\BaseController.cs" />

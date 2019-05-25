@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Runtime.Serialization;
 
 namespace CacheEngineShared
@@ -70,18 +71,26 @@ namespace CacheEngineShared
         [DataMember]
         public int PageSize { set; get; }
 
-        public oCacheRequest(string conditions)
+        public oCacheRequest() : base()
         {
             this.ServiceName = string.Empty;
-            this.Conditions = conditions;
+            this.Conditions = string.Empty;
             this.OrderbyName = string.Empty;
         }
 
-        public oCacheRequest(string serviceName, string conditions)
+        public oCacheRequest(string conditions) : base()
+        {
+            this.Conditions = conditions;
+        }
+
+        public oCacheRequest(string serviceName, string conditions) : base()
         {
             this.ServiceName = serviceName;
             this.Conditions = conditions;
-            this.OrderbyName = string.Empty;
+        }
+
+        public string ToJson() {
+            return JsonConvert.SerializeObject(this);
         }
     }
 
@@ -126,14 +135,17 @@ namespace CacheEngineShared
             this.Request = request;
         }
 
-        public oCacheResult ToOk(dynamic[] results = null, int totalItems = 0)
+        public oCacheResult ToOk(dynamic[] results = null, int totalItems = 0, int countResult = 0)
         {
             if (results == null) results = new dynamic[] { };
             this.Ok = true;
             this.Code = oCacheResultCode.SUCCESS;
             this.Result = results;
             this.TotalItems = totalItems;
-            this.CountResult = results.Length;
+            if (countResult == 0)
+                this.CountResult = results.Length;
+            else
+                this.CountResult = countResult;
             return this;
         }
 

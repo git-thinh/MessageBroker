@@ -19,10 +19,13 @@ namespace CacheEngineShared
 
         [OperationContract]
         bool push(string arrayItemJson);
-        
+
         [OperationContract]
-        string executeReplyCacheKey(string conditons);
-        
+        string executeConditonsReplyCacheKey(string conditons);
+
+        [OperationContract]
+        string executeRequestJsonReplyCacheKey(string jsonCacheRequest);
+
         [OperationContract]
         string updateReplyCacheKey(UPDATE_TYPE type, string valKey, string jsonObject);
 
