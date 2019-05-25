@@ -9,6 +9,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.ServiceModel;
@@ -143,6 +144,7 @@ namespace MessageBroker
             }
         }
 
+
         [AttrApiInfo("Chức năng đồng bộ tất cả dữ liệu từ Database")]
         [HttpPost]
         public oCacheResult post_allDataFromDbStore()
@@ -151,12 +153,14 @@ namespace MessageBroker
             return get_All();
         }
 
+
         [AttrApiInfo("Chức năng PING kiểm tra online")]
         [HttpGet]
         public HttpResponseMessage get_ping()
         {
             return new HttpResponseMessage() { Content = new StringContent("OK", Encoding.ASCII, "text/plain") };
         }
+
 
         [AttrApiInfo("Chức năng lấy về tất cả dữ liệu")]
         public oCacheResult get_All()
@@ -165,6 +169,7 @@ namespace MessageBroker
             return result;
         }
 
+
         [AttrApiInfo("Chức năng tìm kiếm", Description = "{\"Conditions\":\" Linq.Dynamic clause at here ... \"}")]
         public oCacheResult post_Search([FromBody]oCacheRequest request)
         {
@@ -172,6 +177,33 @@ namespace MessageBroker
             oCacheResult result = _cache.executeReplyCacheKey(request.Conditions).getResultByCacheKey();
             result.Request = request;
             return result;
+        }
+
+        public HttpResponseMessage get_json([FromUri]string model = null)
+        {
+            string json = "{}";
+
+            if (model == null)
+            {
+                string[] a = this.ActionContext.Request.RequestUri.Segments;
+                if (a.Length > 2)
+                {
+                    model = a[2];
+                    model = model.Substring(0, model.Length - 1);
+                    model = "o" + string.Join("", model.Split('_').Select(x => x[0].ToString().ToUpper() + x.Substring(1)).ToArray());
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(model))
+            {
+                Type typeModel = Type.GetType("MessageBroker." + model + ", MessageBroker");
+                if (typeModel != null) {
+                    object item = Activator.CreateInstance(typeModel);
+                    json = JsonConvert.SerializeObject(item, Formatting.Indented);
+                }
+            } 
+
+            return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(json, Encoding.UTF8, "application/json") };
         }
     }
 }

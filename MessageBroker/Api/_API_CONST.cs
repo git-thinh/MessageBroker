@@ -10,6 +10,7 @@
         public const string USER_LOGIN = "user_login";
         public const string CUSTOMER_INFO = "customer_info"; // thông tin khach hang
         public const string SHOP_INFO = "shop_info"; // thông tin cửa hàng
+        public const string POS_PUSH_NOTIFY = "pos_push_notify"; // thông tin cửa hàng
         public const string BANK_INFO = "bank_info"; // thông tin ngân hàng
         public const string PAWN_INFO = "pawn_info"; // thông tin hợp đồng
         public const string ASSET_IMAGES = "asset_images"; // ảnh tài sản

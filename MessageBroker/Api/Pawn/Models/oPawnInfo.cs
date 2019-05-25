@@ -54,10 +54,17 @@
         [AttrFieldInfo(206, "Địa chỉ", AttrDataType.STRING)]
         public string Custorer_AddressPlace { get; set; }
 
+        [AttrFieldInfo(206, "Giới tính", AttrDataType.STRING)]
+        public int Custorer_Gender { get; set; }
+
         //-------------------------------------------
 
         [AttrFieldInfo(207, "Ngân hàng", AttrDataType.STRING)]
         public string BankName { get; set; }
+
+        [AttrFieldInfo(207, "Chi nhanh Ngân hàng", AttrDataType.STRING)]
+        public string BankBranchName { get; set; }
+
 
         [AttrFieldInfo(207, "Số tài khoản", AttrDataType.STRING)]
         public string BankAccountNo { get; set; }

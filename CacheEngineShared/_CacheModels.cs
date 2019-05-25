@@ -70,6 +70,13 @@ namespace CacheEngineShared
         [DataMember]
         public int PageSize { set; get; }
 
+        public oCacheRequest(string conditions)
+        {
+            this.ServiceName = string.Empty;
+            this.Conditions = conditions;
+            this.OrderbyName = string.Empty;
+        }
+
         public oCacheRequest(string serviceName, string conditions)
         {
             this.ServiceName = serviceName;

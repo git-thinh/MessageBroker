@@ -36,7 +36,7 @@
         <table style="width: 100%">
             <tbody>
                 <tr>
-                    <td style="width: 36%; vertical-align: top">
+                    <td style="width: 38%; vertical-align: top">
                         <table style="font-size: 12px; width: 100%" cellpadding="3">
                             <tbody>
                                 <tr>
@@ -68,7 +68,7 @@
                                 </tr>
                                 <tr>
                                     <td style="text-align: center; visibility:visible;">
-                                        <b>Số: PC/HNTC/04/2383</b>
+                                        <b>Số: [PHIEU_CHI_SO]</b>
                                     </td>
                                 </tr>
                                 <tr>
@@ -78,7 +78,7 @@
                                 </tr>
                                 <tr>
                                     <td style="text-align: center; font-style: italic; visibility:visible;">
-                                        Ngày 24 Tháng 4 Năm 2019
+                                        {{FormatDateTime1 DatetimeCreate "Ngày_dd_Tháng_MM_Năm_yyyy"}}
                                     </td>
                                 </tr>
                             </tbody>
@@ -125,7 +125,7 @@
                             <tbody>
                                 <tr>
                                     <td colspan="4">
-                                        Họ tên người nhận tiền: <span style="font-weight: bold; text-transform: uppercase">Hoàng Thành Đức</span>
+                                        Họ tên người nhận tiền: <span style="font-weight: bold; text-transform: uppercase">{{Custorer_Name}}</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -133,7 +133,7 @@
                                         Địa chỉ:
                                     </td>
                                     <td colspan="3">
-                                        Việt Hưng, Long Biên,HN
+                                        {{Custorer_AddressPlace}}
                                     </td>
                                 </tr>
                                 <tr>
@@ -143,11 +143,7 @@
                                     <td colspan="2">
                                         <ul>
                                             <li>
-                                                <p>
-                                                    01&nbsp;
-                                                    Xe máy : Xe máy HONDA Lead 110cc Fi 2008                                                    , BKS: 3333
-                                                </p>
-
+                                                <p>01&nbsp;{{Asset_Name}}</p>
                                             </li>
                                         </ul>
                                     </td>
@@ -160,10 +156,10 @@
                                         Số tiền vay:
                                     </td>
                                     <td style="width: 25%">
-                                        <span><b>3,048,540</b> vnđ</span>
+                                        <span><b>{{FormatMoney1 LoanAmount}}</b> vnđ</span>
                                     </td>
                                     <td colspan="2">
-                                        <i>(Số tiền bằng chữ: ba  triệu không trăm bốn mươi tám  nghìn năm trăm bốn mươi  )</i>
+                                        <i>(Số tiền bằng chữ: {{NumberToText1 LoanAmount}})</i>
                                     </td>
                                 </tr>
                                 <tr>
@@ -181,7 +177,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="4" style="font-style: italic; text-align: right">
-                                        Ngày 24 Tháng 4 Năm 2019
+                                        {{FormatDateTime2 DatetimeCreate "Ngày_dd_Tháng_MM_Năm_yyyy"}}
                                     </td>
                                 </tr>
                             </tbody>
@@ -226,417 +222,6 @@
             <tbody>
                 <tr>
                     <td>Đã nhận đủ số tiền (viết bằng chữ): ba  triệu không trăm bốn mươi tám  nghìn năm trăm bốn mươi  </td>
-                </tr>
-                <tr>
-                    <td>+ Tỷ giá ngoại tệ (vàng, bạc, đá quý):</td>
-                </tr>
-                <tr>
-                    <td>+ Số tiền quy đổi:</td>
-                </tr>
-                <tr>
-                    <td>(Liên gửi ra ngoài phải đóng dấu)</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="breakhere" style="padding: 37px 20px;">
-
-        <table style="width: 100%">
-            <tbody>
-                <tr>
-                    <td style="width: 36%; vertical-align: top">
-                        <table style="font-size: 12px; width: 100%" cellpadding="3">
-                            <tbody>
-                                <tr>
-                                    <td style="width: 45px; font-weight: bold">
-                                        <span class="no-print">Đơn vị:</span>
-                                    </td>
-                                    <td>
-                                        <span class="no-print">CÔNG TY CỔ PHẦN KINH DOANH F88</span>
-                                    </td>
-                                </tr>
-                                <tr style="vertical-align: top">
-                                    <td style="font-weight: bold">
-                                        <span class="no-print">Địa chỉ:</span>
-                                    </td>
-                                    <td>
-                                        <span class="no-print">P206, tầng M, tòa nhà N01A 275 Nguyễn Trãi, Thanh Xuân, HN</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                    <td style="width: 29%; vertical-align: top;">
-                        <table style="width: 100%" cellpadding="0">
-                            <tbody>
-                                <tr>
-                                    <td style="font-size: 25px; font-weight: bold; text-align: center">
-                                        <span class="no-print">PHIẾU CHI</span>&nbsp;
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: center; visibility:visible;">
-                                        <b>Số: </b>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: center">
-                                        <span style="font-style: italic"></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: center; font-style: italic; visibility:visible;">
-                                        Ngày 24 Tháng 4 Năm 2019
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                    <td>
-                        <table style="width: 100%; text-align: left; font-size: 12px;">
-                            <tbody>
-                                <tr>
-                                    <td style="font-weight: bold">
-                                        <span class="no-print">Mẫu số 02-TT</span>&nbsp;
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="no-print">(Ban hành theo QĐ số: 15/2006/QĐ-BTC</span>&nbsp;<br>
-                                        <span class="no-print">Ngày 20/03/2006 của bộ trưởng BTC)</span>&nbsp;
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <strong><span class="no-print">Nợ:</span>&nbsp;</strong>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <strong><span class="no-print">Có:</span>&nbsp;</strong>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <br>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3">
-                        <table style="width: 100%" cellpadding="3">
-                            <tbody>
-                                <tr>
-                                    <td colspan="4">
-                                        Họ tên người nhận tiền: <span style="font-weight: bold; text-transform: uppercase">Hoàng Thành Đức</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 25%">
-                                        Địa chỉ:
-                                    </td>
-                                    <td colspan="3">
-                                        Việt Hưng, Long Biên,HN
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="1" style="width: 25%">
-                                        Lý do chi: Cầm
-                                    </td>
-                                    <td colspan="2">
-                                        <ul>
-                                            <li>
-                                                <p>
-                                                    01&nbsp;
-                                                    Xe máy : Xe máy HONDA Lead 110cc Fi 2008                                                    , BKS: 3333
-                                                </p>
-
-                                            </li>
-                                        </ul>
-                                    </td>
-                                    <td colspan="1">
-                                        theo hợp đồng số HĐCC/HNTC/1904/2
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 25%">
-                                        Số tiền vay:
-                                    </td>
-                                    <td style="width: 25%">
-                                        <span><b>2,000,000</b> vnđ</span>
-                                    </td>
-                                    <td colspan="2">
-                                        <i>(Số tiền bằng chữ: hai  triệu )</i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Kèm theo:
-                                    </td>
-                                    <td colspan="2"></td>
-                                    <td style="width: 40%">
-                                        chứng từ gốc
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 25%">Phương thức thanh toán:</td>
-                                    <td>Tiền mặt</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4" style="font-style: italic; text-align: right">
-                                        Ngày 24 Tháng 4 Năm 2019
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <table style="width: 100%">
-            <tbody>
-                <tr>
-                    <td style="width: 25%; text-align: center">
-                        <strong>Người nhận tiền</strong><br>
-                        <i style="font-size: 12px">(Ký, họ tên)</i>
-                    </td>
-                    <td style="width: 25%; text-align: center">
-                        <strong>Người lập</strong><br>
-                        <i style="font-size: 12px">(Ký, họ tên)</i>
-                    </td>
-                    <td style="width: 25%; text-align: center">
-                        <strong>Thủ quỹ</strong><br>
-                        <i style="font-size: 12px">(Ký, họ tên)</i>
-                    </td>
-                    <td style="text-align: center">
-                        <strong>Quản Lý</strong><br>
-                        <i style="font-size: 12px">(Ký, họ tên)</i>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="4">
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <table style="width: 100%; font-size: 13px">
-            <tbody>
-                <tr>
-                    <td>Đã nhận đủ số tiền (viết bằng chữ): hai  triệu </td>
-                </tr>
-                <tr>
-                    <td>+ Tỷ giá ngoại tệ (vàng, bạc, đá quý):</td>
-                </tr>
-                <tr>
-                    <td>+ Số tiền quy đổi:</td>
-                </tr>
-                <tr>
-                    <td>(Liên gửi ra ngoài phải đóng dấu)</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="breakhere" style="padding: 37px 20px;">
-        <table style="width: 100%">
-            <tbody>
-                <tr>
-                    <td style="width: 36%; vertical-align: top">
-                        <table style="font-size: 12px; width: 100%" cellpadding="3">
-                            <tbody>
-                                <tr>
-                                    <td style="width: 45px; font-weight: bold">
-                                        <span class="no-print">Đơn vị:</span>
-                                    </td>
-                                    <td>
-                                        <span class="no-print">CÔNG TY CỔ PHẦN KINH DOANH F88</span>
-                                    </td>
-                                </tr>
-                                <tr style="vertical-align: top">
-                                    <td style="font-weight: bold">
-                                        <span class="no-print">Địa chỉ:</span>
-                                    </td>
-                                    <td>
-                                        <span class="no-print">P206, tầng M, tòa nhà N01A 275 Nguyễn Trãi, Thanh Xuân, HN</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                    <td style="width: 29%; vertical-align: top;">
-                        <table style="width: 100%" cellpadding="0">
-                            <tbody>
-                                <tr>
-                                    <td style="font-size: 25px; font-weight: bold; text-align: center">
-                                        <span class="no-print">PHIẾU THU</span>&nbsp;
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: center; visibility:visible;">
-                                        <b>Số: PT/HNTC/04/2695</b>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: center">
-                                        <span style="font-style: italic"></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: center; font-style: italic; visibility:visible;">
-                                        Ngày 24 Tháng 4 Năm 2019
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                    <td>
-                        <table style="width: 100%; text-align: left; font-size: 12px;">
-                            <tbody>
-                                <tr>
-                                    <td style="font-weight: bold">
-                                        <span class="no-print">Mẫu số 02-TT</span>&nbsp;
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="no-print">(Ban hành theo QĐ số: 15/2006/QĐ-BTC</span>&nbsp;<br>
-                                        <span class="no-print">Ngày 20/03/2006 của bộ trưởng BTC)</span>&nbsp;
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <strong><span class="no-print">Nợ:</span>&nbsp;</strong>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <strong><span class="no-print">Có:</span>&nbsp;</strong>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <br>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3">
-                        <table style="width: 100%" cellpadding="3">
-                            <tbody>
-                                <tr>
-                                    <td colspan="4">
-                                        Họ tên người nộp tiền: <span style="font-weight: bold; text-transform: uppercase">Hoàng Thành Đức</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 25%">
-                                        Địa chỉ:
-                                    </td>
-                                    <td colspan="3">
-                                        Việt Hưng, Long Biên,HN
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="1" style="width: 25%">
-                                        Lý do thu: Thu phí bảo hiểm MAP Life
-                                    </td>
-                                    <td colspan="2">
-                                        <ul>
-                                            <li>
-                                                <p>
-                                                    01&nbsp;
-                                                    Xe máy : Xe máy HONDA Lead 110cc Fi 2008                                                    , BKS: 3333
-                                                </p>
-
-                                            </li>
-                                        </ul>
-                                    </td>
-                                    <td colspan="1">
-                                        theo hợp đồng số HĐCC/HNTC/1904/2
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 25%">
-                                        Tiền bảo hiểm:
-                                    </td>
-                                    <td style="width: 25%">
-                                        <b>48,540</b> vnđ
-                                    </td>
-                                    <td colspan="2">
-                                        <i>(Số tiền bằng chữ: bốn mươi tám  nghìn năm trăm bốn mươi  )</i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Kèm theo:
-                                    </td>
-                                    <td colspan="2"></td>
-                                    <td style="width: 40%">
-                                        chứng từ gốc
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4" style="font-style: italic; text-align: right">
-                                        Ngày 24 Tháng 4 Năm 2019
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <table style="width: 100%">
-            <tbody>
-                <tr>
-                    <td style="width: 25%; text-align: center">
-                        <strong>Người nộp tiền</strong><br>
-                        <i style="font-size: 12px">(Ký, họ tên)</i>
-                    </td>
-                    <td style="width: 25%; text-align: center">
-                        <strong>Người lập</strong><br>
-                        <i style="font-size: 12px">(Ký, họ tên)</i>
-                    </td>
-                    <td style="width: 25%; text-align: center">
-                        <strong>Thủ quỹ</strong><br>
-                        <i style="font-size: 12px">(Ký, họ tên)</i>
-                    </td>
-                    <td style="text-align: center">
-                        <strong>Quản Lý</strong><br>
-                        <i style="font-size: 12px">(Ký, họ tên)</i>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="4">
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <table style="width: 100%; font-size: 13px">
-            <tbody>
-                <tr>
-                    <td>Đã nộp đủ số tiền (viết bằng chữ): bốn mươi tám  nghìn năm trăm bốn mươi  </td>
                 </tr>
                 <tr>
                     <td>+ Tỷ giá ngoại tệ (vàng, bạc, đá quý):</td>

@@ -59,6 +59,9 @@ namespace MessageBroker
         static void test_01()
         {
 
+            //string filePdf = Path.Combine(Path.GetFullPath("../"), "MessageUI/Pdf/Files/" + so_hop_dong.Replace('/', '_') + ".pdf");
+            //PdfCreator.export(filePdf, this.Request.RequestUri.ToString());
+
             const string url = "http://localhost:9096/pdf/giay-yeu-cau-bao-hiem.html";
             HtmlToPdfDocument Document = new HtmlToPdfDocument() { Objects = { new ObjectSettings { PageUrl = url } } };
 
