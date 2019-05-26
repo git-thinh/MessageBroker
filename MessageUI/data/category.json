@@ -6,6 +6,19 @@
     "folder": true,
     "children": [
       {
+        "title": "Test",
+        "level": 1,
+        "expanded": false,
+        "folder": true,
+        "children": [
+          {
+            "title": "webview",
+            "type": "compo",
+            "path": "/test/webview"
+          }
+        ]
+      },
+      {
         "title": "Breadcrumb",
         "level": 1,
         "expanded": false,

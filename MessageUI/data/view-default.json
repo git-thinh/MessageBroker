@@ -1,6 +1,9 @@
 ﻿{
+  "": {
+    "main": "/test/webview"
+  },
   "123": {
-    "main": "/element/kit-bootstrap" 
+    "main": "/element/kit-bootstrap"
   },
   "9001": {
     "main": "/log/log-test-ws"

@@ -1,4 +1,5 @@
 ﻿{
+  "test": [ "webview" ],
   "breadcrumb": [ "breadcrumb" ],
   "color": [ "background-color", "text-color" ],
   "dashboard": [ "dashboard" ],
