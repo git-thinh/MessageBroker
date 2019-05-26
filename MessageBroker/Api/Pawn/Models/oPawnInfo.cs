@@ -6,6 +6,8 @@
         [AttrFieldInfo(11, "Hợp đồng Id", AttrDataType.LONG, true, true)]
         public long Pawn_ID { get; set; }
 
+        [AttrFieldInfo(11, "Tiền thưởng", AttrDataType.LONG, true, true)]
+        public int Bonus { get; set; }
         //-------------------------------------------
         
         [AttrFieldInfo(12, "Mã hợp đồng", AttrDataType.STRING, false, true)]
@@ -24,12 +26,20 @@
         public int SumLoanDate { get; set; }
 
         //-------------------------------------------
+        [AttrFieldInfo(20, "Thong tin thong bao", AttrDataType.STRING)]
+        public string PawnMessage { get; set; }
 
         [AttrFieldInfo(20, "Tên tài sản", AttrDataType.STRING)]
         public string Asset_Name { get; set; }
 
         [AttrFieldInfo(21, "Nhom tài sản", AttrDataType.STRING)]
         public string AssetCategory_Name { get; set; }
+
+        [AttrFieldInfo(1, "", AttrDataType.LONG, true)]
+        public long Asset_ID { set; get; }
+
+        [AttrFieldInfo(1, "", AttrDataType.LONG, true)]
+        public long AssetCategory_ID { set; get; }
 
         //-------------------------------------------
         // Thong tin khach hang
@@ -56,6 +66,9 @@
 
         [AttrFieldInfo(206, "Giới tính", AttrDataType.STRING)]
         public int Custorer_Gender { get; set; }
+
+        [AttrFieldInfo(1, "Avatar", AttrDataType.STRING)]
+        public string Custorer_Avatar { get; set; }
 
         //-------------------------------------------
 

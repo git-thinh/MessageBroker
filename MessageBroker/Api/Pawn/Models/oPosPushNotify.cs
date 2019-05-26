@@ -16,10 +16,10 @@ namespace MessageBroker
 
 
         [AttrFieldInfo(1, "", AttrDataType.INT, true)]
-        public long Asset_Id { set; get; }
+        public long Asset_ID { set; get; }
 
         [AttrFieldInfo(1, "", AttrDataType.INT, true)]
-        public long AssetCategory_Id { set; get; }
+        public long AssetCategory_ID { set; get; }
 
         [AttrFieldInfo(1, "", AttrDataType.STRING, true)]
         public string AssetCode { set; get; }

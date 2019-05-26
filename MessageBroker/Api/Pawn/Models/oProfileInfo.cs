@@ -3,6 +3,9 @@
     [AttrModelInfo("Thông tin profile", _API_CONST.SHOP_INFO)]
     public class oProfileInfo
     {
+        [AttrFieldInfo(1, "", AttrDataType.LONG, true, true, true)]
+        public long Profile_ID { set; get; }
+
         // UserLogin
         [AttrFieldInfo(1, "", AttrDataType.INT, true, true, true)]
         public int User_ID { set; get; }
@@ -34,11 +37,17 @@
         ////////////////////////////////////////////////////////////////////
         // ProfileInfo
 
+        [AttrFieldInfo(1, "Khach hang Id", AttrDataType.LONG)]
+        public long Customer_ID { set; get; }
+
+        [AttrFieldInfo(1, "Ma Khach hang", AttrDataType.LONG)]
+        public long CustomerCode { set; get; }
+
         [AttrFieldInfo(1, "Avatar", AttrDataType.STRING)]
         public string Avatar { get; set; }
 
         [AttrFieldInfo(5, "Hợp đồng đang vay", AttrDataType.STRING)]
-        public int PawnLoanActive { get; set; }
+        public int ContactActiveCounter { get; set; }
 
         [AttrFieldInfo(1, "Tổng số tiền", AttrDataType.STRING)]
         public long PawnTotalMoney { get; set; }
@@ -46,6 +55,17 @@
         [AttrFieldInfo(1, "Hoa Hồng", AttrDataType.STRING)]
         public long PawnTotalBonus { get; set; }
 
+        [AttrFieldInfo(1, "Giới tính", AttrDataType.STRING)]
+        public long Gender { get; set; }
+
+        [AttrFieldInfo(1, "Ngày sinh", AttrDataType.STRING)]
+        public long Brithday { get; set; }
+
+        [AttrFieldInfo(1, "Thu nhập", AttrDataType.STRING)]
+        public long Salary { get; set; }
+
+        [AttrFieldInfo(1, "Thời gian cập nhật gần nhất", AttrDataType.STRING)]
+        public long DatetimeUplateLastest { get; set; }
         ////////////////////////////////////////////////////////////////////
 
     }

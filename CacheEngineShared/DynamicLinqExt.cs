@@ -2,17 +2,52 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace CacheEngineShared
 {
-    public static class LinqExt
+    public static class DynamicLinqExt
     {
         public static IList ToListNoneType(this IQueryable query)
         {
             return (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(query.ElementType), query);
         }
 
+        public static IQueryable<T> OrderbyName<T>(this IQueryable<T> source, string propertyName)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+
+            // DataSource control passes the sort parameter with a direction
+            // if the direction is descending          
+
+            int descIndex = propertyName.ToUpper().IndexOf(" DESC");
+
+            if (descIndex >= 0)
+            {
+                propertyName = propertyName.Substring(0, descIndex).Trim();
+            }
+                       
+            if (String.IsNullOrEmpty(propertyName))
+            {
+                return source;
+            }
+                       
+            ParameterExpression parameter = Expression.Parameter(source.ElementType, String.Empty);
+            MemberExpression property = Expression.Property(parameter, propertyName);
+            LambdaExpression lambda = Expression.Lambda(property, parameter);
+                       
+            string methodName = (descIndex < 0) ? "OrderBy" : "OrderByDescending";
+
+            Expression methodCallExpression = Expression.Call(typeof(Queryable), methodName,
+                                                new Type[] { source.ElementType, property.Type },
+                                                source.Expression, Expression.Quote(lambda));
+
+            return source.Provider.CreateQuery<T>(methodCallExpression);
+        }
 
         ///<summary>Finds the index of the first item matching an expression in an enumerable.</summary>
         ///<param name="items">The enumerable to search.</param>
@@ -29,7 +64,6 @@ namespace CacheEngineShared
                 if (predicate(item)) ls.Add(retVal);
                 retVal++;
             }
-
             return ls.ToArray();
         }
 

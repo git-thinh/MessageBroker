@@ -12,8 +12,14 @@ namespace MessageBroker
         [AttrFieldInfo(1, "", AttrDataType.LONG)]
         public long Customer_ID { set; get; }
 
+        [AttrFieldInfo(1, "Ma Khach hang", AttrDataType.LONG)]
+        public long CustomerCode { set; get; }
+
         [AttrFieldInfo(1, "", AttrDataType.LONG)]
         public long Contact_ID { set; get; }
+
+        [AttrFieldInfo(1, "", AttrDataType.LONG)]
+        public long CompanyContact_ID { set; get; }
         
         [AttrFieldInfo(1, "", AttrDataType.INT)]
         public int Source_ID { set; get; }

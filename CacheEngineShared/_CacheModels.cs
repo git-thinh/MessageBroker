@@ -49,26 +49,21 @@ namespace CacheEngineShared
         FAIL_NOT_FOUND = 1002,
         FAIL_CONVERT_JSON = 1002,
     }
-
-    [DataContract]
+     
     public class oCacheRequest
     {
-        [DataMember]
         public string RequestId { set; get; }
 
-        [DataMember]
         public string ServiceName { set; get; }
 
-        [DataMember]
         public string Conditions { set; get; }
 
-        [DataMember]
-        public string OrderbyName { set; get; }
+        public string SelectColumns { set; get; }
 
-        [DataMember]
+        public string OrderbyName { set; get; }
+         
         public int PageNumber { set; get; }
 
-        [DataMember]
         public int PageSize { set; get; }
 
         public oCacheRequest() : base()
@@ -76,6 +71,7 @@ namespace CacheEngineShared
             this.ServiceName = string.Empty;
             this.Conditions = string.Empty;
             this.OrderbyName = string.Empty;
+            this.SelectColumns = string.Empty; 
         }
 
         public oCacheRequest(string conditions) : base()

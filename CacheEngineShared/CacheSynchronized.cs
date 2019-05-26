@@ -30,7 +30,8 @@ namespace CacheEngineShared
             innerCache = new List<T>() { };
         }
 
-        public void initDataFromDbStore(string storeName){
+        public void initDataFromDbStore(string storeName)
+        {
             try
             {
                 using (IDbConnection cnn = new SqlConnection(_DB_CONST.get_connectString_Mobility()))
@@ -42,8 +43,9 @@ namespace CacheEngineShared
                         var rs = cnn.Query<T>(storeName, null, commandType: CommandType.StoredProcedure).ToList();
                         innerCache = rs;
                         //cache file json
-                        string file = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), storeName+".json");
-                        if (innerCache.Count > 0 && File.Exists(file) == false) {
+                        string file = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), storeName + ".json");
+                        if (innerCache.Count > 0 && File.Exists(file) == false)
+                        {
                             File.WriteAllText(file, JsonConvert.SerializeObject(innerCache));
                         }
                         this.limit = this.innerCache.Count;
@@ -54,7 +56,8 @@ namespace CacheEngineShared
                     }
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 string msg = ex.Message;
             }
         }
@@ -87,7 +90,8 @@ namespace CacheEngineShared
                     {
                         JsonConvert.SerializeObject(innerCache);
                     }
-                    catch (Exception ex1) {
+                    catch (Exception ex1)
+                    {
                         return new oCacheResult().ToFailConvertJson(ex1.Message, title);
                     }
                     return new oCacheResult().ToOk(innerCache.Cast<dynamic>().ToArray(), Count);
@@ -103,9 +107,11 @@ namespace CacheEngineShared
             }
         }
 
-        public string insertItemsByCacheKey(string cacheKey) {
+        public string insertItemsByCacheKey(string cacheKey)
+        {
             ObjectCache cache = MemoryCache.Default;
-            if (cache.Contains(cacheKey)) {
+            if (cache.Contains(cacheKey))
+            {
                 cacheLock.EnterWriteLock();
                 try
                 {
@@ -254,6 +260,41 @@ namespace CacheEngineShared
         //////    return arr;
         //////}
 
+        // var result = list.Select( CreateNewStatement( "Field1, Field2" ) );
+        private Func<T, T> createNewStatement(string fields)
+        {
+            // input parameter "o"
+            var xParameter = Expression.Parameter(typeof(T), "o");
+
+            // new statement "new Data()"
+            var xNew = Expression.New(typeof(T));
+
+            // create initializers
+            var bindings = fields.Split(',').Select(o => o.Trim())
+                .Select(o =>
+                {
+
+                    // property "Field1"
+                    var mi = typeof(T).GetProperty(o);
+
+                    // original value "o.Field1"
+                    var xOriginal = Expression.Property(xParameter, mi);
+
+                    // set value "Field1 = o.Field1"
+                    return Expression.Bind(mi, xOriginal);
+                }
+            );
+
+            // initialization "new Data { Field1 = o.Field1, Field2 = o.Field2 }"
+            var xInit = Expression.MemberInit(xNew, bindings);
+
+            // expression "o => new Data { Field1 = o.Field1, Field2 = o.Field2 }"
+            var lambda = Expression.Lambda<Func<T, T>>(xInit, xParameter);
+
+            // compile to Func<Data, Data>
+            return lambda.Compile();
+        }
+
         public oCacheResult SearchDynamic(oCacheRequest request)
         {
             cacheLock.EnterReadLock();
@@ -266,13 +307,16 @@ namespace CacheEngineShared
                         rs = innerCache;
                     else
                         rs = innerCache.Where(request.Conditions);
+
                     int countResult = rs.Count();
 
                     if (!string.IsNullOrWhiteSpace(request.OrderbyName))
                         rs = rs.OrderBy(request.OrderbyName);
 
-                    if(request.PageNumber > 0 && request.PageSize > 0)
-                        rs = rs.Skip(request.PageSize * request.PageNumber).Take(request.PageSize);
+                    if (request.PageNumber == 1 && request.PageSize > 0)
+                        rs = rs.Take(request.PageSize);
+                    else if (request.PageNumber > 0 && request.PageSize > 0)
+                        rs = rs.Skip(request.PageSize * (request.PageNumber - 1)).Take(request.PageSize);
 
                     dynamic[] arr = rs.Distinct().Cast<dynamic>().ToArray();
                     return new oCacheResult(request).ToOk(arr, this.Count, countResult);
