@@ -12,8 +12,7 @@
         public const string SHOP_INFO = "shop_info"; // thông tin cửa hàng
         public const string POS_PUSH_NOTIFY = "pos_push_notify"; // thông tin cửa hàng
         public const string BANK_INFO = "bank_info"; // thông tin ngân hàng
-        public const string PAWN_INFO = "pawn_info"; // thông tin hợp đồng
-        public const string ASSET_IMAGES = "asset_images"; // ảnh tài sản
+        public const string PAWN_INFO = "pawn_info"; // thông tin hợp đồng 
         public const string CONTACT_INFO = "contact_info"; // thong tin lien lac moi nguoi
     }
 }

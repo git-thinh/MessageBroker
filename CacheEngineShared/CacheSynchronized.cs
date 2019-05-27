@@ -22,15 +22,13 @@ namespace CacheEngineShared
     {
         private ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
         private List<T> innerCache;
-        private int limit;
 
         public CacheSynchronized()
         {
-            limit = 0;
             innerCache = new List<T>() { };
         }
 
-        public void initDataFromDbStore(string storeName)
+        public void initDataFromDbStore(string storeName, bool logConsole = false)
         {
             try
             {
@@ -42,13 +40,15 @@ namespace CacheEngineShared
                     {
                         var rs = cnn.Query<T>(storeName, null, commandType: CommandType.StoredProcedure).ToList();
                         innerCache = rs;
-                        //cache file json
-                        string file = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), storeName + ".json");
-                        if (innerCache.Count > 0 && File.Exists(file) == false)
-                        {
-                            File.WriteAllText(file, JsonConvert.SerializeObject(innerCache));
-                        }
-                        this.limit = this.innerCache.Count;
+                        if (logConsole) Console.WriteLine(string.Format("{0,29} {1,5}", storeName.Substring(0, storeName.Length - "_cacheInitData".Length), rs.Count));
+
+                        //////cache file json
+                        ////string file = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), storeName + ".json");
+                        ////if (innerCache.Count > 0 && File.Exists(file) == false)
+                        ////{
+                        ////    File.WriteAllText(file, JsonConvert.SerializeObject(innerCache));
+                        ////}
+                        ////this.limit = this.innerCache.Count;
                     }
                     finally
                     {
@@ -70,7 +70,6 @@ namespace CacheEngineShared
             try
             {
                 this.innerCache = items.ToList();
-                this.limit = this.innerCache.Count;
             }
             finally
             {
@@ -119,7 +118,6 @@ namespace CacheEngineShared
                     {
                         T[] arr = (T[])cache.Get(cacheKey);
                         this.innerCache.AddRange(arr);
-                        this.limit = this.innerCache.Count;
                         cache.Remove(cacheKey);
                     }
                     catch { }
@@ -153,7 +151,6 @@ namespace CacheEngineShared
                 {
                     foreach (var o in items)
                         this.innerCache.Add((T)o);
-                    this.limit = this.innerCache.Count;
                 }
                 finally
                 {
@@ -178,7 +175,6 @@ namespace CacheEngineShared
                 try
                 {
                     this.innerCache.Add((T)item);
-                    this.limit = this.innerCache.Count;
                 }
                 finally
                 {
@@ -238,6 +234,20 @@ namespace CacheEngineShared
             {
                 cacheLock.ExitReadLock();
             }
+        }
+
+        public T getByIndex(int index)
+        {
+            cacheLock.EnterReadLock();
+            try
+            {
+                if (index < innerCache.Count) return innerCache[index];
+            }
+            finally
+            {
+                cacheLock.ExitReadLock();
+            }
+            return default(T);
         }
 
         //////public int[] Search(string condition)
@@ -352,7 +362,7 @@ namespace CacheEngineShared
             try
             {
                 List<int> ls = new List<int>() { };
-
+                int limit = innerCache.Count;
                 //for (int i = 0; i < limit; i++) if (predicate(innerCache[i])) ls.Add(i);
                 Parallel.For(0, limit, i => { if (predicate(innerCache[i])) lock (ls) ls.Add(i); });
 
@@ -365,12 +375,26 @@ namespace CacheEngineShared
             return arr;
         }
 
-        public void Add(int index, T value)
+        public void RemoveAt(int index)
         {
             cacheLock.EnterWriteLock();
             try
             {
-                if (index < Count) innerCache[index] = value;
+                if (index < innerCache.Count) innerCache.RemoveAt(index);
+            }
+            finally
+            {
+                cacheLock.ExitWriteLock();
+            }
+        }
+
+        public int Add(T value)
+        {
+            cacheLock.EnterWriteLock();
+            try
+            {
+                innerCache.Add(value);
+                return innerCache.Count;
             }
             finally
             {

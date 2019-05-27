@@ -1,35 +1,68 @@
-﻿using MessageShared;
+﻿using CacheEngineShared;
+using MessageShared;
 using System;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web;
 using TuesPechkin;
 
 namespace MessageBroker
 {
     public class JobPdfExport : JobBase
     {
-        public override void freeResource() { pdfStop(); }
+        public override void freeResource() { pdf_Stop(); }
 
         ////////////////////////////////////////////////////////////////////
         /// 
 
+        private static bool _isStop = false;
         private static bool _inited = false;
-        private readonly mDbUpdateRequest _requestUpdateDb;
-        public JobPdfExport(mDbUpdateRequest requestUpdateDb = null)
+        private static ConcurrentQueue<string> _urls = new ConcurrentQueue<string>();
+
+        public JobPdfExport(string url = "")
         {
-            _requestUpdateDb = requestUpdateDb;
+            if (string.IsNullOrWhiteSpace(url)) return;
+            _urls.Enqueue(url);
         }
 
         ////////////////////////////////////////////////////////////////////
         /// 
 
-        static void pdfStart()
+        static void pdf_Init()
         {
-            test_01();
+            Task.Factory.StartNew((obj) =>
+            {
+                IDataflowSubscribers _dataflow = (IDataflowSubscribers)obj;
+                while (_isStop == false)
+                {
+                    if (_urls.Count > 0)
+                    {
+                        string url;
+                        if (_urls.TryDequeue(out url) && !string.IsNullOrEmpty(url))
+                        {
+                            Console.WriteLine("> EXPORTING -> PDF: " + url);
+                            string file = exportPdf(url), s = "";
+
+                            if (file == null)
+                                s = "#EXPORT.PDF:FAIL:" + file;
+                            else
+                                s = "#EXPORT.PDF:OK:" + file;
+
+                            Console.WriteLine(s);
+                            _dataflow.enqueue(new JobClientNotification(s));
+                        }
+                    }
+                    Thread.Sleep(100);
+                }
+            }, Dataflow);
         }
 
-        static void pdfStop()
+        static void pdf_Stop()
         {
+            _isStop = true;
         }
 
         ////////////////////////////////////////////////////////////////////
@@ -40,29 +73,32 @@ namespace MessageBroker
             if (!_inited)
             {
                 _inited = true;
-                pdfStart();
+                pdf_Init();
                 return;
             }
-
-            if (_requestUpdateDb == null) return;
         }
 
         ////////////////////////////////////////////////////////////////////
         //
 
-        private static IConverter converter =
-            new StandardConverter(
-                new PdfToolset(
-                    new Win64EmbeddedDeployment(
-                        new TempFolderDeployment())));
+        private static IConverter converter = new StandardConverter(new PdfToolset(new Win64EmbeddedDeployment(new TempFolderDeployment())));
 
-        static void test_01()
+        static string exportPdf(string url)
         {
+            Uri uri = new Uri(url);
+            string Pawn_ID = HttpUtility.ParseQueryString(uri.Query).Get("Pawn_ID");
+            if (string.IsNullOrWhiteSpace(Pawn_ID)) return null;
+
+            string path = Path.Combine(Path.GetFullPath("../"), "MessageUI/Exports/");
+            if (Directory.Exists(path) == false) Directory.CreateDirectory(path);
+
+            string fileName = uri.Segments[uri.Segments.Length - 1].Substring(7) + "." + Pawn_ID + "." + DateTime.Now.ToString("yyyyMMdd-HHmmssfff") + ".pdf";
+            string file = Path.Combine(path, fileName);
 
             //string filePdf = Path.Combine(Path.GetFullPath("../"), "MessageUI/Pdf/Files/" + so_hop_dong.Replace('/', '_') + ".pdf");
             //PdfCreator.export(filePdf, this.Request.RequestUri.ToString());
 
-            const string url = "http://localhost:9096/pdf/giay-yeu-cau-bao-hiem.html";
+            //const string url = "http://localhost:9096/pdf/giay-yeu-cau-bao-hiem.html";
             HtmlToPdfDocument Document = new HtmlToPdfDocument() { Objects = { new ObjectSettings { PageUrl = url } } };
 
             byte[] buf = null;
@@ -70,35 +106,39 @@ namespace MessageBroker
             try
             {
                 buf = converter.Convert(Document);
-                Console.WriteLine("All conversions done");
+                //Console.WriteLine("All conversions done");
 
                 if (buf == null)
                 {
-                    Console.WriteLine( "No exceptions were raised but wkhtmltopdf failed to convert. => Error Converting");
-                    return;
+                    //Console.WriteLine( "No exceptions were raised but wkhtmltopdf failed to convert. => Error Converting");
+                    return null;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Exception Occurred1: " + ex.Message);
+                //Console.WriteLine("Exception Occurred1: " + ex.Message);
+                return null;
             }
 
             try
             {
-                string fn = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "test.pdf");
+                //string fn = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "test.pdf");
 
-                FileStream fs = new FileStream(fn, FileMode.Create);
+
+                FileStream fs = new FileStream(file, FileMode.Create);
                 fs.Write(buf, 0, buf.Length);
                 fs.Close();
 
                 //Process myProcess = new Process();
                 //myProcess.StartInfo.FileName = fn;
                 //myProcess.Start();
-                Console.WriteLine("OK >>> " + fn);
+                //Console.WriteLine("OK >>> " + file);
+                return fileName;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Exception Occurred2: " + ex.Message);
+                //Console.WriteLine("Exception Occurred2: " + ex.Message);
+                return null;
             }
         }
     }

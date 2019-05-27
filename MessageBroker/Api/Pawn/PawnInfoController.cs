@@ -87,7 +87,7 @@ namespace MessageBroker
                 }
             }
             return rs;
-        } 
+        }
 
         #region [ IN: PHIEU CHI - HOP DONG ]
 
@@ -100,27 +100,41 @@ namespace MessageBroker
         private void fn_formatDateTime_ddMMyyyy(RenderContext ctx, IList<object> args, IDictionary<string, object> options, RenderBlock fn, RenderBlock inverse)
         {
             string dateTime = args[0].ToString(), s = args[1].ToString();
-            DateTime dt = DateTime.ParseExact(dateTime, dateTime.Length == 8 ? "yyyyMMdd" : "yyyyMMddHHmmss", null);
-            s = dt.ToString("dd/MM/yyyy");
-            ctx.Write(s);
+            if (!string.IsNullOrWhiteSpace(dateTime) && dateTime.Length > 7)
+            {
+                DateTime dt;
+                if (dateTime == "DATE_NOW") dt = DateTime.Now;
+                else dt = DateTime.ParseExact(dateTime, dateTime.Length == 8 ? "yyyyMMdd" : "yyyyMMddHHmmss", null);
+                s = dt.ToString("dd/MM/yyyy");
+                ctx.Write(s);
+            }
         }
 
         private void fn_formatDateTimeNow(RenderContext ctx, IList<object> args, IDictionary<string, object> options, RenderBlock fn, RenderBlock inverse)
         {
-            string dateTime = args[0].ToString().Replace('_',' ');
-            string s = DateTime.Now.ToString(dateTime);
-            ctx.Write(s);
+            string dateTime = args[0].ToString().Replace('_', ' ');
+            if (!string.IsNullOrWhiteSpace(dateTime) && dateTime.Length > 7)
+            {
+                string s = DateTime.Now.ToString(dateTime);
+                ctx.Write(s);
+            }
         }
 
         private void fn_formatDateTime(RenderContext ctx, IList<object> args, IDictionary<string, object> options, RenderBlock fn, RenderBlock inverse)
         {
             string dateTime = args[0].ToString(), s = args[1].ToString();
-            DateTime dt = DateTime.ParseExact(dateTime, dateTime.Length == 8 ? "yyyyMMdd" : "yyyyMMddHHmmss", null);
-            s = s.Replace("_dd_", " " + dt.Day.ToString() + " ")
-                    .Replace("_MM_", " " + dt.Month.ToString() + " ")
-                    .Replace("_yyyy", " " + dt.Year.ToString() + " ");
-            ctx.Write(s);
+            if (!string.IsNullOrWhiteSpace(dateTime) && dateTime.Length > 7)
+            {
+                DateTime dt;
+                if (dateTime == "DATE_NOW") dt = DateTime.Now;
+                else dt = DateTime.ParseExact(dateTime, dateTime.Length == 8 ? "yyyyMMdd" : "yyyyMMddHHmmss", null);
+                s = s.Replace("_dd_", " " + dt.Day.ToString() + " ")
+                        .Replace("_MM_", " " + dt.Month.ToString() + " ")
+                        .Replace("_yyyy", " " + dt.Year.ToString() + " ");
+                ctx.Write(s);
+            }
         }
+
         private void fn_formatMoney(RenderContext ctx, IList<object> args, IDictionary<string, object> options, RenderBlock fn, RenderBlock inverse)
         {
             long val = (long)args[0];
@@ -220,14 +234,14 @@ namespace MessageBroker
             }
         }
 
-        // api/pawn_info/get_in_phieu_chi?so_phieu_chi=PC/HNTC/04/2383&filetemp=in-phieu-chi.html
-        public HttpResponseMessage get_in_phieu_chi([FromUri]string so_phieu_chi, [FromUri]string filetemp)
+        // api/pawn_info/get_in_phieu_chi?Pawn_ID=1167678&so_phieu_chi=PC/HNTC/04/2383&filetemp=in-phieu-chi.html
+        public HttpResponseMessage get_in_phieu_chi([FromUri]int Pawn_ID, [FromUri]string so_phieu_chi, [FromUri]string filetemp)
         {
             string html = "";
             oPawnInfo pawn = null;
-            //oCacheResult rs = this.post_Search(new oCacheRequest("Pawn_ID != null && Pawn_ID = 1167678"));
-            //if (rs.Ok && rs.Result.Length > 0) pawn = (oPawnInfo)rs.Result[0];
-            pawn = JsonConvert.DeserializeObject<oPawnInfo>(File.ReadAllText(Path.Combine(Path.GetFullPath("../"), "MessageUI/pdf/pawn.json")));
+            oCacheResult rs = this.post_Search(new oCacheRequest("Pawn_ID != null && Pawn_ID = " + Pawn_ID));
+            if (rs.Ok && rs.Result.Length > 0) pawn = (oPawnInfo)rs.Result[0];
+            //pawn = JsonConvert.DeserializeObject<oPawnInfo>(File.ReadAllText(Path.Combine(Path.GetFullPath("../"), "MessageUI/pdf/pawn.json")));
             if (pawn != null)
             {
                 string file = Path.Combine(Path.GetFullPath("../"), "MessageUI/pdf/" + filetemp);
@@ -248,19 +262,19 @@ namespace MessageBroker
             return response;
         }
 
-        // api/pawn_info/get_in_hop_dong?so_hop_dong=HĐCC/HNTC/1904/2&filetemp=in-hop-dong.html
-        public HttpResponseMessage get_in_hop_dong([FromUri]string so_hop_dong, [FromUri]string filetemp)
+        // api/pawn_info/get_in_hop_dong?Pawn_ID=1167678&filetemp=in-hop-dong.html
+        public HttpResponseMessage get_in_hop_dong([FromUri]int Pawn_ID, [FromUri]string filetemp)
         {
             string html = "";
             oPawnInfo pawn = null;
-            //oCacheResult rs = this.post_Search(new oCacheRequest("Pawn_ID != null && Pawn_ID = 1167678"));
-            //if (rs.Ok && rs.Result.Length > 0) pawn = (oPawnInfo)rs.Result[0];
-            pawn = JsonConvert.DeserializeObject<oPawnInfo>(File.ReadAllText(Path.Combine(Path.GetFullPath("../"), "MessageUI/pdf/pawn.json")));
+            oCacheResult rs = this.post_Search(new oCacheRequest("Pawn_ID != null && Pawn_ID = " + Pawn_ID));
+            if (rs.Ok && rs.Result.Length > 0) pawn = (oPawnInfo)rs.Result[0];
+            //pawn = JsonConvert.DeserializeObject<oPawnInfo>(File.ReadAllText(Path.Combine(Path.GetFullPath("../"), "MessageUI/pdf/pawn.json")));
             if (pawn != null)
             {
                 string file = Path.Combine(Path.GetFullPath("../"), "MessageUI/pdf/" + filetemp);
                 string temp = File.ReadAllText(file);
-                temp = temp.Replace("[SO_HOP_DONG]", so_hop_dong);
+                temp = temp.Replace("[SO_HOP_DONG]", pawn.PawnCode);
 
                 Helpers.Clear();
                 Helpers.Register("FormatGender", fn_format_Gender);
@@ -271,13 +285,83 @@ namespace MessageBroker
                 Helpers.Register("FormatMoney1", fn_formatMoney);
                 Helpers.Register("NumberToText1", fn_numberToText);
 
-                html = Render.StringToString(temp, pawn); 
+                html = Render.StringToString(temp, pawn);
             }
 
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
             response.Content = new StringContent(html, Encoding.UTF8, "text/html");
             return response;
         }
+
+        // api/pawn_info/get_in_giay_yeu_cau_bao_hiem?Pawn_ID=1167678&lien_hop_dong=1&filetemp=in-giay-yeu-cau-bao-hiem-lien-1.html
+        public HttpResponseMessage get_in_giay_yeu_cau_bao_hiem([FromUri]int Pawn_ID, [FromUri]string lien_hop_dong, [FromUri]string filetemp)
+        {
+            string html = "";
+            oPawnInfo pawn = null;
+            oCacheResult rs = this.post_Search(new oCacheRequest("Pawn_ID != null && Pawn_ID = " + Pawn_ID));
+            if (rs.Ok && rs.Result.Length > 0) pawn = (oPawnInfo)rs.Result[0];
+            //pawn = JsonConvert.DeserializeObject<oPawnInfo>(File.ReadAllText(Path.Combine(Path.GetFullPath("../"), "MessageUI/pdf/pawn.json")));
+            if (pawn != null)
+            {
+                string file = Path.Combine(Path.GetFullPath("../"), "MessageUI/pdf/" + filetemp);
+                string temp = File.ReadAllText(file);
+                temp = temp.Replace("[SO_HOP_DONG]", pawn.PawnCode);
+                if (lien_hop_dong == "1")
+                    temp = temp.Replace("[LIEN_HOP_DONG]", "(Liên 1: Liên dành cho doanh nghiệp)");
+                else
+                    temp = temp.Replace("[LIEN_HOP_DONG]", "(Liên 2: Liên dành cho khách hàng)");
+
+                Helpers.Clear();
+                Helpers.Register("FormatGender", fn_format_Gender);
+                Helpers.Register("FormatDateTime", fn_formatDateTime_ddMMyyyy);
+                Helpers.Register("FormatDateTimeNow", fn_formatDateTimeNow);
+                Helpers.Register("FormatDateTime1", fn_formatDateTime);
+                Helpers.Register("FormatDateTime2", fn_formatDateTime);
+                Helpers.Register("FormatMoney1", fn_formatMoney);
+                Helpers.Register("NumberToText1", fn_numberToText);
+
+                html = Render.StringToString(temp, pawn);
+            }
+
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(html, Encoding.UTF8, "text/html");
+            return response;
+        }
+
+        // api/pawn_info/get_in_ban_cam_ket_xe_khong_chinh_chu?Pawn_ID=1167678&filetemp=in-ban-cam-ket-xe-khong-chinh-chu.html
+        public HttpResponseMessage get_in_ban_cam_ket_xe_khong_chinh_chu([FromUri]int Pawn_ID, [FromUri]string filetemp)
+        {
+            string html = "";
+            oPawnInfo pawn = null;
+            oCacheResult rs = this.post_Search(new oCacheRequest("Pawn_ID != null && Pawn_ID = " + Pawn_ID));
+            if (rs.Ok && rs.Result.Length > 0) pawn = (oPawnInfo)rs.Result[0];
+            //pawn = JsonConvert.DeserializeObject<oPawnInfo>(File.ReadAllText(Path.Combine(Path.GetFullPath("../"), "MessageUI/pdf/pawn.json")));
+            if (pawn != null)
+            {
+                string file = Path.Combine(Path.GetFullPath("../"), "MessageUI/pdf/" + filetemp);
+                string temp = File.ReadAllText(file);
+                temp = temp.Replace("[SO_HOP_DONG]", pawn.PawnCode);
+
+                Helpers.Clear();
+                Helpers.Register("FormatGender", fn_format_Gender);
+                Helpers.Register("FormatDateTime", fn_formatDateTime_ddMMyyyy);
+                Helpers.Register("FormatDateTimeNow", fn_formatDateTimeNow);
+                Helpers.Register("FormatDateTime1", fn_formatDateTime);
+                Helpers.Register("FormatDateTime2", fn_formatDateTime);
+                Helpers.Register("FormatMoney1", fn_formatMoney);
+                Helpers.Register("NumberToText1", fn_numberToText);
+
+                html = Render.StringToString(temp, pawn);
+            }
+
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(html, Encoding.UTF8, "text/html");
+            return response;
+        }
+
+
+          
+
 
         #endregion
     }

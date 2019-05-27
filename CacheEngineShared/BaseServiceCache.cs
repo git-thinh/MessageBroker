@@ -110,9 +110,9 @@ namespace CacheEngineShared
             return _store.getAllJsonReplyCacheKey();
         }
 
-        public void initDataFromDbStore(string storeName)
+        public void initDataFromDbStore(string storeName, bool logConsole = false)
         {
-            _store.initDataFromDbStore(storeName);
+            _store.initDataFromDbStore(storeName, logConsole);
         }
     }
 

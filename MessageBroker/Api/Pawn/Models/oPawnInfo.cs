@@ -70,6 +70,9 @@
         [AttrFieldInfo(1, "Avatar", AttrDataType.STRING)]
         public string Custorer_Avatar { get; set; }
 
+        [AttrFieldInfo(1, "Brithday", AttrDataType.INT)]
+        public int Custorer_Brithday { get; set; }
+
         //-------------------------------------------
 
         [AttrFieldInfo(207, "Ngân hàng", AttrDataType.STRING)]

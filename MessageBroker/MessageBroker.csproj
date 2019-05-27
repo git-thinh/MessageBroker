@@ -167,6 +167,8 @@
     <Compile Include="Api\Pawn\Upload\MimeUpload.cs" />
     <Compile Include="Api\Pawn\Upload\MultiFileUploadProvider.cs" />
     <Compile Include="Api\_VALID.cs" />
+    <Compile Include="Job\JobCacheRefresh.cs" />
+    <Compile Include="Job\JobClientNotification.cs" />
     <Compile Include="Job\JobPdfExport.cs" />
     <Compile Include="Api\Core\ControllersResolver.cs" />
     <Compile Include="Api\Core\Startup.cs" />
