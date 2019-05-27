@@ -382,11 +382,15 @@ namespace MessageBroker
         public long User_ID { set; get; }
     }
 
+    [AttrModelInfo("Thông tin tao moi hợp đồng", _API_CONST.PAWN_INFO)]
     [Validator(typeof(dtoPawnInfo_addNewValidator))]
     public class dtoPawnInfo_addNew
     {
         //--+ PayAccount
+        [AttrFieldInfo(1, "Ngan hang", AttrDataType.STRING)]
         public int Bank_ID { set; get; }
+
+        [AttrFieldInfo(1, "Tai khoan", AttrDataType.STRING)]
         public string PayAccount_No { set; get; }
 
         //--+ ContactInfo for type is a ContactRegistrationBook_ID nguoi than tren so ho khau
