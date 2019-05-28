@@ -7,12 +7,20 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.WebSockets;
+using System.Runtime.Caching;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace MessageBroker
 {
+    public enum CLIENT_COMMAND
+    {
+        NONE = 0,
+        EXPORT_PDF = 1,
+        LOG_CLIENT = 2
+    }
+
     public class JobClientNotification : JobBase
     {
         public override void freeResource() { _isStop = true; httpServerStop(); }
@@ -59,6 +67,56 @@ namespace MessageBroker
             }, _httpListener);
         }
 
+        static void fn_processClientCommand(string msg, WebSocket socketClient)
+        {
+            if (string.IsNullOrWhiteSpace(msg)) return;
+            msg = msg.Trim();
+            Console.WriteLine("-> APP_CLIENT: " + msg);
+
+            string url = "", keyCache = "";
+            string[] a;
+            CLIENT_COMMAND cmd = CLIENT_COMMAND.NONE;
+            ObjectCache cacheRuntime = MemoryCache.Default;
+            int user_ID = 0;
+
+            switch (msg[0])
+            {
+                case '#':
+                    // #EXPORT.PDF:User_ID.hop_dong.Pawn_ID = #EXPORT.PDF:9.hop_dong.1167678
+                    a = msg.Substring(1).Split(':');
+                    switch (a[0])
+                    {
+                        case "EXPORT.PDF":
+                            if (a.Length > 1)
+                            {
+                                a = a[1].Split('.');
+                                if (a.Length > 2)
+                                {
+                                    if (int.TryParse(a[0], out user_ID) && user_ID > 0)
+                                    {
+                                        keyCache = "APP_CLIENT_SOCKET." + a[0];
+                                        cacheRuntime.Set(keyCache, socketClient, new CacheItemPolicy());
+
+                                        cmd = CLIENT_COMMAND.EXPORT_PDF;
+                                        //_dataflow.enqueue(new JobPdfExport("http://localhost:9096/api/pawn_info/get_in_hop_dong?Pawn_ID=1167678&filetemp=in-hop-dong.html")).Wait();
+                                        url = "http://localhost:9096/api/pawn_info/get_in_" + a[1] + "?User_ID=" + a[0] + "&Pawn_ID=" + a[2] + "&filetemp=in-" + a[1].Replace("_", "-") + ".html";
+                                    }
+                                }
+                            }
+                            break;
+                    }
+                    break;
+                case '!':
+                    break;
+            } 
+            switch (cmd)
+            {
+                case CLIENT_COMMAND.EXPORT_PDF:
+                    Dataflow.enqueue(new JobPdfExport(url)).Wait();
+                    break;
+            }
+        }
+
         static async void httpProcessRequest(HttpListenerContext httpListenerContext)
         {
             WebSocketContext webSocketContext = null;
@@ -93,8 +151,9 @@ namespace MessageBroker
                     else
                     {
                         string message = Encoding.UTF8.GetString(receiveBuffer).TrimEnd('\0');
-                        //Console.WriteLine("-> SERVER: " + message);
-                        //httpBroadCast(message);
+                        //fn_processClientCommand(message, webSocket);
+                        //Dataflow.enqueue(new )
+                        httpBroadCast(message);
 
                         ////byte[] bsend = Encoding.UTF8.GetBytes(Guid.NewGuid().ToString());
                         ////var adata = new ArraySegment<byte>(bsend, 0, bsend.Length);
@@ -110,7 +169,7 @@ namespace MessageBroker
             catch (Exception e)
             {
                 //Console.WriteLine("Exception: {0}", e);
-                Console.WriteLine("Exception: {0}", e.Message);
+                //Console.WriteLine("Exception: {0}", e.Message);
                 lock (_lock) _clients.Remove(webSocket);
             }
             finally
@@ -160,7 +219,7 @@ namespace MessageBroker
         ////////////////////////////////////////////////////////////////////
         /// 
 
-        static ConcurrentQueue<string> _storeText = new ConcurrentQueue<string>() { }; 
+        static ConcurrentQueue<string> _storeText = new ConcurrentQueue<string>() { };
 
         void processMessage()
         {
@@ -175,7 +234,7 @@ namespace MessageBroker
                         {
                             httpBroadCast(message);
                         }
-                    } 
+                    }
                     Thread.Sleep(100);
                 }
             });

@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Caching;
 using System.Text;
 using System.Web.Http;
 
@@ -234,8 +235,8 @@ namespace MessageBroker
             }
         }
 
-        // api/pawn_info/get_in_phieu_chi?Pawn_ID=1167678&so_phieu_chi=PC/HNTC/04/2383&filetemp=in-phieu-chi.html
-        public HttpResponseMessage get_in_phieu_chi([FromUri]int Pawn_ID, [FromUri]string so_phieu_chi, [FromUri]string filetemp)
+        // api/pawn_info/get_in_phieu_chi?User_ID=9&Pawn_ID=1167678&so_phieu_chi=PC/HNTC/04/2383&filetemp=in-phieu-chi.html
+        public HttpResponseMessage get_in_phieu_chi([FromUri]int User_ID, [FromUri]int Pawn_ID, [FromUri]string so_phieu_chi, [FromUri]string filetemp)
         {
             string html = "";
             oPawnInfo pawn = null;
@@ -262,8 +263,8 @@ namespace MessageBroker
             return response;
         }
 
-        // api/pawn_info/get_in_hop_dong?Pawn_ID=1167678&filetemp=in-hop-dong.html
-        public HttpResponseMessage get_in_hop_dong([FromUri]int Pawn_ID, [FromUri]string filetemp)
+        // api/pawn_info/get_in_hop_dong?User_ID=9&Pawn_ID=1167678&filetemp=in-hop-dong.html
+        public HttpResponseMessage get_in_hop_dong([FromUri]int User_ID, [FromUri]int Pawn_ID, [FromUri]string filetemp)
         {
             string html = "";
             oPawnInfo pawn = null;
@@ -293,8 +294,8 @@ namespace MessageBroker
             return response;
         }
 
-        // api/pawn_info/get_in_giay_yeu_cau_bao_hiem?Pawn_ID=1167678&lien_hop_dong=1&filetemp=in-giay-yeu-cau-bao-hiem-lien-1.html
-        public HttpResponseMessage get_in_giay_yeu_cau_bao_hiem([FromUri]int Pawn_ID, [FromUri]string lien_hop_dong, [FromUri]string filetemp)
+        // api/pawn_info/get_in_giay_yeu_cau_bao_hiem?User_ID=9&Pawn_ID=1167678&lien_hop_dong=1&filetemp=in-giay-yeu-cau-bao-hiem-lien-1.html
+        public HttpResponseMessage get_in_giay_yeu_cau_bao_hiem([FromUri]int User_ID, [FromUri]int Pawn_ID, [FromUri]string lien_hop_dong, [FromUri]string filetemp)
         {
             string html = "";
             oPawnInfo pawn = null;
@@ -328,8 +329,8 @@ namespace MessageBroker
             return response;
         }
 
-        // api/pawn_info/get_in_ban_cam_ket_xe_khong_chinh_chu?Pawn_ID=1167678&filetemp=in-ban-cam-ket-xe-khong-chinh-chu.html
-        public HttpResponseMessage get_in_ban_cam_ket_xe_khong_chinh_chu([FromUri]int Pawn_ID, [FromUri]string filetemp)
+        // api/pawn_info/get_in_ban_cam_ket_xe_khong_chinh_chu?User_ID=9&Pawn_ID=1167678&filetemp=in-ban-cam-ket-xe-khong-chinh-chu.html
+        public HttpResponseMessage get_in_ban_cam_ket_xe_khong_chinh_chu([FromUri]int User_ID, [FromUri]int Pawn_ID, [FromUri]string filetemp)
         {
             string html = "";
             oPawnInfo pawn = null;
@@ -359,11 +360,55 @@ namespace MessageBroker
             return response;
         }
 
-
-          
-
-
         #endregion
+
+        public HttpResponseMessage get_export_pdf([FromUri]string User_ID, [FromUri]string Pawn_ID, [FromUri]string Code_Temp, [FromUri]string para)
+        {
+            string ok = "OK";
+            if (!string.IsNullOrWhiteSpace(User_ID) && !string.IsNullOrWhiteSpace(Pawn_ID) && !string.IsNullOrWhiteSpace(Code_Temp))
+            {
+                string pdf = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"pdf\pdf.exe");
+                string url = "http://localhost:9096/api/pawn_info/get_in_" + Code_Temp + "?User_ID=" + User_ID + "&Pawn_ID=" + Pawn_ID + "&filetemp=in-" + Code_Temp.Replace("_", "-") + ".html";
+
+                switch (Code_Temp)
+                {
+                    case "ban_cam_ket_xe_khong_chinh_chu":
+                        url = "http://localhost:9096/api/pawn_info/get_in_ban_cam_ket_xe_khong_chinh_chu?User_ID=" + User_ID + "&Pawn_ID=" + Pawn_ID + "&filetemp=in-ban-cam-ket-xe-khong-chinh-chu.html";
+                        break;
+                    case "hop_dong":
+                        url = "http://localhost:9096/api/pawn_info/get_in_hop_dong?User_ID=" + User_ID + "&Pawn_ID=" + Pawn_ID + "&filetemp=in-hop-dong.html";
+                        break;
+                    case "phieu_chi":
+                        url = "http://localhost:9096/api/pawn_info/get_in_phieu_chi?User_ID=" + User_ID + "&Pawn_ID=" + Pawn_ID + "&so_phieu_chi=" + para + "&filetemp=in-phieu-chi.html";
+                        break;
+                    case "giay_yeu_cau_bao_hiem":
+                        url = "http://localhost:9096/api/pawn_info/get_in_giay_yeu_cau_bao_hiem?User_ID=" + User_ID + "&Pawn_ID=" + Pawn_ID + "&lien_hop_dong=" + para + "&filetemp=in-giay-yeu-cau-bao-hiem-lien-1.html";
+                        break;
+                }
+
+                string filetemp = string.Format("{0}.{1}.{2}.pdf", User_ID, Code_Temp, Pawn_ID);
+                string file = Path.Combine(Path.GetFullPath("../"), @"MessageUI\Exports\" + filetemp);
+                var process = new System.Diagnostics.Process()
+                {
+                    StartInfo = new System.Diagnostics.ProcessStartInfo()
+                    {
+                        CreateNoWindow = true,
+                        //UseShellExecute = true,
+                        FileName = pdf,
+                        Arguments = " --url=\"" + url + "\" " + "\"" + file + "\""
+                    }
+                };
+                process.Start();
+                process.WaitForExit();
+
+                var _dataflow = (IDataflowSubscribers)MemoryCache.Default.Get("JOB");
+                _dataflow.enqueue(new JobClientNotification(string.Format("#EXPORT_PDF:OK:{0}", filetemp))).Wait();
+            }
+
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(ok, Encoding.UTF8, "text/plain");
+            return response;
+        }
     }
 
     public class _DB_STORE_PAWN_INFO
@@ -409,7 +454,14 @@ namespace MessageBroker
         public string Custorer_Phone { set; get; }
 
         //--+ CustomerInfo: @Contact_ID 
-        public long Invite_ID { set; get; } // It is User_ID logined
+
+        // It is User_ID logined
+        [AttrFieldInfo(11, "Ma CONTACT nguoi gioi thieu", AttrDataType.LONG, true, true)]
+        public long InviteContact_ID { get; set; }
+
+        [AttrFieldInfo(11, "Ma TAI KHOAN nguoi gioi thieu", AttrDataType.LONG, true, true)]
+        public long InviteUser_ID { get; set; }
+
         public string CMND_CCCD { set; get; }
         public int CMND_CreateDate { set; get; }
         public string CMND_CreatePlace { set; get; }
@@ -437,46 +489,58 @@ namespace MessageBroker
         public dtoPawnInfo_addNewValidator()
         {
             //--+ PayAccount
-            RuleFor(r => r.Bank_ID).GreaterThan(0).WithMessage("Vui lòng nhập thông tin");
-            RuleFor(r => r.PayAccount_No).NotEmpty().WithMessage("Vui lòng nhập thông tin");
+            RuleFor(r => r.Bank_ID).GreaterThan(0).WithMessage("Vui lòng nhập thông tin ngân hàng");
+            RuleFor(r => r.PayAccount_No).NotEmpty().WithMessage("Vui lòng nhập thông tin tài khoản ngân hàng");
 
             //--+ ContactInfo for type is a ContactRegistrationBook_ID nguoi than tren so ho khau
-            RuleFor(r => r.RegistrationBook_Name).NotEmpty().WithMessage("Vui lòng nhập thông tin");
-            RuleFor(r => r.RegistrationBook_AddressPlace).NotEmpty().WithMessage("Vui lòng nhập thông tin");
-            RuleFor(r => r.RegistrationBook_Phone).NotEmpty().WithMessage("Vui lòng nhập thông tin");
+            RuleFor(r => r.RegistrationBook_Name).NotEmpty().WithMessage("Vui lòng nhập thông tin tên người thân trên sổ hộ khẩu");
+            RuleFor(r => r.RegistrationBook_AddressPlace).NotEmpty().WithMessage("Vui lòng nhập thông tin địa chỉ người thân trên sổ hộ khẩu");
+            RuleFor(r => r.RegistrationBook_Phone).NotEmpty().WithMessage("Vui lòng nhập thông tin số điện thoại người thân trên sổ hộ khẩu");
 
             //--+ ContactInfo for type is a ContactColleague_ID dong nghiep
-            RuleFor(r => r.Colleague_Name).NotEmpty().WithMessage("Vui lòng nhập thông tin");
-            RuleFor(r => r.Colleague_AddressPlace).NotEmpty().WithMessage("Vui lòng nhập thông tin");
-            RuleFor(r => r.Colleague_Phone).NotEmpty().WithMessage("Vui lòng nhập thông tin");
+            RuleFor(r => r.Colleague_Name).NotEmpty().WithMessage("Vui lòng nhập thông tin tên đồng nghiệp");
+            RuleFor(r => r.Colleague_AddressPlace).NotEmpty().WithMessage("Vui lòng nhập thông tin chỗ ở đồng nghiệp");
+            RuleFor(r => r.Colleague_Phone).NotEmpty().WithMessage("Vui lòng nhập thông tin số điện thoại đồng nghiệp");
 
             //--+ ContactInfo for type is a Customer
-            RuleFor(r => r.Custorer_Name).NotEmpty().WithMessage("Vui lòng nhập thông tin");
-            RuleFor(r => r.Custorer_AddressPlace).NotEmpty().WithMessage("Vui lòng nhập thông tin");
-            RuleFor(r => r.Custorer_Phone).NotEmpty().WithMessage("Vui lòng nhập thông tin");
+            RuleFor(r => r.Custorer_Name).NotEmpty().WithMessage("Vui lòng nhập thông tin tên khách hàng");
+            RuleFor(r => r.Custorer_AddressPlace).NotEmpty().WithMessage("Vui lòng nhập thông tin chỗ ở khách hàng");
+            RuleFor(r => r.Custorer_Phone).NotEmpty().WithMessage("Vui lòng nhập thông tin số điện thoại khách hàng");
 
             //--+ CustomerInfo: @Contact_ID 
-            RuleFor(r => r.Invite_ID).GreaterThan(0).WithMessage("Vui lòng nhập thông tin"); // It is User_ID logined
-            RuleFor(r => r.CMND_CCCD).NotEmpty().WithMessage("Vui lòng nhập thông tin");
-            RuleFor(r => r.CMND_CreateDate).GreaterThan(0).WithMessage("Vui lòng nhập thông tin");
-            RuleFor(r => r.CMND_CreateDate).LessThan(int.Parse(DateTime.Now.ToString("yyyyMMdd"))).WithMessage("Ngày cấp CMND không hợp lệ");
-            RuleFor(r => r.CMND_CreatePlace).NotEmpty().WithMessage("Vui lòng nhập thông tin");
+            RuleFor(r => r.InviteUser_ID).GreaterThan(0).WithMessage("[InviteUser_ID] Điền thông tin ID của User đang đăng nhập"); // It is User_ID logined
+            RuleFor(r => r.InviteContact_ID).GreaterThan(0).WithMessage("[InviteContact_ID] Điền thông tin ID của Contact đang đăng nhập"); // It is User_ID logined
+
+            RuleFor(r => r.CMND_CCCD).NotEmpty().WithMessage("Vui lòng nhập thông tin số CMND_CCCD");
+            RuleFor(r => r.CMND_CreateDate).GreaterThan(0).WithMessage("Vui lòng nhập thông tin ngày tạo CMND_CCCD");
+            RuleFor(r => r.CMND_CreateDate).LessThan(int.Parse(DateTime.Now.ToString("yyyyMMdd"))).WithMessage("Ngày cấp CMND_CCCD không hợp lệ");
+            RuleFor(r => r.CMND_CreatePlace).NotEmpty().WithMessage("Vui lòng nhập thông tin nơi cấp CMND_CCCD");
 
             //--+ PawnInfo: @PayAccount_ID
-            RuleFor(r => r.PawnCode).NotEmpty().WithMessage("Vui lòng nhập thông tin"); // ma hop dong
-            RuleFor(r => r.LoanAmount).GreaterThan(1).WithMessage("Vui lòng nhập thông tin"); // so tien vay
-            RuleFor(r => r.SumLoanDate).GreaterThan(1).WithMessage("Vui lòng nhập thông tin"); // thoi han vay theo ngay
-            RuleFor(r => r.DatetimeFinish).GreaterThan(0).WithMessage("Vui lòng nhập thông tin");// ngay tat toan hop dong
-            RuleFor(r => r.ContractSettlementShop_ID).GreaterThan(0).WithMessage("Vui lòng nhập thông tin");// chon sua hang tat toan
+            RuleFor(r => r.PawnCode).NotEmpty().WithMessage("Thông tin [PawnCode] chưa được điền"); // ma hop dong
+            RuleFor(x => x.LoanAmount).Must(beAValid_LoanAmount).WithMessage("Vui lòng chọn thông tin số tiền vay là 3 triệu hoặc 5 triệu");// so tien vay
+            RuleFor(r => r.SumLoanDate).Must(beAValid_SumLoanDate).WithMessage("Vui lòng chọn thông tin thời hạn vay là 3|6|12 tháng"); // thoi han vay theo thang
+            //RuleFor(r => r.DatetimeFinish).GreaterThan(0).WithMessage("Vui lòng nhập thông tin ");// ngay tat toan hop dong
+            RuleFor(r => r.ContractSettlementShop_ID).GreaterThan(0).WithMessage("Vui lòng nhập thông tin cửa hàng tất toán hợp đồng");// chon sua hang tat toan
 
             //--+ PawnImages, PawnImageLocate
-            RuleFor(r => r.Image_RegistrationBook_1).NotEmpty().WithMessage("Vui lòng nhập thông tin");
-            RuleFor(r => r.Image_RegistrationBook_2).NotEmpty().WithMessage("Vui lòng nhập thông tin");
-            RuleFor(r => r.Image_VehicleRegistration_1).NotEmpty().WithMessage("Vui lòng nhập thông tin");
-            RuleFor(r => r.Image_VehicleRegistration_2).NotEmpty().WithMessage("Vui lòng nhập thông tin");
-            RuleFor(r => r.Image_Asset_1).NotEmpty().WithMessage("Vui lòng nhập thông tin");
-            RuleFor(r => r.Image_Asset_2).NotEmpty().WithMessage("Vui lòng nhập thông tin");
-            RuleFor(r => r.Image_InvoiceElectric_1).NotEmpty().WithMessage("Vui lòng nhập thông tin");
+            RuleFor(r => r.Image_RegistrationBook_1).NotEmpty().WithMessage("Vui lòng tải lên ít nhất 2 hình ảnh sổ hộ khẩu");
+            RuleFor(r => r.Image_RegistrationBook_2).NotEmpty().WithMessage("Vui lòng tải lên ít nhất 2  hình ảnh sổ hộ khẩu");
+            RuleFor(r => r.Image_VehicleRegistration_1).NotEmpty().WithMessage("Vui lòng tải lên ít nhất 2 hình ảnh giấy tờ xe");
+            RuleFor(r => r.Image_VehicleRegistration_2).NotEmpty().WithMessage("Vui lòng tải lên ít nhất 2 hình ảnh giấy tờ xe");
+            RuleFor(r => r.Image_Asset_1).NotEmpty().WithMessage("Vui lòng tải lên ít nhất 2 hình ảnh tài sản");
+            RuleFor(r => r.Image_Asset_2).NotEmpty().WithMessage("Vui lòng tải lên ít nhất 2 hình ảnh tài sản");
+            RuleFor(r => r.Image_InvoiceElectric_1).NotEmpty().WithMessage("Vui lòng tải lên ít nhất 1 hình ảnh hóa đơn điện");
+        }
+
+        private bool beAValid_LoanAmount(long arg)
+        {
+            return arg == 3000000 || arg == 5000000;
+        }
+
+        private bool beAValid_SumLoanDate(int arg)
+        {
+            return arg == 3 || arg == 6 || arg == 12;
         }
     }
 

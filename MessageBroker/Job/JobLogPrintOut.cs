@@ -110,7 +110,7 @@ namespace MessageBroker
             catch (Exception e)
             {
                 //Console.WriteLine("Exception: {0}", e);
-                Console.WriteLine("Exception: {0}", e.Message);
+                //Console.WriteLine("Exception: {0}", e.Message);
                 lock (_lock) _clients.Remove(webSocket);
             }
             finally

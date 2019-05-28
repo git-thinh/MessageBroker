@@ -4,6 +4,7 @@ using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Reflection;
+using System.Runtime.Caching;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -44,15 +45,26 @@ namespace MessageBroker
                         if (_urls.TryDequeue(out url) && !string.IsNullOrEmpty(url))
                         {
                             Console.WriteLine("> EXPORTING -> PDF: " + url);
-                            string file = exportPdf(url), s = "";
 
-                            if (file == null)
-                                s = "#EXPORT.PDF:FAIL:" + file;
-                            else
-                                s = "#EXPORT.PDF:OK:" + file;
+                            Uri uri = new Uri(url);
+                            string Pawn_ID = HttpUtility.ParseQueryString(uri.Query).Get("Pawn_ID"),
+                                User_ID = HttpUtility.ParseQueryString(uri.Query).Get("User_ID"),
+                                code_temp = uri.Segments[uri.Segments.Length - 1].Substring(7);
 
-                            Console.WriteLine(s);
-                            _dataflow.enqueue(new JobClientNotification(s));
+                            if (!string.IsNullOrWhiteSpace(Pawn_ID)
+                            && !string.IsNullOrWhiteSpace(User_ID)
+                            && !string.IsNullOrWhiteSpace(code_temp))
+                            {
+                                string file = exportPdf(url, code_temp, Pawn_ID), textOutput = "";
+
+                                if (file == null)
+                                    textOutput = "#"+ User_ID + ".EXPORT.PDF:FAIL:" + file;
+                                else
+                                    textOutput = "#"+ User_ID + "EXPORT.PDF:OK:" + file;
+
+                                Console.WriteLine(textOutput);
+                                _dataflow.enqueue(new JobClientNotification(textOutput)); 
+                            }
                         }
                     }
                     Thread.Sleep(100);
@@ -83,16 +95,14 @@ namespace MessageBroker
 
         private static IConverter converter = new StandardConverter(new PdfToolset(new Win64EmbeddedDeployment(new TempFolderDeployment())));
 
-        static string exportPdf(string url)
+        static string exportPdf(string url, string code_temp, string Pawn_ID)
         {
-            Uri uri = new Uri(url);
-            string Pawn_ID = HttpUtility.ParseQueryString(uri.Query).Get("Pawn_ID");
             if (string.IsNullOrWhiteSpace(Pawn_ID)) return null;
 
             string path = Path.Combine(Path.GetFullPath("../"), "MessageUI/Exports/");
             if (Directory.Exists(path) == false) Directory.CreateDirectory(path);
 
-            string fileName = uri.Segments[uri.Segments.Length - 1].Substring(7) + "." + Pawn_ID + "." + DateTime.Now.ToString("yyyyMMdd-HHmmssfff") + ".pdf";
+            string fileName = code_temp + "." + Pawn_ID + "." + DateTime.Now.ToString("yyyyMMdd-HHmmssfff") + ".pdf";
             string file = Path.Combine(path, fileName);
 
             //string filePdf = Path.Combine(Path.GetFullPath("../"), "MessageUI/Pdf/Files/" + so_hop_dong.Replace('/', '_') + ".pdf");

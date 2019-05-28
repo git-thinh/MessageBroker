@@ -1,0 +1,1773 @@
+{
+	"info": {
+		"_postman_id": "a8c467af-27bb-4bc2-adcf-006fe7cec3bf",
+		"name": "APi ECPay",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "local",
+			"item": [
+				{
+					"name": "cache",
+					"item": [
+						{
+							"name": "bank_info/post_allDataFromDbStore",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:9096/api/bank_info/post_allDataFromDbStore",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"bank_info",
+										"post_allDataFromDbStore"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "user_login/post_allDataFromDbStore",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:9096/api/user_login/post_allDataFromDbStore",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"user_login",
+										"post_allDataFromDbStore"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "shop_info/post_allDataFromDbStore",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:9096/api/shop_info/post_allDataFromDbStore",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"shop_info",
+										"post_allDataFromDbStore"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "customer_info/post_allDataFromDbStore",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:9096/api/customer_info/post_allDataFromDbStore",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"customer_info",
+										"post_allDataFromDbStore"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "pawn_info/post_allDataFromDbStore",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:9096/api/pawn_info/post_allDataFromDbStore",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"pawn_info",
+										"post_allDataFromDbStore"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "contact_info/post_allDataFromDbStore",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:9096/api/contact_info/post_allDataFromDbStore",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"contact_info",
+										"post_allDataFromDbStore"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "source_info/post_allDataFromDbStore",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:9096/api/source_info/post_allDataFromDbStore",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"source_info",
+										"post_allDataFromDbStore"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "profile_info/post_allDataFromDbStore",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:9096/api/profile_info/post_allDataFromDbStore",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"profile_info",
+										"post_allDataFromDbStore"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "pawn_images/post_allDataFromDbStore",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:9096/api/pawn_images/post_allDataFromDbStore",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"pawn_images",
+										"post_allDataFromDbStore"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "system",
+					"item": [
+						{
+							"name": "system/get_code_all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9096/api/system/get_code_all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"system",
+										"get_code_all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "system/get_models",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9096/api/system/get_models",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"system",
+										"get_models"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "system/get_api_all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9096/api/system/get_api_all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"system",
+										"get_api_all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "system/get_model_attrs/oPawnInfo",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9096/api/system/get_model_attrs/oPawnInfo",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"system",
+										"get_model_attrs",
+										"oPawnInfo"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "bank_info",
+					"item": [
+						{
+							"name": "bank_info/get_all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9096/api/bank_info/get_all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"bank_info",
+										"get_all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "bank_info/post_allDataFromDbStore",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:9096/api/bank_info/post_allDataFromDbStore",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"bank_info",
+										"post_allDataFromDbStore"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "bank_info/get_all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9096/api/bank_info/get_all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"bank_info",
+										"get_all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "bank_info/post_search",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"Conditions\":\"Name != null && Name.ToLower().Contains(\\\"a\\\")\",\n\t\"OrderbyName\":\"Name\",\n\t\"PageNumber\":1,\n\t\"PageSize\":10\n}"
+								},
+								"url": {
+									"raw": "http://localhost:9096/api/bank_info/post_search",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"bank_info",
+										"post_search"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "source_info",
+					"item": [
+						{
+							"name": "source_info/get_all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9096/api/source_info/get_all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"source_info",
+										"get_all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "source_info/post_allDataFromDbStore",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:9096/api/source_info/post_allDataFromDbStore",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"source_info",
+										"post_allDataFromDbStore"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "source_info/post_search",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"Conditions\":\"Name != null && Name.ToLower().Contains(\\\"xe\\\")\"}}"
+								},
+								"url": {
+									"raw": "http://localhost:9096/api/source_info/post_search",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"source_info",
+										"post_search"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "shop_info",
+					"item": [
+						{
+							"name": "shop_info/post_allDataFromDbStore",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:9096/api/shop_info/post_allDataFromDbStore",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"shop_info",
+										"post_allDataFromDbStore"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "shop_info/get_all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9096/api/shop_info/get_all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"shop_info",
+										"get_all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "shop_info/post_search",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"Conditions\":\"Name.ToLower().Contains(\\\"viet\\\")\"}}"
+								},
+								"url": {
+									"raw": "http://localhost:9096/api/shop_info/post_search",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"shop_info",
+										"post_search"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "contact_info",
+					"item": [
+						{
+							"name": "contact_info/post_allDataFromDbStore",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:9096/api/contact_info/post_allDataFromDbStore",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"contact_info",
+										"post_allDataFromDbStore"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "contact_info/post_search",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"Conditions\":\"Name != null && Name.ToLower().Contains(\\\"song\\\")\"}}"
+								},
+								"url": {
+									"raw": "http://localhost:9096/api/contact_info/post_search",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"contact_info",
+										"post_search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "contact_info/get_all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9096/api/contact_info/get_all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"contact_info",
+										"get_all"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "user_login",
+					"item": [
+						{
+							"name": "user_login/get_all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9096/api/user_login/get_all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"user_login",
+										"get_all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "user_login/get_all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9096/api/user_login/get_all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"user_login",
+										"get_all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "user_login/post_search",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"Conditions\":\"User_ID = 9\"}}"
+								},
+								"url": {
+									"raw": "http://localhost:9096/api/user_login/post_search",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"user_login",
+										"post_search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "user_login/post_AddNew",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"Name\":\"Nguyễn văn Admin\",\r\n\t\"AddressCompany\":\"Nguyễn văn a\",\r\n\t\"AddressPlace\":\"Nguyễn văn a\",\r\n\t\"Phone\":\"0948003456\",\r\n\t\"Email\": \"admin@ad.sad\",\r\n\t\"GroupType_ID\":1\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:9096/api/user_login/post_AddNew",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"user_login",
+										"post_AddNew"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "user_login/get_json",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9096/api/user_login/get_json",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"user_login",
+										"get_json"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "customer_info",
+					"item": [],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "profile_info",
+					"item": [
+						{
+							"name": "profile_info/post_allDataFromDbStore Copy",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:9096/api/profile_info/post_allDataFromDbStore",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"profile_info",
+										"post_allDataFromDbStore"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "profile_info/post_search",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"Conditions\":\"User_ID = 9\"}}"
+								},
+								"url": {
+									"raw": "http://localhost:9096/api/profile_info/post_search",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"profile_info",
+										"post_search"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "pawn_info",
+					"item": [
+						{
+							"name": "pawn_info/get_all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9096/api/pawn_info/get_all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"pawn_info",
+										"get_all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "pawn_info/get_state_type",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9096/api/pawn_info/get_state_type",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"pawn_info",
+										"get_state_type"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "pawn_info/post_search",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"OrderbyName\":\"DatetimeCreate DESC\",\n\t\"PageSize\":3,\n\t\"PageNumber\":1\n}"
+								},
+								"url": {
+									"raw": "http://localhost:9096/api/pawn_info/post_search",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"pawn_info",
+										"post_search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "pawn_info/get_pawnCode_createNew",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9096/api/pawn_info/get_pawnCode_createNew",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"pawn_info",
+										"get_pawnCode_createNew"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "pawn_info/post_AddNew",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"Bank_ID\":0,\n\t\n\t\n}"
+								},
+								"url": {
+									"raw": "http://localhost:9096/api/pawn_info/post_AddNew",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"pawn_info",
+										"post_AddNew"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "local/pawn_info/post_AddNew",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"PawnCode\":\"HĐCC-DR-1095-1\",\r\n\t\"LoanAmount\":10000000,\r\n\t\"SumLoanDate\":30,\r\n\t\"DatetimeFinish\":20190522121212,\r\n\t\r\n\t\"Custorer_Name\":\"Mr.A\",\r\n\t\"Custorer_AddressPlace\":\"Hà nội\",\r\n\t\"Custorer_Phone\":\"09480034566\",\r\n\t\r\n\t\"Invite_ID\":1,\r\n\t\r\n\t\"CMND_CCCD\":\"111961304\",\r\n\t\"CMND_CreateDate\":20190522,\r\n\t\"CMND_CreatePlace\":\"Hà nội\",\r\n\t\r\n\t\"Bank_ID\":1,\r\n\t\"PayAccount_No\":\"5555-666-99-88-9\",\r\n\t\r\n\t\"RegistrationBook_Name\":\"Nguyen van HoKhau\",\r\n\t\"RegistrationBook_AddressPlace\":\"Hà Nội\",\r\n\t\"RegistrationBook_Phone\":\"09852565854\",\r\n\t\r\n\t\"Colleague_Name\":\"MrThinh\",\r\n\t\"Colleague_AddressPlace\":\"Hà nội\",\r\n\t\"Colleague_Phone\":\"091234567\",\r\n\t\r\n\t\"Image_RegistrationBook_1\":\"Image_RegistrationBook_1.jpg\",\r\n\t\"Image_RegistrationBook_2\":\"Image_RegistrationBook_2.jpg\",\r\n\t\"Image_VehicleRegistration_1\":\"Image_VehicleRegistration_1.jpg\",\r\n\t\"Image_VehicleRegistration_2\":\"Image_VehicleRegistration_2.jpg\",\r\n\t\"Image_Asset_1\":\"Image_Asset_1.jpg\",\r\n\t\"Image_Asset_2\":\"Image_Asset_2.jpg\",\r\n\t\"Image_InvoiceElectric_1\":\"Image_InvoiceElectric_1.jpg\",\r\n\t\r\n\t\"ContractSettlementShop_ID\":1\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:9096/api/pawn_info/post_AddNew",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"pawn_info",
+										"post_AddNew"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "pawn_info/post_search desc",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"OrderbyName\":\"DatetimeCreate desc\",\n\t\"PageSize\":10,\n\t\"PageNumber\":1\n}"
+								},
+								"url": {
+									"raw": "http://localhost:9096/api/pawn_info/post_search",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"pawn_info",
+										"post_search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "pawn_info/get_json",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9096/api/pawn_info/get_json",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"pawn_info",
+										"get_json"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "pawn_images",
+					"item": [
+						{
+							"name": "pawn_images/post_search",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"Conditions\":\"Pawn_ID = 1167677\"}"
+								},
+								"url": {
+									"raw": "http://localhost:9096/api/pawn_images/post_search",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"pawn_images",
+										"post_search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "pawn_images/post_search",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9096/api/pawn_images/post_search",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"pawn_images",
+										"post_search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "pawn_images/get_json",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9096/api/pawn_images/get_json",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"pawn_images",
+										"get_json"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "pos_push_notify",
+					"item": [
+						{
+							"name": "pos_push_notify/post_AddNew",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Pawn_Id\": 1,\n    \"User_ID\": 9,\n    \"Asset_ID\": 111,\n    \"AssetCategory_ID\": 0,\n    \"AssetCode\": \"\",\n    \"AssetCategoryCode\": \"\",\n    \"Asset_Name\": \"\",\n    \"AssetCategory_Name\": \"\",\n    \"DateCreate\": 20190524,\n    \"Message\": \"test message\",\n    \"Bonus\": 20000,\n    \"DatetimeReceiver\": 0,\n    \"Status\": 1\n}"
+								},
+								"url": {
+									"raw": "http://localhost:9096/api/pos_push_notify/post_AddNew",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"pos_push_notify",
+										"post_AddNew"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "pos_push_notify/get_all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9096/api/pos_push_notify/get_all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"pos_push_notify",
+										"get_all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "pos_push_notify/get_json",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9096/api/pos_push_notify/get_json",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"pos_push_notify",
+										"get_json"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "118",
+			"item": [
+				{
+					"name": "cache",
+					"item": [
+						{
+							"name": "user_login/post_allDataFromDbStore",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://222.252.22.118:9096/api/user_login/post_allDataFromDbStore",
+									"protocol": "http",
+									"host": [
+										"222",
+										"252",
+										"22",
+										"118"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"user_login",
+										"post_allDataFromDbStore"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "bank_info/post_allDataFromDbStore",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://222.252.22.118:9096/api/bank_info/post_allDataFromDbStore",
+									"protocol": "http",
+									"host": [
+										"222",
+										"252",
+										"22",
+										"118"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"bank_info",
+										"post_allDataFromDbStore"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "shop_info/post_allDataFromDbStore",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://222.252.22.118:9096/api/shop_info/post_allDataFromDbStore",
+									"protocol": "http",
+									"host": [
+										"222",
+										"252",
+										"22",
+										"118"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"shop_info",
+										"post_allDataFromDbStore"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "customer_info/post_allDataFromDbStore",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://222.252.22.118:9096/api/customer_info/post_allDataFromDbStore",
+									"protocol": "http",
+									"host": [
+										"222",
+										"252",
+										"22",
+										"118"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"customer_info",
+										"post_allDataFromDbStore"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "pawn_info/post_allDataFromDbStore",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://222.252.22.118:9096/api/pawn_info/post_allDataFromDbStore",
+									"protocol": "http",
+									"host": [
+										"222",
+										"252",
+										"22",
+										"118"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"pawn_info",
+										"post_allDataFromDbStore"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "contact_info/post_allDataFromDbStore",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://222.252.22.118:9096/api/contact_info/post_allDataFromDbStore",
+									"protocol": "http",
+									"host": [
+										"222",
+										"252",
+										"22",
+										"118"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"contact_info",
+										"post_allDataFromDbStore"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "source_info/post_allDataFromDbStore",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://222.252.22.118:9096/api/source_info/post_allDataFromDbStore",
+									"protocol": "http",
+									"host": [
+										"222",
+										"252",
+										"22",
+										"118"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"source_info",
+										"post_allDataFromDbStore"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "profile_info/post_allDataFromDbStore",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://222.252.22.118:9096/api/profile_info/post_allDataFromDbStore",
+									"protocol": "http",
+									"host": [
+										"222",
+										"252",
+										"22",
+										"118"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"profile_info",
+										"post_allDataFromDbStore"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "pawn_images/post_allDataFromDbStore",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://222.252.22.118:9096/api/pawn_images/post_allDataFromDbStore",
+									"protocol": "http",
+									"host": [
+										"222",
+										"252",
+										"22",
+										"118"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"pawn_images",
+										"post_allDataFromDbStore"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "partnertest.f88.vn",
+			"item": [
+				{
+					"name": "partner/create-contract",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "requestId",
+								"value": "20190523091133789",
+								"type": "text"
+							},
+							{
+								"key": "partnerCode",
+								"value": "ECPAY",
+								"type": "text"
+							},
+							{
+								"key": "locationCode",
+								"value": "123456789",
+								"type": "text"
+							},
+							{
+								"key": "signKey",
+								"value": "G15XIV7EQW4DDSOT7KHX",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n            \"UserName\": \"0387798332\",\r\n            \"UserPass\": \"18006388\",\r\n            \"deviceID\": \"\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "https://partnertest.f88.vn/partner/create-contract",
+							"protocol": "https",
+							"host": [
+								"partnertest",
+								"f88",
+								"vn"
+							],
+							"path": [
+								"partner",
+								"create-contract"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "XeOmCongNghe | Loign | OK",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n            \"UserName\": \"0387798332\",\r\n            \"UserPass\": \"18006388\",\r\n            \"deviceID\": \"\"\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://apilienket.f88.vn/Publisher/LoginwToken",
+					"protocol": "https",
+					"host": [
+						"apilienket",
+						"f88",
+						"vn"
+					],
+					"path": [
+						"Publisher",
+						"LoginwToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "XeOmCongNghe | Loign | Fail",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n            \"UserName\": \"34234\",\r\n            \"UserPass\": \"18006388\",\r\n            \"deviceID\": \"\"\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://apilienket.f88.vn/Publisher/LoginwToken",
+					"protocol": "https",
+					"host": [
+						"apilienket",
+						"f88",
+						"vn"
+					],
+					"path": [
+						"Publisher",
+						"LoginwToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "118 | user_login",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://222.252.22.118:9096/api/user_login/get_all",
+					"protocol": "http",
+					"host": [
+						"222",
+						"252",
+						"22",
+						"118"
+					],
+					"port": "9096",
+					"path": [
+						"api",
+						"user_login",
+						"get_all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "21 | user_login",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://192.168.10.21:9096/api/user_login/get_all",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"10",
+						"21"
+					],
+					"port": "9096",
+					"path": [
+						"api",
+						"user_login",
+						"get_all"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -6,6 +6,15 @@
         [AttrFieldInfo(11, "Hợp đồng Id", AttrDataType.LONG, true, true)]
         public long Pawn_ID { get; set; }
 
+        [AttrFieldInfo(11, "Ma CONTACT nguoi gioi thieu", AttrDataType.LONG, true, true)]
+        public long InviteContact_ID { get; set; }
+
+        [AttrFieldInfo(11, "Ma TAI KHOAN nguoi gioi thieu", AttrDataType.LONG, true, true)]
+        public long InviteUser_ID { get; set; }
+
+        [AttrFieldInfo(11, "Ten nguoi gioi thieu", AttrDataType.STRING, true, true)]
+        public string InviteContactName { get; set; }
+
         [AttrFieldInfo(11, "Tiền thưởng", AttrDataType.LONG, true, true)]
         public int Bonus { get; set; }
         //-------------------------------------------

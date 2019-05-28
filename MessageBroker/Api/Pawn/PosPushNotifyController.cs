@@ -20,13 +20,25 @@ namespace MessageBroker
             if (item == null) return new oCacheResult().ToFailConvertJson("Please check format string json of input.");
 
             oCacheResult rs = this.sqlExecute<dtoPosPushNotify_addResult, oPosPushNotify>("pos_push_notify_createNew", item);
-            rs.Request = null; 
+            rs.Request = null;
+            if (rs.Ok && rs.Result.Length > 0)
+            {
+                var it = (dtoPosPushNotify_addResult)rs.Result[0];
+                if (!string.IsNullOrWhiteSpace(it.ServiceCache))
+                {
+                    this.reloadCacheByServiceNameArray(it.ServiceCache.Split(',').Select(x => x.Trim().ToLower()).ToArray());
+                }
+            }
             return rs; 
         }
     }
 
     public class dtoPosPushNotify_addResult
     {
+        public bool Ok { set; get; }
+        public string Message { set; get; }
+        public string ServiceCache { set; get; }
+
         public long ID { get; set; }
         public long User_ID { get; set; }
         public long Pawn_Id { get; set; }

@@ -40,6 +40,12 @@ namespace MessageBroker
         [AttrFieldInfo(2, "", AttrDataType.STRING)]
         public string Message { set; get; }
 
+        [AttrFieldInfo(2, "", AttrDataType.INT)]
+        public int Bonus { set; get; }
+
+        [AttrFieldInfo(2, "", AttrDataType.LONG)]
+        public long DatetimeReceiver { set; get; }
+
         [AttrFieldInfo(1, "", AttrDataType.INT, true)]
         public int Status { set; get; }
 

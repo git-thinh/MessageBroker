@@ -3,6 +3,7 @@ using Microsoft.Owin.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Runtime.Caching;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,6 +11,7 @@ namespace MessageBroker
 {
     class Program
     {
+
         static void Main(string[] args)
         {
             Console.Title = "F88.MessageBroker";
@@ -100,8 +102,8 @@ namespace MessageBroker
             _dataflow.enqueue(new JobCacheRefresh()).Wait();
 
             _dataflow.RegisterHandler<JobPdfExport>(new JobPdfExport());
-
-
+                         
+            MemoryCache.Default.Set("JOB", _dataflow, new CacheItemPolicy());
             //---------------------------------------------------------------------
             string PORT_LOG_INPUT = ConfigurationManager.AppSettings["PORT_LOG_INPUT"];
             //---------------------------------------------------------------------
