@@ -1144,6 +1144,54 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "get_json/model=dtoPawnInfo_addNew",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9096/api/pawn_info/get_json?model=dtoPawnInfo_addNew",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"pawn_info",
+										"get_json"
+									],
+									"query": [
+										{
+											"key": "model",
+											"value": "dtoPawnInfo_addNew"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get_all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9096/api/app_version/get_all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"app_version",
+										"get_all"
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"_postman_isSubFolder": true
@@ -1300,6 +1348,33 @@
 										"api",
 										"pos_push_notify",
 										"get_json"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "app_version",
+					"item": [
+						{
+							"name": "get_all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9096/api/app_version/get_all",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9096",
+									"path": [
+										"api",
+										"app_version",
+										"get_all"
 									]
 								}
 							},
