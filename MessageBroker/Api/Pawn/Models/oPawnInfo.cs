@@ -6,6 +6,9 @@
         [AttrFieldInfo(11, "Hợp đồng Id", AttrDataType.LONG, true, true)]
         public long Pawn_ID { get; set; }
 
+        [AttrFieldInfo(11, "Trang thai tai san khi van chuyen", AttrDataType.LONG, true, true)]
+        public int TransportStatus { get; set; }
+
         [AttrFieldInfo(11, "Ma CONTACT nguoi gioi thieu", AttrDataType.LONG, true, true)]
         public long InviteContact_ID { get; set; }
 

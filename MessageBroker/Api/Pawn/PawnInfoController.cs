@@ -70,27 +70,132 @@ namespace MessageBroker
         {
             if (item == null) return new oCacheResult().ToFailConvertJson("Please check format string json of input.");
 
+            //string json = JsonConvert.SerializeObject(item);
+            //;
+
             #region [ If API_POS is not exist, Get automation PawnCode will be genation as follow ]
-
-            String sixdigit = new Random().Next(0, 999999).ToString("D6");
-            string formatByCompay = DateTime.Now.ToString("yyMM");
-            string GenCodeNo = string.Format("HĐCC/DR/{0}/{1}", formatByCompay, sixdigit);
-
+            //////String sixdigit = new Random().Next(0, 999999).ToString("D6");
+            //////string formatByCompay = DateTime.Now.ToString("yyMM");
+            //////string GenCodeNo = string.Format("HĐCC/DR/{0}/{1}", formatByCompay, sixdigit);
             #endregion
 
-            oCacheResult rs = this.sqlExecute<dtoPawnInfo_addNewResult, dtoPawnInfo_addNew>(_DB_STORE_PAWN_INFO._addNew, item);
-            if (rs.Ok && rs.Result.Length > 0)
+            //Call API: must only 
+            var request_Id = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            string json = JsonConvert.SerializeObject(new dtoPawnInfo_addNewOnPOS()
             {
-                var it = (dtoPawnInfo_addNewResult)rs.Result[0];
-                if (!string.IsNullOrWhiteSpace(it.ServiceCache))
+                CustomerName = item.Custorer_Name,
+                IdNumber = Convert.ToInt64(item.CMND_CCCD),
+                IdType = "0",
+                IdPlace = item.CMND_CreatePlace,
+                IdDate = Convert.ToString(item.CMND_CreateDate),
+                Phone = item.Custorer_Phone,
+                LoanPurpose = "Vay đăng ký xe máy qua đối tác ECPAY",
+                Email = "",
+                District = item.Custorer_AddressPlace,
+                FamilyMemberName = item.RegistrationBook_Name,
+                FamilyMemberPhone = item.RegistrationBook_Phone,
+                FriendName = item.Colleague_Name,
+                FriendPhone = item.Colleague_Phone,
+                LocationCode = "1001",
+                AssetName = "Đăng ký xe máy",
+                ReceiveMethod = "CASH",
+                media = new dtoPawnInfoMedia_addNewOnPOS()
                 {
-                    this.reloadCacheByServiceNameArray(it.ServiceCache.Split(',').Select(x => x.Trim().ToLower()).ToArray());
+                    IDImageFront = item.Image_Asset_1,
+                    IDImageAfter = item.Image_Asset_2,
+                    AssetImage1 = item.Image_InvoiceElectric_1,
+                    AssetImage2 = item.Image_RegistrationBook_1,
+                    AssetImage3 = item.Image_RegistrationBook_2,
+                    AssetImage4 = item.Image_VehicleRegistration_1,
+                    AssetImage5 = item.Image_VehicleRegistration_2,
+                    AssetImage6 = item.Image_Asset_1,
+                    IDImage1 = item.Image_Asset_1,
+                    IDImage2 = item.Image_Asset_2
+                },
+                bank = new dtoPawnInfoBank_addNewOnPOS()
+                {
+                    AccountCode = item.PayAccount_No,
+                    AccountName = item.Custorer_Name,
+                    BankName = item.Bank_ID.ToString(),
+                    BranchName = item.Bank_ID.ToString()
+                },
+                Amount = item.LoanAmount,
+                StaffName = item.InviteUser_ID.ToString(),
+                StaffPhone = item.InviteUser_ID.ToString(),
+                StaftCreateDate = request_Id,
+                ShopIDSelected = item.ContractSettlementShop_ID,
+                //requestId = "1910101010141010126",
+                requestId = request_Id,
+                partnerCode = "ECPAY",
+                locationCode = "500",
+                signKey = HMAC_SHA1("F88Viettel2019", request_Id + item.InviteUser_ID)
+            }, Formatting.Indented);
+            try
+            {
+                //var api = ECPAY.CreatePawn;
+                var res = (ResponseApiData)RestApi.RestApiPost("partner/create-contract ", json);
+                if (res.code == MessageBroker.ApiUrl.ApiConstants.Code.Success)
+                {
+                    // return true;
+                    //var dataOut = res.data;
+                    //IList collection = (IList)dataOut;
+                    MessageBroker.ApiUrl.oPOS.RootObject instance = JsonConvert.DeserializeObject<MessageBroker.ApiUrl.oPOS.RootObject>(res.data.ToString());
+                    //Lấy ra CodeNo để gán ngược lại cho [dtoPawnInfo_addNew item]
+                    var CodeNo = instance.PawnResponse[0].PawnCode;
+                    item.PawnCode = CodeNo;
+                    //Gọi API check trạng thái HĐ
+                    var TransactionCode = instance.PawnResponse[0].RefereceCode;
+                    var TransactionDate = instance.PawnResponse[0].Created;
+                    var ReferenceId = instance.PawnResponse[0].PaymementRef;
+                    var TransactionType = TransactionTypeEnum.CHECK_TRANG_THAI_HOP_DONG.ToString();
+
+                    string json_checktrans = JsonConvert.SerializeObject(new MessageBroker.Api.ApiUrl.oCheckTransactionRequest()
+                    {
+                        TransactionCode = TransactionCode,
+                        TransactionDate = TransactionDate,
+                        PawnID = instance.PawnResponse[0].PawnID,
+                        TransactionType = TransactionType,
+                        ReferenceId = ReferenceId,
+                        requestId = request_Id,
+                        partnerCode = "ECPAY",
+                        locationCode = "500",
+                        signKey = HMAC_SHA1("F88Viettel2019", request_Id + item.InviteUser_ID)
+                    }, Formatting.Indented);
+                    var res_check = (ResponseApiData)RestApi.RestApiPost("partner/check-trans", json_checktrans);
+                    if (res_check.code == MessageBroker.ApiUrl.ApiConstants.Code.Success)
+                    {
+
+                    }
+                    
+                    oCacheResult rs = this.sqlExecute<dtoPawnInfo_addNewResult, dtoPawnInfo_addNew>(_DB_STORE_PAWN_INFO._addNew, item);
+                    if (rs.Ok && rs.Result.Length > 0)
+                    {
+                        var it = (dtoPawnInfo_addNewResult)rs.Result[0];
+                        if (!string.IsNullOrWhiteSpace(it.ServiceCache))
+                        {
+                            this.reloadCacheByServiceNameArray(it.ServiceCache.Split(',').Select(x => x.Trim().ToLower()).ToArray());
+                        }
+                    }
+                    return rs;
+                }
+                else
+                {
+                    //String sixdigit = new Random().Next(0, 999999).ToString("D6");
+                    //string formatByCompay = DateTime.Now.ToString("yyMM");
+                    //GenCodeNo = string.Format("HĐCC/DR/{0}/{1}", formatByCompay, sixdigit);
+                    //return FailResult(response.code, response.message);
+                    return new oCacheResult().ToFailException("(1) Tạo hợp đồng trên POS thất bại");
                 }
             }
-            return rs;
+            catch (Exception exception)
+            {
+                var ex = exception.Message.ToString();
+                return new oCacheResult().ToFailException("(2) Tạo hợp đồng trên POS thất bại");
+            }
+            //return new oCacheResult().ToOk();
         }
 
-        #region [ IN: PHIEU CHI - HOP DONG ]
+        #region [ PDF_PRINT: PHIEU CHI - HOP DONG ]
 
         private void fn_format_Gender(RenderContext ctx, IList<object> args, IDictionary<string, object> options, RenderBlock fn, RenderBlock inverse)
         {
@@ -142,12 +247,14 @@ namespace MessageBroker
             string s = String.Format("{0:0,0}", val);
             ctx.Write(s);
         }
+
         private void fn_numberToText(RenderContext ctx, IList<object> args, IDictionary<string, object> options, RenderBlock fn, RenderBlock inverse)
         {
             long val = (long)args[0];
             string s = fn_numberToTextVN(val);
             ctx.Write(s);
         }
+
         private string fn_numberToTextVN(decimal total)
         {
             try
@@ -360,8 +467,6 @@ namespace MessageBroker
             return response;
         }
 
-        #endregion
-
         public HttpResponseMessage get_export_pdf([FromUri]string User_ID, [FromUri]string Pawn_ID, [FromUri]string Code_Temp, [FromUri]string para)
         {
             string ok = "OK";
@@ -409,6 +514,28 @@ namespace MessageBroker
             response.Content = new StringContent(ok, Encoding.UTF8, "text/plain");
             return response;
         }
+
+        #endregion
+
+        #region [ POS - COMMON ]
+
+        //Hàm HMAC_SHA1 tạo chữ ký [author: ESonDinh]
+        public static string HMAC_SHA1(string Key, string StringToHash)
+        {
+            //Quy tắc gen signKey như tài liệu mô tả API 
+            // signature = HMAC_SHA1(KEY, requestId + userId); KEY = F88Viettel2019 userId = 900
+
+            System.Text.UTF8Encoding myEncoder = new System.Text.UTF8Encoding();
+            byte[] Keys = myEncoder.GetBytes(Key);
+            byte[] Text = myEncoder.GetBytes(StringToHash);
+            System.Security.Cryptography.HMACSHA1 myHMACSHA1 = new System.Security.Cryptography.HMACSHA1(Keys);
+            byte[] HashCode = myHMACSHA1.ComputeHash(Text);
+            string hash = BitConverter.ToString(HashCode).Replace("-", "");
+
+            return hash.ToLower();
+        }
+
+        #endregion
     }
 
     public class _DB_STORE_PAWN_INFO
@@ -417,6 +544,8 @@ namespace MessageBroker
         public const string _addNew = "pawn_info_createNew";
         public const string _pawnCode_createNew = "pos.GetMaxPawnIndexByShop";
     }
+    
+    #region [ DTO_ADD_NEW ]
 
     public class dtoPawnInfo_addNewResult
     {
@@ -431,9 +560,25 @@ namespace MessageBroker
     [Validator(typeof(dtoPawnInfo_addNewValidator))]
     public class dtoPawnInfo_addNew
     {
+        // It is User_ID logined
+        [AttrFieldInfo(11, "Ma CONTACT nguoi gioi thieu", AttrDataType.LONG, true, true)]
+        public long InviteContact_ID { get; set; }
+
+        [AttrFieldInfo(11, "Ma TAI KHOAN nguoi gioi thieu", AttrDataType.LONG, true, true)]
+        public long InviteUser_ID { get; set; }
+
+        public int ContractSettlementShop_ID { set; get; }// chon sua hang tat toan
+        
         //--+ PayAccount
         [AttrFieldInfo(1, "Ngan hang", AttrDataType.STRING)]
         public int Bank_ID { set; get; }
+
+        //--+ PawnInfo: @PayAccount_ID
+        public string PawnCode { set; get; } // ma hop dong
+        public long LoanAmount { set; get; } // so tien vay
+        public int SumLoanDate { set; get; } // thoi han vay theo ngay
+        
+        //=============================================================
 
         [AttrFieldInfo(1, "Tai khoan", AttrDataType.STRING)]
         public string PayAccount_No { set; get; }
@@ -455,32 +600,19 @@ namespace MessageBroker
 
         //--+ CustomerInfo: @Contact_ID 
 
-        // It is User_ID logined
-        [AttrFieldInfo(11, "Ma CONTACT nguoi gioi thieu", AttrDataType.LONG, true, true)]
-        public long InviteContact_ID { get; set; }
-
-        [AttrFieldInfo(11, "Ma TAI KHOAN nguoi gioi thieu", AttrDataType.LONG, true, true)]
-        public long InviteUser_ID { get; set; }
-
         public string CMND_CCCD { set; get; }
         public int CMND_CreateDate { set; get; }
         public string CMND_CreatePlace { set; get; }
 
-        //--+ PawnInfo: @PayAccount_ID
-        public string PawnCode { set; get; } // ma hop dong
-        public long LoanAmount { set; get; } // so tien vay
-        public int SumLoanDate { set; get; } // thoi han vay theo ngay
-        public long DatetimeFinish { set; get; }// ngay tat toan hop dong
         //--+ PawnImages, PawnImageLocate
         public string Image_RegistrationBook_1 { set; get; }
         public string Image_RegistrationBook_2 { set; get; }
         public string Image_VehicleRegistration_1 { set; get; }
         public string Image_VehicleRegistration_2 { set; get; }
+
         public string Image_Asset_1 { set; get; }
         public string Image_Asset_2 { set; get; }
         public string Image_InvoiceElectric_1 { set; get; }
-
-        public int ContractSettlementShop_ID { set; get; }// chon sua hang tat toan
     }
 
     public class dtoPawnInfo_addNewValidator : AbstractValidator<dtoPawnInfo_addNew>
@@ -517,10 +649,9 @@ namespace MessageBroker
             RuleFor(r => r.CMND_CreatePlace).NotEmpty().WithMessage("Vui lòng nhập thông tin nơi cấp CMND_CCCD");
 
             //--+ PawnInfo: @PayAccount_ID
-            RuleFor(r => r.PawnCode).NotEmpty().WithMessage("Thông tin [PawnCode] chưa được điền"); // ma hop dong
+            //RuleFor(r => r.PawnCode).NotEmpty().WithMessage("Thông tin [PawnCode] chưa được điền"); // ma hop dong
             RuleFor(x => x.LoanAmount).Must(beAValid_LoanAmount).WithMessage("Vui lòng chọn thông tin số tiền vay là 3 triệu hoặc 5 triệu");// so tien vay
             RuleFor(r => r.SumLoanDate).Must(beAValid_SumLoanDate).WithMessage("Vui lòng chọn thông tin thời hạn vay là 3|6|12 tháng"); // thoi han vay theo thang
-            //RuleFor(r => r.DatetimeFinish).GreaterThan(0).WithMessage("Vui lòng nhập thông tin ");// ngay tat toan hop dong
             RuleFor(r => r.ContractSettlementShop_ID).GreaterThan(0).WithMessage("Vui lòng nhập thông tin cửa hàng tất toán hợp đồng");// chon sua hang tat toan
 
             //--+ PawnImages, PawnImageLocate
@@ -544,4 +675,81 @@ namespace MessageBroker
         }
     }
 
+    #endregion
+
+    #region [ DTO_ADD_NEW_POS ]
+       
+    public enum TransactionTypeEnum
+    {
+        GIOI_THIEU_KHACH_HANG,
+        TRA_CUU_THONG_TIN_HOP_DONG,
+        CHECK_TRANG_THAI_HOP_DONG,
+        THANH_TOAN_TRA_BOT_GOC,
+        TRA_CUU_THONG_TIN_KHOAN_VAY,
+        KIEM_TRA_TRANG_THAI_GIAO_DICH,
+        YEU_CAU_MO_HOP_DONG,
+        LAY_MA_XAC_NHAN,
+        GUI_LAI_MA_XAC_NHAN,
+        THANH_TOAN_LAI,
+        LAY_BAN_IN_HOP_DONG,
+        GUI_BAN_IN_HOP_DONG_DA_KY
+
+    }
+    
+    public class dtoPawnInfoMedia_addNewOnPOS
+    {
+        public string IDImageFront { set; get; }
+        public string IDImageAfter { set; get; }
+        public string AssetImage1 { set; get; }
+        public string AssetImage2 { set; get; }
+        public string AssetImage3 { set; get; }
+        public string AssetImage4 { set; get; }
+        public string AssetImage5 { set; get; }
+        public string AssetImage6 { set; get; }
+        public string IDImage1 { set; get; }
+        public string IDImage2 { set; get; }
+    }
+
+    public class dtoPawnInfoBank_addNewOnPOS
+    {
+        public string AccountCode { set; get; }
+        public string AccountName { set; get; }
+        public string BankName { set; get; }
+        public string BranchName { set; get; }
+    }
+
+    public class dtoPawnInfo_addNewOnPOS
+    {
+        public string CustomerName { set; get; }
+        public long IdNumber { set; get; }
+        public string IdType { set; get; }
+        public string IdPlace { set; get; }
+        public string IdDate { set; get; }
+        public string Phone { set; get; }
+        public string LoanPurpose { set; get; }
+        public string Email { set; get; }
+        public string District { set; get; }
+        public string FamilyMemberName { set; get; }
+        public string FamilyMemberPhone { set; get; }
+        public string FriendName { set; get; }
+        public string FriendPhone { set; get; }
+        public string LocationCode { set; get; }
+        public string AssetName { set; get; }
+        public string ReceiveMethod { set; get; }
+        public dtoPawnInfoMedia_addNewOnPOS media { set; get; }
+
+        public dtoPawnInfoBank_addNewOnPOS bank { set; get; }
+        public long Amount { set; get; }
+        public string StaffName { set; get; }
+        public string StaffPhone { set; get; }
+        public string StaftCreateDate { set; get; }
+        public int ShopIDSelected { set; get; }
+        public string requestId { set; get; }
+        public string partnerCode { set; get; }
+        public string locationCode { set; get; }
+
+        public string signKey { set; get; }
+    }
+       
+    #endregion
 }

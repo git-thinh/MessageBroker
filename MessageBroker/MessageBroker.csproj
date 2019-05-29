@@ -157,7 +157,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\ApiUrl\ApiConstants.cs" />
+    <Compile Include="Api\ApiUrl\ApiUrl.cs" />
+    <Compile Include="Api\ApiUrl\oCheckTransactionRequest.cs" />
+    <Compile Include="Api\ApiUrl\oPawnResponse.cs" />
+    <Compile Include="Api\ApiUrl\ResponseApi.cs" />
+    <Compile Include="Api\ApiUrl\ResponseApiData.cs" />
+    <Compile Include="Api\ApiUrl\RestApi.cs" />
     <Compile Include="Api\Core\ValidateModelStateFilter.cs" />
+    <Compile Include="Api\Pawn\AppVersionController.cs" />
+    <Compile Include="Api\Pawn\Models\oAppVersion.cs" />
     <Compile Include="Api\Pawn\Models\oProfileInfo.cs" />
     <Compile Include="Api\Pawn\Models\oPosPushNotify.cs" />
     <Compile Include="Api\Pawn\PawnImagesController.cs" />
